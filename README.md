@@ -11,7 +11,7 @@
 
 Bu projeyi GitHub Pages üzerinden canlı olarak deneyimleyebilirsiniz.
 
-**➡️ [Projeyi Canlı Görüntüle]([Buraya-Canlı-Demo-Linkini-Yapıştır])**
+**➡️ [Projeyi Canlı Görüntüle](https://yelbetul.github.io/veri-analizi-rehberi/)**
 
 <img width="1452" height="793" alt="image" src="https://github.com/user-attachments/assets/4f49d8c8-7441-4d5b-a741-993f4e67ff79" />
 
