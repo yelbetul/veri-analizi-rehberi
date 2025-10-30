@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veritabanı Sorgulama - Veri Analizi Rehberi</title>
+    <link rel="icon" href="../favicon.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #7c3aed;
+            border-bottom-color: #7c3aed;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .breadcrumb {
+            background-color: #f1f5f9;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .accordion-content.open {
+            max-height: 2000px;
+        }
+
+        .use-case-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin: 0.125rem;
+        }
+
+        .sql-demo {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .sql-demo-header {
+            background-color: #f8fafc;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 600;
+        }
+
+        .sql-demo-content {
+            padding: 1rem;
+        }
+
+        .code-block {
+            background-color: #1a202c;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+
+        .progress-step {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .progress-line {
+            height: 0.125rem;
+            flex: 1;
+            margin: 0 0.5rem;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md border-b border-gray-200">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="../index.html" class="text-xl font-bold text-indigo-700">Veri Analizi Rehberi</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="../index.html" class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Ana
+                            Sayfa</a>
+                        <a href="index.html" class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Toplama</a>
+                        <a href="../veri-temizleme/index.html"
+                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Temizleme</a>
+                        <a href="../veri-analizi/index.html"
+                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Analiz</a>
+                        <a href="../veri-gorsellestirme/index.html"
+                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Görselleştirme</a>
+                        <a href="../sonuc-sunumu/index.html"
+                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Sunum</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-button" type="button"
+                        class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <span class="sr-only">Menüyü aç</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="../index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Ana Sayfa</a>
+                <a href="index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri Toplama</a>
+                <a href="../veri-temizleme/index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri Temizleme</a>
+                <a href="../veri-analizi/index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri Analizi</a>
+                <a href="../veri-gorsellestirme/index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri
+                    Görselleştirme</a>
+                <a href="../sonuc-sunumu/index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Sonuçların
+                    Sunumu</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb inline-flex items-center text-sm text-gray-600 mb-6">
+            <a href="../index.html" class="hover:text-indigo-600">Ana Sayfa</a>
+            <span class="mx-2">›</span>
+            <a href="index.html" class="hover:text-indigo-600">Veri Toplama</a>
+            <span class="mx-2">›</span>
+            <span class="text-indigo-600 font-medium">Veritabanı Sorgulama</span>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="text-center mb-12">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Veritabanı Sorgulama</h1>
+                <p class="text-lg text-gray-600 mb-6">SQL Mastery, NoSQL veri çıkarma ve query optimizasyon teknikleri
+                </p>
+
+                <!-- Progress Steps -->
+                <div class="flex justify-center items-center mb-6">
+                    <div class="flex items-center">
+                        <!-- Adım 1 -->
+                        <div class="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">1</span>
+                        </div>
+                        <div class="w-8 h-1 bg-indigo-500 mx-1"></div>
+
+                        <!-- Adım 2 -->
+                        <div class="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">2</span>
+                        </div>
+                        <div class="w-8 h-1 bg-indigo-500 mx-1"></div>
+
+                        <!-- Adım 3 -->
+                        <div class="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">3</span>
+                        </div>
+                        <div class="w-8 h-1 bg-indigo-500 mx-1"></div>
+
+                        <!-- Adım 4 -->
+                        <div class="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">4</span>
+                        </div>
+                        <div class="w-8 h-1 bg-indigo-500 mx-1"></div>
+
+                        <!-- Adım 5 - Aktif -->
+                        <div class="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">5</span>
+                        </div>
+                        <div class="w-8 h-1 bg-gray-300 mx-1"></div>
+
+                        <!-- Adım 6 -->
+                        <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-gray-600 text-xs font-bold">6</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500 text-center">Birincil → İkincil → Web Scraping → API → Veritabanı →
+                    Kalite</p>
+            </div>
+        </section>
+
+        <!-- Ana İçerik -->
+        <div class="grid lg:grid-cols-4 gap-8">
+            <!-- Sidebar Navigasyon -->
+            <div class="lg:col-span-1">
+                <div class="card p-6 sticky top-24">
+                    <h3 class="font-bold text-lg mb-4 text-indigo-600">İçindekiler</h3>
+                    <nav class="space-y-2">
+                        <a href="#giris"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Giriş</a>
+                        <a href="#sql-mastery"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">SQL
+                            Mastery Laboratory</a>
+                        <a href="#query-optimization"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Query
+                            Optimization</a>
+                        <a href="#nosql-extraction"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">NoSQL
+                            Data Extraction</a>
+                        <a href="#performance-tools"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Performance
+                            Tools</a>
+                        <a href="#demo-uygulamalar"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Demo
+                            Uygulamalar</a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Ana İçerik -->
+            <div class="lg:col-span-3">
+                <!-- Giriş Bölümü -->
+                <section id="giris" class="mb-12 scroll-mt-24">
+                    <div class="card p-8 bg-gradient-to-r from-teal-50 to-cyan-50 border-teal-200">
+                        <div class="flex items-start">
+                            <div
+                                class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mr-6 flex-shrink-0">
+                                <span class="text-2xl">🗃️</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900 mb-4">Veritabanı Sorgulama Nedir? Ne Zaman
+                                    Kullanılır?</h2>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h3 class="font-semibold text-lg mb-3 text-teal-700">✅ Ne Zaman Kullanılır?</h3>
+                                        <ul class="space-y-2 text-gray-600">
+                                            <li>• <strong>Yapılandırılmış verilerle</strong> çalışırken</li>
+                                            <li>• <strong>Büyük veri setlerinden</strong> bilgi çıkarmak için</li>
+                                            <li>• <strong>İlişkisel veri analizi</strong> yaparken</li>
+                                            <li>• <strong>Gerçek zamanlı raporlama</strong> sistemlerinde</li>
+                                            <li>• <strong>Transaction işlemleri</strong> gerektiğinde</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-lg mb-3 text-green-700">🎯 Avantajları</h3>
+                                        <ul class="space-y-2 text-gray-600">
+                                            <li>• <strong>Yapılandırılmış veri</strong> - Schema kontrolü</li>
+                                            <li>• <strong>ACID uyumluluk</strong> - Transaction güvenliği</li>
+                                            <li>• <strong>Güçlü sorgulama</strong> - Kompleks analizler</li>
+                                            <li>• <strong>Veri bütünlüğü</strong> - Referans bütünlüğü</li>
+                                            <li>• <strong>Standartlaşmış</strong> - SQL dil desteği</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SQL Mastery Laboratory Bölümü -->
+                <section id="sql-mastery" class="mb-12 scroll-mt-24">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-2xl">🔬</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">SQL Mastery Laboratory</h2>
+                                <p class="text-gray-600">25+ Advanced SQL Patterns ve query optimizasyon teknikleri</p>
+                            </div>
+                        </div>
+
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-blue-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Kompleks sorgular</span>
+                                <span class="use-case-badge bg-green-100 text-green-800">Performans optimizasyonu</span>
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Veri analizi</span>
+                                <span class="use-case-badge bg-orange-100 text-orange-800">Raporlama</span>
+                            </div>
+                            <p class="text-sm text-blue-700">
+                                <strong>Kullanım Amacı:</strong> Karmaşık veri ilişkilerini çözmek, performanslı
+                                sorgular yazmak ve gelişmiş analizler yapmak.
+                                <strong>Örnek:</strong> Window fonksiyonları ile hareketli ortalamalar hesaplamak.
+                            </p>
+                        </div>
+
+                        <!-- 25+ Advanced SQL Patterns -->
+                        <div class="mb-6">
+                            <button
+                                class="accordion-header w-full text-left font-semibold text-lg bg-blue-50 p-4 rounded-lg flex justify-between items-center">
+                                25+ Advanced SQL Patterns
+                                <span class="transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content bg-white border border-blue-100 rounded-b-lg">
+                                <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Ne Zaman Kullanılır?</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            Geleneksel SQL sorgularının yetersiz kaldığı durumlarda, kompleks veri
+                                            ilişkilerinde ve performans optimizasyonu gerektiğinde.
+                                        </p>
+                                    </div>
+
+                                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                        <div>
+                                            <h4 class="font-semibold mb-3 text-blue-700">Analitik Fonksiyonlar</h4>
+                                            <ul class="space-y-3 text-sm text-gray-600">
+                                                <li>
+                                                    <strong>Window Functions</strong><br>
+                                                    • ROW_NUMBER(), RANK()<br>
+                                                    • LAG(), LEAD()<br>
+                                                    • SUM() OVER()
+                                                </li>
+                                                <li>
+                                                    <strong>Aggregate Window</strong><br>
+                                                    • Running totals<br>
+                                                    • Moving averages<br>
+                                                    • Cumulative sums
+                                                </li>
+                                                <li>
+                                                    <strong>Statistical Functions</strong><br>
+                                                    • PERCENT_RANK()<br>
+                                                    • NTILE()<br>
+                                                    • STDDEV(), VARIANCE()
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-3 text-green-700">Gelişmiş Pattern'ler</h4>
+                                            <ul class="space-y-3 text-sm text-gray-600">
+                                                <li>
+                                                    <strong>Recursive CTE</strong><br>
+                                                    • Hierarchical data<br>
+                                                    • Tree structures<br>
+                                                    • Graph traversals
+                                                </li>
+                                                <li>
+                                                    <strong>Pivot/Unpivot</strong><br>
+                                                    • Row to column<br>
+                                                    • Column to row<br>
+                                                    • Dynamic pivoting
+                                                </li>
+                                                <li>
+                                                    <strong>Gaps and Islands</strong><br>
+                                                    • Sequence detection<br>
+                                                    • Missing data<br>
+                                                    • Continuous ranges
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!-- SQL Pattern Demo -->
+                                    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                                        <h5 class="font-semibold mb-3">Advanced SQL Pattern Demo</h5>
+                                        <div class="code-block">
+                                            -- 1. Window Functions - Satış Analizi<br>
+                                            SELECT <br>
+                                            salesperson_id,<br>
+                                            sale_date,<br>
+                                            amount,<br>
+                                            SUM(amount) OVER(<br>
+                                            PARTITION BY salesperson_id <br>
+                                            ORDER BY sale_date <br>
+                                            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW<br>
+                                            ) AS running_total,<br>
+                                            AVG(amount) OVER(<br>
+                                            PARTITION BY salesperson_id<br>
+                                            ORDER BY sale_date<br>
+                                            ROWS BETWEEN 2 PRECEDING AND CURRENT ROW<br>
+                                            ) AS moving_avg_3_days,<br>
+                                            LAG(amount, 1) OVER(<br>
+                                            PARTITION BY salesperson_id <br>
+                                            ORDER BY sale_date<br>
+                                            ) AS previous_sale<br>
+                                            FROM sales<br>
+                                            ORDER BY salesperson_id, sale_date;<br>
+                                            <br>
+                                            -- 2. Recursive CTE - Organizasyon Şeması<br>
+                                            WITH RECURSIVE org_hierarchy AS (<br>
+                                            -- Anchor: En üst seviye yöneticiler<br>
+                                            SELECT <br>
+                                            employee_id,<br>
+                                            manager_id,<br>
+                                            name,<br>
+                                            title,<br>
+                                            1 as level,<br>
+                                            ARRAY[employee_id] as path<br>
+                                            FROM employees <br>
+                                            WHERE manager_id IS NULL<br>
+                                            <br>
+                                            UNION ALL<br>
+                                            <br>
+                                            -- Recursive: Alt çalışanlar<br>
+                                            SELECT <br>
+                                            e.employee_id,<br>
+                                            e.manager_id,<br>
+                                            e.name,<br>
+                                            e.title,<br>
+                                            oh.level + 1,<br>
+                                            oh.path || e.employee_id<br>
+                                            FROM employees e<br>
+                                            JOIN org_hierarchy oh ON e.manager_id = oh.employee_id<br>
+                                            )<br>
+                                            SELECT <br>
+                                            LPAD('', (level - 1) * 4, ' ') || name as indented_name,<br>
+                                            title,<br>
+                                            level<br>
+                                            FROM org_hierarchy<br>
+                                            ORDER BY path;<br>
+                                            <br>
+                                            -- 3. Gaps and Islands - Eksik Veri Tespiti<br>
+                                            WITH numbered_sales AS (<br>
+                                            SELECT <br>
+                                            sale_date,<br>
+                                            amount,<br>
+                                            ROW_NUMBER() OVER (ORDER BY sale_date) as rn,<br>
+                                            sale_date - INTERVAL '1 day' * <br>
+                                            (ROW_NUMBER() OVER (ORDER BY sale_date) - 1) as group_id<br>
+                                            FROM sales<br>
+                                            WHERE sale_date BETWEEN '2024-01-01' AND '2024-01-31'<br>
+                                            ),<br>
+                                            date_groups AS (<br>
+                                            SELECT <br>
+                                            MIN(sale_date) as island_start,<br>
+                                            MAX(sale_date) as island_end,<br>
+                                            COUNT(*) as consecutive_days<br>
+                                            FROM numbered_sales<br>
+                                            GROUP BY group_id<br>
+                                            )<br>
+                                            SELECT <br>
+                                            island_start,<br>
+                                            island_end,<br>
+                                            consecutive_days<br>
+                                            FROM date_groups<br>
+                                            WHERE consecutive_days >= 3 -- 3+ ardışık gün<br>
+                                            ORDER BY island_start;<br>
+                                            <br>
+                                            -- 4. Pivot Query - Aylık Satış Özeti<br>
+                                            SELECT <br>
+                                            product_category,<br>
+                                            SUM(CASE WHEN EXTRACT(MONTH FROM sale_date) = 1 THEN amount ELSE 0 END) as
+                                            jan,<br>
+                                            SUM(CASE WHEN EXTRACT(MONTH FROM sale_date) = 2 THEN amount ELSE 0 END) as
+                                            feb,<br>
+                                            SUM(CASE WHEN EXTRACT(MONTH FROM sale_date) = 3 THEN amount ELSE 0 END) as
+                                            mar,<br>
+                                            SUM(CASE WHEN EXTRACT(MONTH FROM sale_date) = 4 THEN amount ELSE 0 END) as
+                                            apr,<br>
+                                            SUM(amount) as total<br>
+                                            FROM sales s<br>
+                                            JOIN products p ON s.product_id = p.product_id<br>
+                                            WHERE EXTRACT(YEAR FROM sale_date) = 2024<br>
+                                            GROUP BY product_category<br>
+                                            ORDER BY total DESC;
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Query Optimization Bölümü -->
+                <section id="query-optimization" class="mb-12 scroll-mt-24">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-2xl">⚡</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">Query Optimization</h2>
+                                <p class="text-gray-600">Indexing strategy, query performance analysis ve optimizasyon
+                                    teknikleri</p>
+                            </div>
+                        </div>
+
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-green-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-green-100 text-green-800">Performans artışı</span>
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Index optimizasyonu</span>
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Query analizi</span>
+                                <span class="use-case-badge bg-orange-100 text-orange-800">Database tuning</span>
+                            </div>
+                            <p class="text-sm text-green-700">
+                                <strong>Kullanım Amacı:</strong> SQL sorgularının performansını artırmak, index
+                                kullanımını optimize etmek ve database kaynak kullanımını iyileştirmek.
+                                <strong>Örnek:</strong> EXPLAIN ANALYZE ile query execution plan'ını analiz etmek.
+                            </p>
+                        </div>
+
+                        <!-- Indexing Strategy Optimizer -->
+                        <div class="mb-6">
+                            <button
+                                class="accordion-header w-full text-left font-semibold text-lg bg-green-50 p-4 rounded-lg flex justify-between items-center">
+                                Indexing Strategy Optimizer
+                                <span class="transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content bg-white border border-green-100 rounded-b-lg">
+                                <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Ne Zaman Kullanılır?</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            Yavaş çalışan sorguları optimize etmek, büyük veri setlerinde arama
+                                            performansını artırmak ve database kaynak kullanımını iyileştirmek için.
+                                        </p>
+                                    </div>
+
+                                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                        <div>
+                                            <h4 class="font-semibold mb-3">Index Türleri</h4>
+                                            <ul class="space-y-3 text-sm text-gray-600">
+                                                <li>
+                                                    <strong>B-Tree Index</strong><br>
+                                                    • Eşitlik ve aralık sorguları<br>
+                                                    • Sıralama operasyonları<br>
+                                                    • Default index türü
+                                                </li>
+                                                <li>
+                                                    <strong>Hash Index</strong><br>
+                                                    • Sadece eşitlik sorguları<br>
+                                                    • Çok hızlı lookup<br>
+                                                    • Memory tabloları
+                                                </li>
+                                                <li>
+                                                    <strong>Bitmap Index</strong><br>
+                                                    • Düşük cardinality<br>
+                                                    • Read-heavy workload<br>
+                                                    • Data warehouse
+                                                </li>
+                                                <li>
+                                                    <strong>Full-Text Index</strong><br>
+                                                    • Text aramaları<br>
+                                                    • Relevance scoring<br>
+                                                    • Linguistik analiz
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-3">Index Stratejileri</h4>
+                                            <div class="space-y-3 text-sm text-gray-600">
+                                                <div class="p-3 bg-blue-50 rounded-lg">
+                                                    <strong>Composite Index</strong>
+                                                    <p>• WHERE clause sırası<br>• Covering index<br>• Column selectivity
+                                                    </p>
+                                                </div>
+                                                <div class="p-3 bg-green-50 rounded-lg">
+                                                    <strong>Partial Index</strong>
+                                                    <p>• WHERE koşulu ile<br>• Daha küçük index<br>• Sorgu pattern'ine
+                                                        göre</p>
+                                                </div>
+                                                <div class="p-3 bg-purple-50 rounded-lg">
+                                                    <strong>Expression Index</strong>
+                                                    <p>• Fonksiyon sonuçları<br>• Lowercase aramalar<br>• Date
+                                                        extraction</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Indexing Demo -->
+                                    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                                        <h5 class="font-semibold mb-3">Index Optimizasyon Demo</h5>
+                                        <div class="code-block">
+                                            -- 1. Mevcut Index'leri Analiz Et<br>
+                                            SELECT <br>
+                                            schemaname,<br>
+                                            tablename,<br>
+                                            indexname,<br>
+                                            indexdef<br>
+                                            FROM pg_indexes<br>
+                                            WHERE schemaname = 'public'<br>
+                                            ORDER BY tablename, indexname;<br>
+                                            <br>
+                                            -- 2. Index Kullanım İstatistikleri<br>
+                                            SELECT <br>
+                                            schemaname,<br>
+                                            tablename,<br>
+                                            indexname,<br>
+                                            idx_scan as index_scans,<br>
+                                            idx_tup_read as tuples_read,<br>
+                                            idx_tup_fetch as tuples_fetched<br>
+                                            FROM pg_stat_user_indexes<br>
+                                            WHERE schemaname = 'public'<br>
+                                            ORDER BY idx_scan DESC;<br>
+                                            <br>
+                                            -- 3. Etkili Composite Index Oluşturma<br>
+                                            -- Kötü: WHERE sırasına uyumsuz<br>
+                                            CREATE INDEX idx_sales_bad ON sales (sale_date, salesperson_id,
+                                            product_id);<br>
+                                            <br>
+                                            -- İyi: WHERE clause sırasına uyumlu<br>
+                                            CREATE INDEX idx_sales_optimized ON sales (salesperson_id, sale_date,
+                                            product_id);<br>
+                                            <br>
+                                            -- 4. Partial Index - Aktif Kullanıcılar<br>
+                                            CREATE INDEX idx_users_active ON users (last_login_date)<br>
+                                            WHERE status = 'active';<br>
+                                            <br>
+                                            -- 5. Expression Index - Case Insensitive Arama<br>
+                                            CREATE INDEX idx_users_email_lower ON users (LOWER(email));<br>
+                                            <br>
+                                            -- 6. Covering Index - Extra Column Include<br>
+                                            CREATE INDEX idx_orders_covering ON orders (customer_id, order_date)<br>
+                                            INCLUDE (total_amount, status);<br>
+                                            <br>
+                                            -- 7. Index Kullanımını Zorlama (PostgreSQL)<br>
+                                            SET enable_seqscan = off;<br>
+                                            EXPLAIN ANALYZE <br>
+                                            SELECT * FROM sales <br>
+                                            WHERE salesperson_id = 123 <br>
+                                            AND sale_date BETWEEN '2024-01-01' AND '2024-01-31';<br>
+                                            <br>
+                                            -- 8. Index Boyut Analizi<br>
+                                            SELECT <br>
+                                            indexname,<br>
+                                            pg_size_pretty(pg_relation_size(indexname::regclass)) as size<br>
+                                            FROM pg_indexes<br>
+                                            WHERE schemaname = 'public'<br>
+                                            ORDER BY pg_relation_size(indexname::regclass) DESC;
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- NoSQL Data Extraction Bölümü -->
+                <section id="nosql-extraction" class="mb-12 scroll-mt-24">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-2xl">🍃</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">NoSQL Data Extraction</h2>
+                                <p class="text-gray-600">MongoDB, Cassandra, Redis ve diğer NoSQL veritabanlarından veri
+                                    çıkarma teknikleri</p>
+                            </div>
+                        </div>
+
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-purple-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-purple-100 text-purple-800">MongoDB Aggregation</span>
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Cassandra Queries</span>
+                                <span class="use-case-badge bg-green-100 text-green-800">Redis Data Structures</span>
+                                <span class="use-case-badge bg-orange-100 text-orange-800">Elasticsearch DSL</span>
+                            </div>
+                            <p class="text-sm text-purple-700">
+                                <strong>Kullanım Amacı:</strong> Yapılandırılmamış ve yarı yapılandırılmış verilerden
+                                bilgi çıkarmak, NoSQL veritabanlarında kompleks sorgular çalıştırmak.
+                                <strong>Örnek:</strong> MongoDB aggregation pipeline ile e-ticaret verilerini analiz
+                                etmek.
+                            </p>
+                        </div>
+
+                        <!-- MongoDB Aggregation Framework -->
+                        <div class="mb-6">
+                            <button
+                                class="accordion-header w-full text-left font-semibold text-lg bg-purple-50 p-4 rounded-lg flex justify-between items-center">
+                                MongoDB Aggregation Framework
+                                <span class="transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content bg-white border border-purple-100 rounded-b-lg">
+                                <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Ne Zaman Kullanılır?</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            MongoDB'de kompleks veri işleme, gruplama, filtreleme ve dönüştürme
+                                            işlemleri gerektiğinde, SQL'deki JOIN ve GROUP BY benzeri işlemler yapmak
+                                            için.
+                                        </p>
+                                    </div>
+
+                                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                        <div>
+                                            <h4 class="font-semibold mb-3">Aggregation Stages</h4>
+                                            <ul class="space-y-3 text-sm text-gray-600">
+                                                <li>
+                                                    <strong>$match</strong><br>
+                                                    • WHERE clause benzeri<br>
+                                                    • Document filtreleme<br>
+                                                    • Index kullanabilir
+                                                </li>
+                                                <li>
+                                                    <strong>$group</strong><br>
+                                                    • GROUP BY benzeri<br>
+                                                    • Aggregation operatörleri<br>
+                                                    • _id ile gruplama
+                                                </li>
+                                                <li>
+                                                    <strong>$lookup</strong><br>
+                                                    • JOIN işlemi<br>
+                                                    • Collection birleştirme<br>
+                                                    • Left outer join
+                                                </li>
+                                                <li>
+                                                    <strong>$project</strong><br>
+                                                    • SELECT benzeri<br>
+                                                    • Field seçimi<br>
+                                                    • Yeni field oluşturma
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-3">Aggregation Operatörleri</h4>
+                                            <div class="space-y-3 text-sm text-gray-600">
+                                                <div class="p-3 bg-blue-50 rounded-lg">
+                                                    <strong>Matematiksel</strong>
+                                                    <p>• $sum, $avg, $min, $max<br>• $multiply, $divide<br>• $sqrt, $log
+                                                    </p>
+                                                </div>
+                                                <div class="p-3 bg-green-50 rounded-lg">
+                                                    <strong>Diziler</strong>
+                                                    <p>• $push, $addToSet<br>• $slice, $size<br>• $filter, $map</p>
+                                                </div>
+                                                <div class="p-3 bg-purple-50 rounded-lg">
+                                                    <strong>String</strong>
+                                                    <p>• $concat, $substr<br>• $toLower, $toUpper<br>• $split, $trim</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- MongoDB Demo -->
+                                    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                                        <h5 class="font-semibold mb-3">MongoDB Aggregation Demo</h5>
+                                        <div class="code-block">
+                                            // 1. E-ticaret Sipariş Analizi<br>
+                                            db.orders.aggregate([<br>
+                                            {<br>
+                                            $match: {<br>
+                                            orderDate: {<br>
+                                            $gte: ISODate("2024-01-01"),<br>
+                                            $lt: ISODate("2024-02-01")<br>
+                                            },<br>
+                                            status: "completed"<br>
+                                            }<br>
+                                            },<br>
+                                            {<br>
+                                            $lookup: {<br>
+                                            from: "customers",<br>
+                                            localField: "customerId",<br>
+                                            foreignField: "_id",<br>
+                                            as: "customer"<br>
+                                            }<br>
+                                            },<br>
+                                            { $unwind: "$customer" },<br>
+                                            {<br>
+                                            $unwind: "$items"<br>
+                                            },<br>
+                                            {<br>
+                                            $lookup: {<br>
+                                            from: "products",<br>
+                                            localField: "items.productId",<br>
+                                            foreignField: "_id",<br>
+                                            as: "product"<br>
+                                            }<br>
+                                            },<br>
+                                            { $unwind: "$product" },<br>
+                                            {<br>
+                                            $group: {<br>
+                                            _id: {<br>
+                                            category: "$product.category",<br>
+                                            month: { $month: "$orderDate" }<br>
+                                            },<br>
+                                            totalSales: { $sum: "$items.quantity" },<br>
+                                            totalRevenue: { <br>
+                                            $sum: { <br>
+                                            $multiply: ["$items.quantity", "$items.unitPrice"] <br>
+                                            } <br>
+                                            },<br>
+                                            averageOrderValue: { $avg: "$totalAmount" },<br>
+                                            uniqueCustomers: { $addToSet: "$customerId" }<br>
+                                            }<br>
+                                            },<br>
+                                            {<br>
+                                            $project: {<br>
+                                            category: "$_id.category",<br>
+                                            month: "$_id.month",<br>
+                                            totalSales: 1,<br>
+                                            totalRevenue: 1,<br>
+                                            averageOrderValue: 1,<br>
+                                            customerCount: { $size: "$uniqueCustomers" },<br>
+                                            revenuePerCustomer: {<br>
+                                            $divide: ["$totalRevenue", { $size: "$uniqueCustomers" }]<br>
+                                            }<br>
+                                            }<br>
+                                            },<br>
+                                            {<br>
+                                            $sort: { totalRevenue: -1 }<br>
+                                            }<br>
+                                            ]);<br>
+                                            <br>
+                                            // 2. Kullanıcı Davranış Analizi<br>
+                                            db.userSessions.aggregate([<br>
+                                            {<br>
+                                            $match: {<br>
+                                            timestamp: {<br>
+                                            $gte: ISODate("2024-01-01"),<br>
+                                            $lt: ISODate("2024-02-01")<br>
+                                            }<br>
+                                            }<br>
+                                            },<br>
+                                            {<br>
+                                            $group: {<br>
+                                            _id: "$userId",<br>
+                                            totalSessions: { $sum: 1 },<br>
+                                            totalDuration: { $sum: "$duration" },<br>
+                                            pagesVisited: { $push: "$pageUrl" },<br>
+                                            firstSession: { $min: "$timestamp" },<br>
+                                            lastSession: { $max: "$timestamp" }<br>
+                                            }<br>
+                                            },<br>
+                                            {<br>
+                                            $project: {<br>
+                                            userId: "$_id",<br>
+                                            totalSessions: 1,<br>
+                                            averageDuration: { $divide: ["$totalDuration", "$totalSessions"] },<br>
+                                            uniquePages: { $size: { $setUnion: ["$pagesVisited", []] } },<br>
+                                            sessionFrequency: {<br>
+                                            $divide: [<br>
+                                            { $subtract: ["$lastSession", "$firstSession"] },<br>
+                                            { $multiply: ["$totalSessions", 1000 * 60 * 60 * 24] }<br>
+                                            ]<br>
+                                            }<br>
+                                            }<br>
+                                            },<br>
+                                            {<br>
+                                            $bucket: {<br>
+                                            groupBy: "$totalSessions",<br>
+                                            boundaries: [1, 3, 10, 30, 100],<br>
+                                            default: "frequent",<br>
+                                            output: {<br>
+                                            count: { $sum: 1 },<br>
+                                            avgDuration: { $avg: "$averageDuration" },<br>
+                                            avgPages: { $avg: "$uniquePages" }<br>
+                                            }<br>
+                                            }<br>
+                                            }<br>
+                                            ]);<br>
+                                            <br>
+                                            // 3. Real-time Analytics Pipeline<br>
+                                            db.analytics.aggregate([<br>
+                                            {<br>
+                                            $match: {<br>
+                                            timestamp: {<br>
+                                            $gte: ISODate("2024-01-15T00:00:00Z"),<br>
+                                            $lt: ISODate("2024-01-15T23:59:59Z")<br>
+                                            }<br>
+                                            }<br>
+                                            },<br>
+                                            {<br>
+                                            $group: {<br>
+                                            _id: {<br>
+                                            $dateToString: {<br>
+                                            format: "%Y-%m-%dT%H:00:00",<br>
+                                            date: "$timestamp"<br>
+                                            }<br>
+                                            },<br>
+                                            pageViews: {<br>
+                                            $sum: { $cond: [{ $eq: ["$eventType", "pageView"] }, 1, 0] }<br>
+                                            },<br>
+                                            clicks: {<br>
+                                            $sum: { $cond: [{ $eq: ["$eventType", "click"] }, 1, 0] }<br>
+                                            },<br>
+                                            conversions: {<br>
+                                            $sum: { $cond: [{ $eq: ["$eventType", "conversion"] }, 1, 0] }<br>
+                                            },<br>
+                                            uniqueUsers: { $addToSet: "$userId" }<br>
+                                            }<br>
+                                            },<br>
+                                            {<br>
+                                            $project: {<br>
+                                            hour: "$_id",<br>
+                                            pageViews: 1,<br>
+                                            clicks: 1,<br>
+                                            conversions: 1,<br>
+                                            uniqueUsers: { $size: "$uniqueUsers" },<br>
+                                            conversionRate: {<br>
+                                            $cond: [<br>
+                                            { $eq: ["$pageViews", 0] },<br>
+                                            0,<br>
+                                            { $divide: ["$conversions", "$pageViews"] }<br>
+                                            ]<br>
+                                            }<br>
+                                            }<br>
+                                            },<br>
+                                            { $sort: { hour: 1 } }<br>
+                                            ]);
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Performance Tools Bölümü -->
+                <section id="performance-tools" class="mb-12 scroll-mt-24">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-2xl">🔧</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">Performance Tools</h2>
+                                <p class="text-gray-600">Query performance analysis, monitoring ve optimization araçları
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-orange-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-orange-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-orange-100 text-orange-800">Query Analysis</span>
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Performance Monitoring</span>
+                                <span class="use-case-badge bg-green-100 text-green-800">Database Tuning</span>
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Connection Pooling</span>
+                            </div>
+                            <p class="text-sm text-orange-700">
+                                <strong>Kullanım Amacı:</strong> Database performansını monitor etmek, yavaş sorguları
+                                tespit etmek ve sistem optimizasyonu yapmak.
+                                <strong>Örnek:</strong> EXPLAIN ANALYZE ile query execution plan'ını detaylı analiz
+                                etmek.
+                            </p>
+                        </div>
+
+                        <!-- Query Performance Analysis -->
+                        <div class="mb-6">
+                            <button
+                                class="accordion-header w-full text-left font-semibold text-lg bg-orange-50 p-4 rounded-lg flex justify-between items-center">
+                                Query Performance Analysis Tools
+                                <span class="transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content bg-white border border-orange-100 rounded-b-lg">
+                                <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Ne Zaman Kullanılır?</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            Yavaş çalışan sorguları analiz etmek, database bottleneck'leri tespit etmek
+                                            ve performans iyileştirmeleri yapmak için.
+                                        </p>
+                                    </div>
+
+                                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                        <div>
+                                            <h4 class="font-semibold mb-3">Analysis Araçları</h4>
+                                            <ul class="space-y-3 text-sm text-gray-600">
+                                                <li>
+                                                    <strong>EXPLAIN ANALYZE</strong><br>
+                                                    • Query execution plan<br>
+                                                    • Cost estimation<br>
+                                                    • Actual performance
+                                                </li>
+                                                <li>
+                                                    <strong>pg_stat_statements</strong><br>
+                                                    • Query statistics<br>
+                                                    • Execution times<br>
+                                                    • Call counts
+                                                </li>
+                                                <li>
+                                                    <strong>Performance Schema</strong><br>
+                                                    • MySQL monitoring<br>
+                                                    • Resource usage<br>
+                                                    • Query profiling
+                                                </li>
+                                                <li>
+                                                    <strong>Database Profiler</strong><br>
+                                                    • MongoDB profiler<br>
+                                                    • Slow query log<br>
+                                                    • Operation timing
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-3">Monitoring Metrikleri</h4>
+                                            <div class="space-y-3 text-sm text-gray-600">
+                                                <div class="p-3 bg-blue-50 rounded-lg">
+                                                    <strong>Query Performance</strong>
+                                                    <p>• Execution time<br>• Rows processed<br>• Buffer hits</p>
+                                                </div>
+                                                <div class="p-3 bg-green-50 rounded-lg">
+                                                    <strong>Resource Usage</strong>
+                                                    <p>• CPU utilization<br>• Memory usage<br>• I/O operations</p>
+                                                </div>
+                                                <div class="p-3 bg-purple-50 rounded-lg">
+                                                    <strong>Connection Metrics</strong>
+                                                    <p>• Active connections<br>• Connection pool<br>• Lock contention
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Performance Tools Demo -->
+                                    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                                        <h5 class="font-semibold mb-3">Performance Analysis Demo</h5>
+                                        <div class="code-block">
+                                            -- 1. EXPLAIN ANALYZE ile Query Analizi<br>
+                                            EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)<br>
+                                            SELECT <br>
+                                            c.customer_name,<br>
+                                            COUNT(o.order_id) as order_count,<br>
+                                            SUM(o.total_amount) as total_spent<br>
+                                            FROM customers c<br>
+                                            JOIN orders o ON c.customer_id = o.customer_id<br>
+                                            WHERE o.order_date >= CURRENT_DATE - INTERVAL '30 days'<br>
+                                            GROUP BY c.customer_id, c.customer_name<br>
+                                            HAVING SUM(o.total_amount) > 1000<br>
+                                            ORDER BY total_spent DESC<br>
+                                            LIMIT 10;<br>
+                                            <br>
+                                            -- 2. pg_stat_statements ile Yavaş Sorgular<br>
+                                            SELECT <br>
+                                            query,<br>
+                                            calls,<br>
+                                            total_exec_time,<br>
+                                            mean_exec_time,<br>
+                                            rows,<br>
+                                            100.0 * shared_blks_hit / nullif(shared_blks_hit + shared_blks_read, 0) AS
+                                            hit_percent<br>
+                                            FROM pg_stat_statements<br>
+                                            ORDER BY mean_exec_time DESC<br>
+                                            LIMIT 10;<br>
+                                            <br>
+                                            -- 3. Index Kullanım İstatistikleri<br>
+                                            SELECT <br>
+                                            schemaname,<br>
+                                            tablename,<br>
+                                            indexname,<br>
+                                            idx_scan as index_scans,<br>
+                                            idx_tup_read as tuples_read,<br>
+                                            idx_tup_fetch as tuples_fetched,<br>
+                                            pg_size_pretty(pg_relation_size(indexrelid)) as index_size<br>
+                                            FROM pg_stat_user_indexes<br>
+                                            ORDER BY idx_scan DESC;<br>
+                                            <br>
+                                            -- 4. Table İstatistikleri ve Bloat Analizi<br>
+                                            SELECT <br>
+                                            schemaname,<br>
+                                            tablename,<br>
+                                            seq_scan,<br>
+                                            seq_tup_read,<br>
+                                            idx_scan,<br>
+                                            idx_tup_fetch,<br>
+                                            n_tup_ins,<br>
+                                            n_tup_upd,<br>
+                                            n_tup_del,<br>
+                                            n_live_tup,<br>
+                                            n_dead_tup,<br>
+                                            round(n_dead_tup::numeric / (n_live_tup + n_dead_tup) * 100, 2) as
+                                            dead_tup_percent<br>
+                                            FROM pg_stat_user_tables<br>
+                                            WHERE (n_live_tup + n_dead_tup) > 0<br>
+                                            ORDER BY dead_tup_percent DESC;<br>
+                                            <br>
+                                            -- 5. Connection Pool Monitoring<br>
+                                            SELECT <br>
+                                            datname,<br>
+                                            usename,<br>
+                                            application_name,<br>
+                                            client_addr,<br>
+                                            state,<br>
+                                            query_start,<br>
+                                            query<br>
+                                            FROM pg_stat_activity<br>
+                                            WHERE state = 'active'<br>
+                                            AND datname = current_database();<br>
+                                            <br>
+                                            -- 6. Lock Monitoring<br>
+                                            SELECT <br>
+                                            relation::regclass as table_name,<br>
+                                            locktype,<br>
+                                            mode,<br>
+                                            granted,<br>
+                                            pg_blocking_pids(pid) as blocking_pids<br>
+                                            FROM pg_locks<br>
+                                            WHERE relation IS NOT NULL<br>
+                                            AND NOT granted;<br>
+                                            <br>
+                                            -- 7. Table Size ve Bloat Analysis<br>
+                                            SELECT <br>
+                                            schemaname,<br>
+                                            tablename,<br>
+                                            pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) as
+                                            total_size,<br>
+                                            pg_size_pretty(pg_relation_size(schemaname||'.'||tablename)) as
+                                            table_size,<br>
+                                            pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename) - <br>
+                                            pg_relation_size(schemaname||'.'||tablename)) as index_size<br>
+                                            FROM pg_tables<br>
+                                            WHERE schemaname NOT IN ('pg_catalog', 'information_schema')<br>
+                                            ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC<br>
+                                            LIMIT 20;
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Demo Uygulamalar Bölümü -->
+                <section id="demo-uygulamalar" class="scroll-mt-24">
+                    <div class="card p-8">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Demo Uygulamalar</h2>
+
+                        <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <!-- Demo 1 -->
+                            <div class="card p-6 bg-blue-50 border-blue-200 hover:shadow-lg transition-all">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                    <span class="text-xl">🏪</span>
+                                </div>
+                                <h4 class="font-semibold text-lg mb-3 text-blue-700">E-ticaret Analiz Sorguları</h4>
+                                <p class="text-sm text-gray-600 mb-4">Kompleks SQL sorguları ile e-ticaret veri analizi
+                                    ve raporlama</p>
+                                <div class="flex space-x-2">
+                                    <button onclick="previewExample('ecommerce-sql')"
+                                        class="flex-1 bg-white text-blue-500 border border-blue-500 py-2 px-3 rounded text-sm hover:bg-blue-50 transition-colors">
+                                        SQL Örneklerini Gör
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Demo 2 -->
+                            <div class="card p-6 bg-green-50 border-green-200 hover:shadow-lg transition-all">
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                                    <span class="text-xl">📊</span>
+                                </div>
+                                <h4 class="font-semibold text-lg mb-3 text-green-700">MongoDB Analytics Pipeline</h4>
+                                <p class="text-sm text-gray-600 mb-4">Aggregation framework ile real-time analitik
+                                    pipeline'ları</p>
+                                <div class="flex space-x-2">
+                                    <button onclick="previewExample('mongodb-analytics')"
+                                        class="flex-1 bg-white text-green-500 border border-green-500 py-2 px-3 rounded text-sm hover:bg-green-50 transition-colors">
+                                        MongoDB Örneklerini Gör
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Canlı SQL Test Arayüzü -->
+                        <div class="card p-6 bg-gradient-to-r from-indigo-50 to-purple-50 border-indigo-200">
+                            <h3 class="text-xl font-bold mb-4 text-indigo-700">SQL Sorgu Test Arayüzü</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">SQL Sorgusu</label>
+                                    <textarea id="sql-query" class="w-full p-3 border rounded-lg font-mono text-sm"
+                                        rows="6" placeholder="SELECT * FROM users WHERE active = true;">SELECT 
+    c.customer_name,
+    COUNT(o.order_id) as order_count,
+    SUM(o.total_amount) as total_spent
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+WHERE o.order_date >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY c.customer_id, c.customer_name
+ORDER BY total_spent DESC
+LIMIT 5;</textarea>
+                                </div>
+
+                                <div class="flex space-x-3">
+                                    <button onclick="runSQLDemo()"
+                                        class="flex-1 bg-indigo-500 text-white py-3 rounded-lg hover:bg-indigo-600 transition-colors">
+                                        Sorguyu Çalıştır
+                                    </button>
+                                    <button onclick="explainSQL()"
+                                        class="flex-1 bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors">
+                                        EXPLAIN ANALYZE
+                                    </button>
+                                    <button onclick="clearSQLResults()"
+                                        class="flex-1 bg-gray-500 text-white py-3 rounded-lg hover:bg-gray-600 transition-colors">
+                                        Temizle
+                                    </button>
+                                </div>
+
+                                <div id="sql-results" class="hidden mt-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Sorgu Sonuçları</label>
+                                    <div class="bg-white border rounded-lg p-4 max-h-60 overflow-y-auto">
+                                        <pre id="sql-results-content" class="text-sm"></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- Navigasyon Butonları -->
+        <section class="flex justify-between items-center mt-12 pt-8 border-t border-gray-200">
+            <a href="api-entegrasyonu.html"
+                class="flex items-center text-gray-600 hover:text-indigo-600 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Önceki: API Entegrasyonu
+            </a>
+            <a href="veri-kalitesi.html"
+                class="flex items-center bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition-colors">
+                Sonraki: Veri Kalite Güvencesi
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-900 text-white mt-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Footer içeriği -->
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Accordion Fonksiyonu
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const arrow = header.querySelector('span');
+
+                content.classList.toggle('open');
+                arrow.style.transform = content.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+            });
+        });
+
+        // Demo Örnekleri
+        const examples = {
+            'ecommerce-sql': {
+                title: 'E-ticaret Analiz Sorguları - Advanced SQL Patterns',
+                content: `-- 1. Müşteri Segmentasyonu ve RFM Analizi
+WITH customer_rfm AS (
+    SELECT 
+        customer_id,
+        customer_name,
+        COUNT(order_id) AS frequency,
+        MAX(order_date) AS last_order_date,
+        SUM(total_amount) AS monetary,
+        CURRENT_DATE - MAX(order_date) AS recency_days
+    FROM orders 
+    WHERE order_date >= CURRENT_DATE - INTERVAL '1 year'
+    AND status = 'completed'
+    GROUP BY customer_id, customer_name
+),
+rfm_scores AS (
+    SELECT 
+        customer_id,
+        customer_name,
+        frequency,
+        monetary,
+        recency_days,
+        NTILE(5) OVER (ORDER BY recency_days DESC) AS recency_score,
+        NTILE(5) OVER (ORDER BY frequency) AS frequency_score,
+        NTILE(5) OVER (ORDER BY monetary) AS monetary_score
+    FROM customer_rfm
+)
+SELECT 
+    customer_id,
+    customer_name,
+    frequency,
+    monetary,
+    recency_days,
+    recency_score,
+    frequency_score,
+    monetary_score,
+    CASE 
+        WHEN recency_score >= 4 AND frequency_score >= 4 AND monetary_score >= 4 THEN 'Champions'
+        WHEN recency_score >= 3 AND frequency_score >= 3 THEN 'Loyal Customers'
+        WHEN recency_score >= 3 THEN 'Potential Loyalists'
+        WHEN recency_score >= 2 AND frequency_score >= 3 THEN 'Need Attention'
+        ELSE 'At Risk'
+    END AS customer_segment
+FROM rfm_scores
+ORDER BY monetary DESC;
+
+-- 2. Ürün Kategori Analizi ve Cross-Selling
+WITH product_sales AS (
+    SELECT 
+        p.product_id,
+        p.product_name,
+        p.category,
+        COUNT(DISTINCT o.order_id) AS order_count,
+        SUM(oi.quantity) AS total_quantity,
+        SUM(oi.quantity * oi.unit_price) AS total_revenue,
+        COUNT(DISTINCT o.customer_id) AS unique_customers
+    FROM products p
+    JOIN order_items oi ON p.product_id = oi.product_id
+    JOIN orders o ON oi.order_id = o.order_id
+    WHERE o.order_date >= CURRENT_DATE - INTERVAL '6 months'
+    GROUP BY p.product_id, p.product_name, p.category
+),
+category_stats AS (
+    SELECT 
+        category,
+        COUNT(*) AS product_count,
+        SUM(total_revenue) AS category_revenue,
+        AVG(total_revenue) AS avg_product_revenue
+    FROM product_sales
+    GROUP BY category
+),
+cross_sell_analysis AS (
+    SELECT 
+        oi1.product_id AS product_a,
+        oi2.product_id AS product_b,
+        COUNT(DISTINCT o.order_id) AS co_occurrence_count
+    FROM order_items oi1
+    JOIN order_items oi2 ON oi1.order_id = oi2.order_id AND oi1.product_id < oi2.product_id
+    JOIN orders o ON oi1.order_id = o.order_id
+    WHERE o.order_date >= CURRENT_DATE - INTERVAL '3 months'
+    GROUP BY oi1.product_id, oi2.product_id
+    HAVING COUNT(DISTINCT o.order_id) >= 10
+)
+SELECT 
+    ps.product_name,
+    ps.category,
+    ps.total_revenue,
+    ps.unique_customers,
+    cs.category_revenue,
+    cs.avg_product_revenue,
+    (SELECT COUNT(*) 
+     FROM cross_sell_analysis csa 
+     WHERE csa.product_a = ps.product_id OR csa.product_b = ps.product_id) AS cross_sell_opportunities
+FROM product_sales ps
+JOIN category_stats cs ON ps.category = cs.category
+ORDER BY ps.total_revenue DESC
+LIMIT 20;
+
+-- 3. Zaman Serisi Analizi ve Trend Hesaplama
+WITH daily_sales AS (
+    SELECT 
+        DATE(order_date) AS sale_date,
+        SUM(total_amount) AS daily_revenue,
+        COUNT(DISTINCT order_id) AS daily_orders,
+        COUNT(DISTINCT customer_id) AS daily_customers
+    FROM orders
+    WHERE order_date >= CURRENT_DATE - INTERVAL '90 days'
+    GROUP BY DATE(order_date)
+),
+sales_trends AS (
+    SELECT 
+        sale_date,
+        daily_revenue,
+        daily_orders,
+        daily_customers,
+        AVG(daily_revenue) OVER (
+            ORDER BY sale_date 
+            ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+        ) AS revenue_7day_avg,
+        AVG(daily_orders) OVER (
+            ORDER BY sale_date 
+            ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+        ) AS orders_7day_avg,
+        LAG(daily_revenue, 7) OVER (ORDER BY sale_date) AS revenue_prev_week,
+        (daily_revenue - LAG(daily_revenue, 7) OVER (ORDER BY sale_date)) / 
+        NULLIF(LAG(daily_revenue, 7) OVER (ORDER BY sale_date), 0) * 100 AS revenue_week_growth
+    FROM daily_sales
+)
+SELECT 
+    sale_date,
+    daily_revenue,
+    daily_orders,
+    daily_customers,
+    ROUND(revenue_7day_avg, 2) AS revenue_7day_avg,
+    ROUND(orders_7day_avg, 2) AS orders_7day_avg,
+    ROUND(revenue_week_growth, 2) AS revenue_week_growth_pct,
+    CASE 
+        WHEN revenue_week_growth > 10 THEN 'Strong Growth'
+        WHEN revenue_week_growth > 0 THEN 'Moderate Growth'
+        WHEN revenue_week_growth > -10 THEN 'Slight Decline'
+        ELSE 'Significant Decline'
+    END AS growth_category
+FROM sales_trends
+ORDER BY sale_date DESC;`
+            },
+            'mongodb-analytics': {
+                title: 'MongoDB Analytics Pipeline - Real-time Data Processing',
+                content: `// 1. Real-time User Behavior Analytics Pipeline
+db.userEvents.aggregate([
+  {
+    $match: {
+      timestamp: {
+        $gte: ISODate("2024-01-01T00:00:00Z"),
+        $lt: ISODate("2024-01-02T00:00:00Z")
+      },
+      eventType: { $in: ["pageView", "click", "purchase"] }
+    }
+  },
+  {
+    $group: {
+      _id: {
+        userId: "$userId",
+        date: {
+          $dateToString: {
+            format: "%Y-%m-%d",
+            date: "$timestamp"
+          }
+        }
+      },
+      totalEvents: { $sum: 1 },
+      pageViews: {
+        $sum: { $cond: [{ $eq: ["$eventType", "pageView"] }, 1, 0] }
+      },
+      clicks: {
+        $sum: { $cond: [{ $eq: ["$eventType", "click"] }, 1, 0] }
+      },
+      purchases: {
+        $sum: { $cond: [{ $eq: ["$eventType", "purchase"] }, 1, 0] }
+      },
+      sessionDuration: { $sum: "$sessionDuration" },
+      revenue: { $sum: "$purchaseAmount" },
+      firstEvent: { $min: "$timestamp" },
+      lastEvent: { $max: "$timestamp" },
+      pagesVisited: { $addToSet: "$pageUrl" }
+    }
+  },
+  {
+    $project: {
+      userId: "$_id.userId",
+      date: "$_id.date",
+      totalEvents: 1,
+      pageViews: 1,
+      clicks: 1,
+      purchases: 1,
+      sessionDuration: 1,
+      revenue: 1,
+      engagementTime: {
+        $divide: ["$sessionDuration", 60] // Convert to minutes
+      },
+      uniquePages: { $size: "$pagesVisited" },
+      conversionRate: {
+        $cond: [
+          { $eq: ["$pageViews", 0] },
+          0,
+          { $divide: ["$purchases", "$pageViews"] }
+        ]
+      },
+      clickThroughRate: {
+        $cond: [
+          { $eq: ["$pageViews", 0] },
+          0,
+          { $divide: ["$clicks", "$pageViews"] }
+        ]
+      }
+    }
+  },
+  {
+    $bucket: {
+      groupBy: "$engagementTime",
+      boundaries: [0, 5, 15, 30, 60, 120],
+      default: "high",
+      output: {
+        count: { $sum: 1 },
+        avgRevenue: { $avg: "$revenue" },
+        avgConversion: { $avg: "$conversionRate" },
+        totalRevenue: { $sum: "$revenue" }
+      }
+    }
+  },
+  {
+    $sort: { totalRevenue: -1 }
+  }
+]);
+
+// 2. E-commerce Product Performance Analysis
+db.orders.aggregate([
+  {
+    $match: {
+      orderDate: {
+        $gte: ISODate("2024-01-01T00:00:00Z"),
+        $lt: ISODate("2024-02-01T00:00:00Z")
+      },
+      status: "completed"
+    }
+  },
+  {
+    $unwind: "$items"
+  },
+  {
+    $lookup: {
+      from: "products",
+      localField: "items.productId",
+      foreignField: "_id",
+      as: "product"
+    }
+  },
+  {
+    $unwind: "$product"
+  },
+  {
+    $group: {
+      _id: {
+        productId: "$product._id",
+        category: "$product.category",
+        week: { $week: "$orderDate" }
+      },
+      productName: { $first: "$product.name" },
+      totalQuantity: { $sum: "$items.quantity" },
+      totalRevenue: {
+        $sum: {
+          $multiply: ["$items.quantity", "$items.unitPrice"]
+        }
+      },
+      uniqueCustomers: { $addToSet: "$customerId" },
+      averageRating: { $avg: "$product.rating" },
+      orderCount: { $sum: 1 }
+    }
+  },
+  {
+    $group: {
+      _id: "$_id.productId",
+      productName: { $first: "$productName" },
+      category: { $first: "$_id.category" },
+      totalQuantity: { $sum: "$totalQuantity" },
+      totalRevenue: { $sum: "$totalRevenue" },
+      totalCustomers: { $sum: { $size: "$uniqueCustomers" } },
+      averageRating: { $avg: "$averageRating" },
+      weeklyPerformance: {
+        $push: {
+          week: "$_id.week",
+          quantity: "$totalQuantity",
+          revenue: "$totalRevenue",
+          customers: { $size: "$uniqueCustomers" }
+        }
+      }
+    }
+  },
+  {
+    $project: {
+      productName: 1,
+      category: 1,
+      totalQuantity: 1,
+      totalRevenue: 1,
+      totalCustomers: 1,
+      averageRating: 1,
+      revenuePerCustomer: {
+        $divide: ["$totalRevenue", "$totalCustomers"]
+      },
+      weeklyPerformance: 1,
+      growthRate: {
+        $let: {
+          vars: {
+            firstWeek: { $arrayElemAt: ["$weeklyPerformance", 0] },
+            lastWeek: { $arrayElemAt: ["$weeklyPerformance", -1] }
+          },
+          in: {
+            $cond: [
+              { $gt: ["$$firstWeek.revenue", 0] },
+              {
+                $divide: [
+                  { $subtract: ["$$lastWeek.revenue", "$$firstWeek.revenue"] },
+                  "$$firstWeek.revenue"
+                ]
+              },
+              0
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    $sort: { totalRevenue: -1 }
+  },
+  {
+    $limit: 50
+  }
+]);`
+            }
+        };
+
+        function previewExample(exampleId) {
+            const example = examples[exampleId];
+            if (example) {
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+                modal.innerHTML = `
+                    <div class="bg-white rounded-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+                        <div class="flex justify-between items-center mb-4 flex-shrink-0">
+                            <h3 class="text-xl font-bold">${example.title}</h3>
+                            <button onclick="this.parentElement.parentElement.parentElement.remove()" class="text-gray-500 hover:text-gray-700">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="bg-gray-800 text-green-400 p-4 rounded font-mono text-sm overflow-auto flex-grow">
+                            <pre class="whitespace-pre-wrap">${example.content}</pre>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+        }
+
+        // SQL Test Fonksiyonları
+        function runSQLDemo() {
+            const query = document.getElementById('sql-query').value;
+
+            document.getElementById('sql-results-content').textContent = 'Sorgu çalıştırılıyor...\n\n' + query;
+            document.getElementById('sql-results').classList.remove('hidden');
+
+            // Mock results for demo
+            setTimeout(() => {
+                const mockResults = {
+                    'SELECT * FROM users LIMIT 5': [
+                        { id: 1, name: 'Ahmet Yılmaz', email: 'ahmet@example.com', active: true },
+                        { id: 2, name: 'Mehmet Demir', email: 'mehmet@example.com', active: true },
+                        { id: 3, name: 'Ayşe Kaya', email: 'ayse@example.com', active: false },
+                        { id: 4, name: 'Fatma Şahin', email: 'fatma@example.com', active: true },
+                        { id: 5, name: 'Ali Öztürk', email: 'ali@example.com', active: true }
+                    ],
+                    'default': [
+                        { customer_name: 'Ahmet Yılmaz', order_count: 5, total_spent: 1250.50 },
+                        { customer_name: 'Mehmet Demir', order_count: 3, total_spent: 890.75 },
+                        { customer_name: 'Ayşe Kaya', order_count: 7, total_spent: 2100.25 },
+                        { customer_name: 'Fatma Şahin', order_count: 2, total_spent: 450.00 },
+                        { customer_name: 'Ali Öztürk', order_count: 4, total_spent: 980.30 }
+                    ]
+                };
+
+                const results = mockResults[query] || mockResults['default'];
+                document.getElementById('sql-results-content').textContent =
+                    'Sorgu Sonuçları:\n\n' + JSON.stringify(results, null, 2);
+            }, 1000);
+        }
+
+        function explainSQL() {
+            const query = document.getElementById('sql-query').value;
+
+            document.getElementById('sql-results-content').textContent =
+                'EXPLAIN ANALYZE Sonuçları:\n\n' +
+                'Query Plan:\n' +
+                '-> Limit: 5 row(s)  (cost=15.25 rows=5)\n' +
+                '    -> Sort: total_spent DESC  (cost=15.25 rows=50)\n' +
+                '        -> Table scan on <temporary>  (cost=2.50 rows=50)\n' +
+                '            -> Aggregate using temporary table  (cost=12.75 rows=50)\n' +
+                '                -> Nested loop inner join  (cost=7.50 rows=100)\n' +
+                '                    -> Index scan on c using PRIMARY  (cost=0.75 rows=10)\n' +
+                '                    -> Index lookup on o using idx_customer_date (customer_id=c.customer_id)  (cost=0.50 rows=10)\n\n' +
+                'Performance Metrics:\n' +
+                '- Execution Time: 2.3ms\n' +
+                '- Rows Examined: 150\n' +
+                '- Index Used: Yes\n' +
+                '- Temporary Table: Yes';
+
+            document.getElementById('sql-results').classList.remove('hidden');
+        }
+
+        function clearSQLResults() {
+            document.getElementById('sql-results').classList.add('hidden');
+            document.getElementById('sql-query').value = '';
+        }
+
+        // Mobile menu
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

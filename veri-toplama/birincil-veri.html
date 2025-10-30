@@ -8,8 +8,6 @@
     <link rel="icon" href="../favicon.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -58,6 +56,15 @@
 
         .accordion-content.open {
             max-height: 2000px;
+        }
+
+        .use-case-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin: 0.125rem;
         }
     </style>
 </head>
@@ -136,22 +143,47 @@
                     görüşmeler, gözlemler ve deneyler</p>
 
                 <!-- Progress Steps -->
+                <!-- Progress Steps - Birincil Veri Toplama -->
                 <div class="flex justify-center items-center mb-6">
                     <div class="flex items-center">
-                        <div class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center">
-                            <span class="text-white text-sm font-bold">1</span>
+                        <!-- Adım 1 - Aktif -->
+                        <div class="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">1</span>
                         </div>
-                        <div class="w-16 h-1 bg-indigo-500 mx-2"></div>
-                        <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                            <span class="text-gray-600 text-sm font-bold">2</span>
+                        <div class="w-8 h-1 bg-gray-300 mx-1"></div>
+
+                        <!-- Adım 2 -->
+                        <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-gray-600 text-xs font-bold">2</span>
                         </div>
-                        <div class="w-16 h-1 bg-gray-300 mx-2"></div>
-                        <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                            <span class="text-gray-600 text-sm font-bold">3</span>
+                        <div class="w-8 h-1 bg-gray-300 mx-1"></div>
+
+                        <!-- Adım 3 -->
+                        <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-gray-600 text-xs font-bold">3</span>
+                        </div>
+                        <div class="w-8 h-1 bg-gray-300 mx-1"></div>
+
+                        <!-- Adım 4 -->
+                        <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-gray-600 text-xs font-bold">4</span>
+                        </div>
+                        <div class="w-8 h-1 bg-gray-300 mx-1"></div>
+
+                        <!-- Adım 5 -->
+                        <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-gray-600 text-xs font-bold">5</span>
+                        </div>
+                        <div class="w-8 h-1 bg-gray-300 mx-1"></div>
+
+                        <!-- Adım 6 -->
+                        <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-gray-600 text-xs font-bold">6</span>
                         </div>
                     </div>
                 </div>
-                <p class="text-sm text-gray-500">Birincil Veri Toplama → İkincil Veri → Web Scraping</p>
+                <p class="text-sm text-gray-500 text-center">Birincil → İkincil → Web Scraping → API → Veritabanı →
+                    Kalite</p>
             </div>
         </section>
 
@@ -162,6 +194,8 @@
                 <div class="card p-6 sticky top-24">
                     <h3 class="font-bold text-lg mb-4 text-indigo-600">İçindekiler</h3>
                     <nav class="space-y-2">
+                        <a href="#giris"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Giriş</a>
                         <a href="#anket-tasarimi"
                             class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Anket
                             Tasarımı</a>
@@ -174,12 +208,52 @@
                         <a href="#ornek-uygulamalar"
                             class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Örnek
                             Uygulamalar</a>
+                        <a href="#etik-kurul"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Etik
+                            Kurul Belgeleri</a>
                     </nav>
                 </div>
             </div>
 
             <!-- Ana İçerik -->
             <div class="lg:col-span-3">
+                <!-- Giriş Bölümü -->
+                <section id="giris" class="mb-12 scroll-mt-24">
+                    <div class="card p-8 bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
+                        <div class="flex items-start">
+                            <div
+                                class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mr-6 flex-shrink-0">
+                                <span class="text-2xl">🎯</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900 mb-4">Birincil Veri Nedir? Ne Zaman
+                                    Kullanılır?</h2>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h3 class="font-semibold text-lg mb-3 text-blue-700">✅ Ne Zaman Kullanılır?</h3>
+                                        <ul class="space-y-2 text-gray-600">
+                                            <li>• <strong>Özgün araştırma</strong> yapıldığında</li>
+                                            <li>• <strong>Spesifik ihtiyaçlar</strong> için veri gerektiğinde</li>
+                                            <li>• <strong>Güncel ve orijinal</strong> veri ihtiyacı olduğunda</li>
+                                            <li>• <strong>Kontrol edilebilir</strong> veri toplama süreci için</li>
+                                            <li>• <strong>Özel hedef kitle</strong> ile çalışıldığında</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-lg mb-3 text-green-700">🎯 Avantajları</h3>
+                                        <ul class="space-y-2 text-gray-600">
+                                            <li>• <strong>Özgünlük</strong> - Tamamen size özel veri</li>
+                                            <li>• <strong>Güncellik</strong> - Anlık ve güncel bilgi</li>
+                                            <li>• <strong>Kontrol</strong> - Veri kalitesini kontrol edebilme</li>
+                                            <li>• <strong>Uygunluk</strong> - İhtiyaca tam uygun veri</li>
+                                            <li>• <strong>Güvenilirlik</strong> - Kaynağı belli ve güvenilir</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
                 <!-- Anket Tasarımı Bölümü -->
                 <section id="anket-tasarimi" class="mb-12 scroll-mt-24">
                     <div class="card p-8">
@@ -193,6 +267,22 @@
                             </div>
                         </div>
 
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-blue-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Kitle araştırması</span>
+                                <span class="use-case-badge bg-green-100 text-green-800">Müşteri geri bildirimi</span>
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Pazar analizi</span>
+                                <span class="use-case-badge bg-orange-100 text-orange-800">Memnuniyet ölçümü</span>
+                            </div>
+                            <p class="text-sm text-blue-700">
+                                <strong>Kullanım Amacı:</strong> Geniş kitlelerden standartlaştırılmış veri toplamak,
+                                nicel analiz yapmak, istatistiksel sonuçlar elde etmek.
+                                <strong>Örnek:</strong> 500 kişilik müşteri kitlesinden ürün memnuniyeti anketi yapmak.
+                            </p>
+                        </div>
+
                         <!-- Soru Türleri Accordion -->
                         <div class="mb-6">
                             <button
@@ -202,24 +292,33 @@
                             </button>
                             <div class="accordion-content bg-white border border-blue-100 rounded-b-lg">
                                 <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Hangi Soru Tipi Ne Zaman
+                                            Kullanılır?</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            <strong>Kapalı uçlu:</strong> Nicel analiz, istatistiksel testler için.
+                                            <strong>Açık uçlu:</strong> Derinlemesine anlama, nitel analiz için.
+                                        </p>
+                                    </div>
+
                                     <div class="grid md:grid-cols-2 gap-6">
                                         <div>
                                             <h4 class="font-semibold mb-3 text-blue-700">Kapalı Uçlu Sorular</h4>
                                             <ul class="space-y-2 text-sm text-gray-600">
-                                                <li>• Evet/Hayır Soruları</li>
-                                                <li>• Çoktan Seçmeli</li>
-                                                <li>• Likert Ölçeği (1-5)</li>
-                                                <li>• Semantic Differential</li>
-                                                <li>• Sıralama Soruları</li>
+                                                <li>• <strong>Evet/Hayır</strong> - Basik onay/red</li>
+                                                <li>• <strong>Çoktan Seçmeli</strong> - Sınırlı seçenekler</li>
+                                                <li>• <strong>Likert Ölçeği (1-5)</strong> - Tutum ölçümü</li>
+                                                <li>• <strong>Semantic Differential</strong> - Zıt kavramlar</li>
+                                                <li>• <strong>Sıralama Soruları</strong> - Tercih önceliği</li>
                                             </ul>
                                         </div>
                                         <div>
                                             <h4 class="font-semibold mb-3 text-green-700">Açık Uçlu Sorular</h4>
                                             <ul class="space-y-2 text-sm text-gray-600">
-                                                <li>• Serbest Metin</li>
-                                                <li>• Vignette Soruları</li>
-                                                <li>• Projeksiyon Teknikleri</li>
-                                                <li>• Tamamlama Soruları</li>
+                                                <li>• <strong>Serbest Metin</strong> - Özgür ifade</li>
+                                                <li>• <strong>Vignette Soruları</strong> - Senaryo temelli</li>
+                                                <li>• <strong>Projeksiyon Teknikleri</strong> - Dolaylı yaklaşım</li>
+                                                <li>• <strong>Tamamlama Soruları</strong> - Yaratıcı cevap</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -249,6 +348,14 @@
                             </button>
                             <div class="accordion-content bg-white border border-green-100 rounded-b-lg">
                                 <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Neden Önemli?</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            Doğru örneklem büyüklüğü, araştırmanın güvenilirliği ve maliyet etkinliği
+                                            için kritik öneme sahiptir.
+                                        </p>
+                                    </div>
+
                                     <div class="grid md:grid-cols-2 gap-6">
                                         <div>
                                             <h4 class="font-semibold mb-3">Hesaplama Parametreleri</h4>
@@ -301,6 +408,14 @@
                             </button>
                             <div class="accordion-content bg-white border border-purple-100 rounded-b-lg">
                                 <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Platform Seçimi İpuçları</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            Platform seçerken bütçe, özellik ihtiyacı, hedef kitle ve entegrasyon
+                                            gereksinimlerini değerlendirin.
+                                        </p>
+                                    </div>
+
                                     <div class="overflow-x-auto">
                                         <table class="w-full text-sm text-left">
                                             <thead class="bg-purple-50">
@@ -359,10 +474,32 @@
                             </div>
                         </div>
 
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-green-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-green-100 text-green-800">Derinlemesine anlama</span>
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Karmaşık konular</span>
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Uzman görüşü</span>
+                                <span class="use-case-badge bg-orange-100 text-orange-800">Nitel veri</span>
+                            </div>
+                            <p class="text-sm text-green-700">
+                                <strong>Kullanım Amacı:</strong> Derinlemesine anlama, karmaşık konuları araştırma,
+                                uzman görüşü alma, nitel veri toplama.
+                                <strong>Örnek:</strong> 15 uzmanla derinlemesine görüşme yaparak sektör trendlerini
+                                analiz etmek.
+                            </p>
+                        </div>
+
                         <!-- Görüşme Protokolleri -->
                         <div class="grid md:grid-cols-2 gap-6 mb-6">
                             <div class="card p-6 bg-blue-50 border-blue-200">
                                 <h4 class="font-semibold text-lg mb-3 text-blue-700">Yapılandırılmış Görüşme</h4>
+                                <div class="mb-3 p-2 bg-blue-100 rounded">
+                                    <p class="text-xs text-blue-800 font-medium">💡 Ne Zaman Kullanılır?</p>
+                                    <p class="text-xs text-blue-700">Standartlaştırılmış veri, karşılaştırmalı analiz,
+                                        nicel çalışmalar için</p>
+                                </div>
                                 <ul class="space-y-2 text-sm text-gray-600">
                                     <li>• Standart soru seti</li>
                                     <li>• Sabit soru sırası</li>
@@ -372,6 +509,11 @@
                             </div>
                             <div class="card p-6 bg-green-50 border-green-200">
                                 <h4 class="font-semibold text-lg mb-3 text-green-700">Yarı-Yapılandırılmış Görüşme</h4>
+                                <div class="mb-3 p-2 bg-green-100 rounded">
+                                    <p class="text-xs text-green-800 font-medium">💡 Ne Zaman Kullanılır?</p>
+                                    <p class="text-xs text-green-700">Esneklik gerektiren, keşif amaçlı, derinlemesine
+                                        anlama çalışmaları için</p>
+                                </div>
                                 <ul class="space-y-2 text-sm text-gray-600">
                                     <li>• Esnek soru akışı</li>
                                     <li>• Derinlemesine keşif</li>
@@ -434,6 +576,23 @@
                             </div>
                         </div>
 
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-orange-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-orange-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-orange-100 text-orange-800">Nedensellik analizi</span>
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Davranış gözlemi</span>
+                                <span class="use-case-badge bg-green-100 text-green-800">Ürün testi</span>
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Performans ölçümü</span>
+                            </div>
+                            <p class="text-sm text-orange-700">
+                                <strong>Kullanım Amacı:</strong> Nedensellik ilişkilerini test etmek, doğal davranışları
+                                gözlemlemek, müdahalenin etkisini ölçmek.
+                                <strong>Örnek:</strong> Yeni web sitesi tasarımının kullanıcı davranışlarına etkisini
+                                A/B testi ile ölçmek.
+                            </p>
+                        </div>
+
                         <!-- A/B Test Simülatörü -->
                         <div class="mb-6">
                             <h4 class="font-semibold text-lg mb-4">A/B Test Güç Hesaplama Simülatörü</h4>
@@ -465,257 +624,309 @@
                                 </div>
                                 <div>
                                     <div id="ab-test-result" class="p-4 bg-orange-50 rounded-lg text-center">
-                                        <p class="text-2xl font-bold text-orange-700" id="sample-size-ab">-</p>
-                                        <p class="text-sm text-orange-600">Grup Başına Gerekli Örneklem</p>
+                                        <p class="text-2xl font-bold text-orange-700" id="sample-per-group">-</p>
+                                        <p class="text-sm text-orange-600">Grup Başına Örneklem</p>
                                     </div>
                                     <div class="mt-4 text-sm text-gray-600">
-                                        <p>Bu hesaplama, A/B testinizin istatistiksel anlamlılık için gereken minimum
+                                        <p>Bu hesaplama, belirtilen parametrelere göre her grup için gereken minimum
                                             örneklem büyüklüğünü gösterir.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Gözlem Teknikleri -->
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-lg mb-4">Gözlem Teknikleri</h4>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="card p-6 bg-blue-50 border-blue-200">
+                                    <h5 class="font-semibold text-lg mb-3 text-blue-700">Katılımcı Gözlem</h5>
+                                    <div class="mb-3 p-2 bg-blue-100 rounded">
+                                        <p class="text-xs text-blue-800 font-medium">💡 Ne Zaman Kullanılır?</p>
+                                        <p class="text-xs text-blue-700">Doğal ortamda derinlemesine anlama, kültürel
+                                            analiz için</p>
+                                    </div>
+                                    <ul class="space-y-2 text-sm text-gray-600">
+                                        <li>• Araştırmacı gruba dahil olur</li>
+                                        <li>• Doğal davranışlar gözlemlenir</li>
+                                        <li>• Zengin nitel veri sağlar</li>
+                                        <li>• Zaman ve emek yoğundur</li>
+                                    </ul>
+                                </div>
+                                <div class="card p-6 bg-green-50 border-green-200">
+                                    <h5 class="font-semibold text-lg mb-3 text-green-700">Katılımcı Olmayan Gözlem</h5>
+                                    <div class="mb-3 p-2 bg-green-100 rounded">
+                                        <p class="text-xs text-green-800 font-medium">💡 Ne Zaman Kullanılır?</p>
+                                        <p class="text-xs text-green-700">Objekif gözlem, davranışsal analiz, sayısal
+                                            veri için</p>
+                                    </div>
+                                    <ul class="space-y-2 text-sm text-gray-600">
+                                        <li>• Araştırmacı dışarıdan gözlemler</li>
+                                        <li>• Daha objektif veri sağlar</li>
+                                        <li>• Nicel analiz için uygundur</li>
+                                        <li>• Daha az zaman gerektirir</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </section>
 
-                <!-- Örnek Uygulamalar -->
-                <!-- Örnek Uygulamalar Bölümünü Bu Şekilde Değiştir -->
-                <section id="ornek-uygulamalar" class="scroll-mt-24">
+                <!-- Örnek Uygulamalar Bölümü -->
+                <section id="ornek-uygulamalar" class="mb-12 scroll-mt-24">
                     <div class="card p-8">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Pratik Uygulamalar ve Şablonlar</h2>
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-2xl">📊</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">Örnek Uygulamalar ve Senaryolar</h2>
+                                <p class="text-gray-600">Gerçek dünya uygulamaları ve pratik örnekler</p>
+                            </div>
+                        </div>
 
-                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                            <!-- Anket Şablonu 1 -->
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-purple-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Pratik uygulama</span>
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Örnek senaryolar</span>
+                                <span class="use-case-badge bg-green-100 text-green-800">Başarı hikayeleri</span>
+                                <span class="use-case-badge bg-orange-100 text-orange-800">En iyi uygulamalar</span>
+                            </div>
+                            <p class="text-sm text-purple-700">
+                                <strong>Kullanım Amacı:</strong> Teorik bilgiyi pratiğe dönüştürmek, gerçek dünya
+                                senaryolarını anlamak, başarılı uygulamalardan öğrenmek.
+                                <strong>Örnek:</strong> Bir e-ticaret şirketinin müşteri memnuniyetini artırmak için
+                                kullandığı birincil veri toplama yöntemleri.
+                            </p>
+                        </div>
+
+                        <!-- Örnek Senaryolar -->
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="card p-6 bg-blue-50 border-blue-200">
+                                <h4 class="font-semibold text-lg mb-3 text-blue-700">E-ticaret Senaryosu</h4>
+                                <div class="mb-3 p-2 bg-blue-100 rounded">
+                                    <p class="text-xs text-blue-800 font-medium">💡 Problem</p>
+                                    <p class="text-xs text-blue-700">Müşteri memnuniyetini artırmak ve alışveriş
+                                        deneyimini iyileştirmek</p>
+                                </div>
+                                <ul class="space-y-2 text-sm text-gray-600">
+                                    <li>• <strong>Anket:</strong> Satın alma sonrası memnuniyet anketi</li>
+                                    <li>• <strong>Görüşme:</strong> VIP müşterilerle derinlemesine görüşmeler</li>
+                                    <li>• <strong>Gözlem:</strong> Kullanıcı testleri ile site gezintisi analizi</li>
+                                    <li>• <strong>Deney:</strong> A/B test ile yeni özelliklerin test edilmesi</li>
+                                </ul>
+                            </div>
+                            <div class="card p-6 bg-green-50 border-green-200">
+                                <h4 class="font-semibold text-lg mb-3 text-green-700">Sağlık Hizmetleri Senaryosu</h4>
+                                <div class="mb-3 p-2 bg-green-100 rounded">
+                                    <p class="text-xs text-green-800 font-medium">💡 Problem</p>
+                                    <p class="text-xs text-green-700">Hasta deneyimini iyileştirmek ve hizmet kalitesini
+                                        artırmak</p>
+                                </div>
+                                <ul class="space-y-2 text-sm text-gray-600">
+                                    <li>• <strong>Anket:</strong> Hasta memnuniyeti anketleri</li>
+                                    <li>• <strong>Görüşme:</strong> Sağlık çalışanlarıyla odak grup görüşmeleri</li>
+                                    <li>• <strong>Gözlem:</strong> Hasta-yönlendirme süreçlerinin gözlemi</li>
+                                    <li>• <strong>Deney:</strong> Yeni randevu sisteminin pilot uygulaması</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Başarı Ölçütleri -->
+                        <div class="mt-6">
+                            <h4 class="font-semibold text-lg mb-4">Başarı Ölçütleri ve Metrikler</h4>
+                            <div class="grid md:grid-cols-3 gap-4">
+                                <div class="text-center p-4 bg-indigo-50 rounded-lg">
+                                    <p class="text-2xl font-bold text-indigo-700">70%+</p>
+                                    <p class="text-sm text-indigo-600">Yanıt Oranı</p>
+                                </div>
+                                <div class="text-center p-4 bg-green-50 rounded-lg">
+                                    <p class="text-2xl font-bold text-green-700">95%+</p>
+                                    <p class="text-sm text-green-600">Veri Kalitesi</p>
+                                </div>
+                                <div class="text-center p-4 bg-orange-50 rounded-lg">
+                                    <p class="text-2xl font-bold text-orange-700">2x</p>
+                                    <p class="text-sm text-orange-600">Karar Kalitesi Artışı</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+                <!-- Örnek Uygulamalar Bölümü -->
+                <section id="ornek-uygulamalar" class="mb-12 scroll-mt-24">
+                    <div class="card p-8">
+                        <!-- ... mevcut örnek uygulamalar içeriği ... -->
+                    </div>
+                </section>
+
+                <!-- █████ BURAYA EKLENECEK █████ -->
+                <!-- Etik Kurul ve Araştırma Belgeleri -->
+                <section id="etik-kurul" class="mb-12 scroll-mt-24">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-2xl">⚖️</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">Etik Kurul ve Araştırma Belgeleri</h2>
+                                <p class="text-gray-600">Araştırma etiği ve yasal uygunluk belgeleri</p>
+                            </div>
+                        </div>
+
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-purple-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Etik uygunluk</span>
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Yasal gereklilikler</span>
+                                <span class="use-case-badge bg-green-100 text-green-800">Katılımcı hakları</span>
+                                <span class="use-case-badge bg-orange-100 text-orange-800">Veri güvenliği</span>
+                            </div>
+                            <p class="text-sm text-purple-700">
+                                <strong>Kullanım Amacı:</strong> Araştırmanın etik kurallara uygunluğunu sağlamak,
+                                katılımcı haklarını korumak, yasal gereklilikleri yerine getirmek ve veri gizliliğini
+                                garanti altına almak.
+                                <strong>Örnek:</strong> Akademik bir araştırma için etik kurul onayı almak veya şirket
+                                içi anket çalışmasında KVKK uyumluluğunu sağlamak.
+                            </p>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Etik Kurul Başvuru Formu -->
+                            <div class="card p-6 bg-orange-50 border-orange-200 hover:shadow-lg transition-all">
+                                <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                                    <span class="text-xl">📋</span>
+                                </div>
+                                <h4 class="font-semibold text-lg mb-3 text-orange-700">Etik Kurul Başvuru Formu</h4>
+                                <p class="text-sm text-gray-600 mb-4">Araştırma etiği başvurusu için hazır şablon ve
+                                    kılavuz. Tüm gerekli bölümleri içerir.</p>
+                                <div class="p-3 bg-orange-100 rounded-lg">
+                                    <h5 class="font-medium text-orange-800 text-sm mb-2">📌 İçerdiği Bölümler:</h5>
+                                    <ul class="text-xs text-orange-700 space-y-1">
+                                        <li>• Araştırma özeti ve amacı</li>
+                                        <li>• Yöntem ve prosedürler</li>
+                                        <li>• Katılımcı seçim kriterleri</li>
+                                        <li>• Risk ve fayda analizi</li>
+                                        <li>• Gizlilik ve veri koruma</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Katılımcı Bilgilendirme Formu -->
+                            <div class="card p-6 bg-red-50 border-red-200 hover:shadow-lg transition-all">
+                                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                                    <span class="text-xl">📝</span>
+                                </div>
+                                <h4 class="font-semibold text-lg mb-3 text-red-700">Katılımcı Bilgilendirme Formu</h4>
+                                <p class="text-sm text-gray-600 mb-4">Araştırma katılımcıları için bilgilendirme ve onam
+                                    formu şablonu.</p>
+                                <div class="p-3 bg-red-100 rounded-lg">
+                                    <h5 class="font-medium text-red-800 text-sm mb-2">📌 Temel Bileşenler:</h5>
+                                    <ul class="text-xs text-red-700 space-y-1">
+                                        <li>• Araştırmanın amacı ve süresi</li>
+                                        <li>• Katılımın gönüllülük esası</li>
+                                        <li>• Olası riskler ve rahatsızlıklar</li>
+                                        <li>• Gizlilik garantileri</li>
+                                        <li>• İletişim bilgileri</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Veri Gizlilik Formu -->
                             <div class="card p-6 bg-blue-50 border-blue-200 hover:shadow-lg transition-all">
                                 <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                                    <span class="text-xl">📊</span>
+                                    <span class="text-xl">🔒</span>
                                 </div>
-                                <h4 class="font-semibold text-lg mb-3 text-blue-700">Müşteri Memnuniyeti Anketi</h4>
-                                <p class="text-sm text-gray-600 mb-4">5'li Likert ölçeği ile hazır müşteri memnuniyet
-                                    anketi şablonu</p>
-                                <div class="flex space-x-2">
-                                    <button onclick="downloadTemplate('customer-satisfaction')"
-                                        class="flex-1 bg-blue-500 text-white py-2 px-3 rounded text-sm hover:bg-blue-600 transition-colors">
-                                        İndir
-                                    </button>
-                                    <button onclick="previewTemplate('customer-satisfaction')"
-                                        class="flex-1 bg-white text-blue-500 border border-blue-500 py-2 px-3 rounded text-sm hover:bg-blue-50 transition-colors">
-                                        Önizleme
-                                    </button>
+                                <h4 class="font-semibold text-lg mb-3 text-blue-700">Veri Gizlilik Formu</h4>
+                                <p class="text-sm text-gray-600 mb-4">KVKK uyumlu veri işleme ve gizlilik bildirimi
+                                    şablonu.</p>
+                                <div class="p-3 bg-blue-100 rounded-lg">
+                                    <h5 class="font-medium text-blue-800 text-sm mb-2">📌 Kapsamı:</h5>
+                                    <ul class="text-xs text-blue-700 space-y-1">
+                                        <li>• Veri toplama amaçları</li>
+                                        <li>• Veri saklama süreleri</li>
+                                        <li>• Veri paylaşım politikaları</li>
+                                        <li>• Katılımcı hakları (silme, erişim)</li>
+                                        <li>• Güvenlik önlemleri</li>
+                                    </ul>
                                 </div>
                             </div>
 
-                            <!-- Anket Şablonu 2 -->
+                            <!-- Araştırma Protokolü Şablonu -->
                             <div class="card p-6 bg-green-50 border-green-200 hover:shadow-lg transition-all">
                                 <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                                    <span class="text-xl">👥</span>
+                                    <span class="text-xl">📊</span>
                                 </div>
-                                <h4 class="font-semibold text-lg mb-3 text-green-700">Çalışan Katılım Anketi</h4>
-                                <p class="text-sm text-gray-600 mb-4">Çoktan seçmeli ve açık uçlu sorular içeren çalışan
-                                    anketi</p>
-                                <div class="flex space-x-2">
-                                    <button onclick="downloadTemplate('employee-engagement')"
-                                        class="flex-1 bg-green-500 text-white py-2 px-3 rounded text-sm hover:bg-green-600 transition-colors">
-                                        İndir
-                                    </button>
-                                    <button onclick="previewTemplate('employee-engagement')"
-                                        class="flex-1 bg-white text-green-500 border border-green-500 py-2 px-3 rounded text-sm hover:bg-green-50 transition-colors">
-                                        Önizleme
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Görüşme Rehberi -->
-                            <div class="card p-6 bg-purple-50 border-purple-200 hover:shadow-lg transition-all">
-                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                                    <span class="text-xl">🎤</span>
-                                </div>
-                                <h4 class="font-semibold text-lg mb-3 text-purple-700">Derinlemesine Görüşme Rehberi
-                                </h4>
-                                <p class="text-sm text-gray-600 mb-4">Yarı-yapılandırılmış görüşme için soru setleri ve
-                                    probing teknikleri</p>
-                                <div class="flex space-x-2">
-                                    <button onclick="downloadTemplate('interview-guide')"
-                                        class="flex-1 bg-purple-500 text-white py-2 px-3 rounded text-sm hover:bg-purple-600 transition-colors">
-                                        İndir
-                                    </button>
-                                    <button onclick="previewTemplate('interview-guide')"
-                                        class="flex-1 bg-white text-purple-500 border border-purple-500 py-2 px-3 rounded text-sm hover:bg-purple-50 transition-colors">
-                                        Önizleme
-                                    </button>
+                                <h4 class="font-semibold text-lg mb-3 text-green-700">Araştırma Protokolü</h4>
+                                <p class="text-sm text-gray-600 mb-4">Detaylı araştırma metodolojisi ve uygulama planı
+                                    şablonu.</p>
+                                <div class="p-3 bg-green-100 rounded-lg">
+                                    <h5 class="font-medium text-green-800 text-sm mb-2">📌 Ana Bölümler:</h5>
+                                    <ul class="text-xs text-green-700 space-y-1">
+                                        <li>• Araştırma sorusu ve hipotezler</li>
+                                        <li>• Örneklem ve evren tanımı</li>
+                                        <li>• Veri toplama yöntemleri</li>
+                                        <li>• Veri analiz planı</li>
+                                        <li>• Zaman çizelgesi ve bütçe</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- İnteraktif Anket Oluşturucu -->
-                        <div class="card p-6 bg-gradient-to-r from-indigo-50 to-purple-50 border-indigo-200">
-                            <h3 class="text-xl font-bold mb-4 text-indigo-700">İnteraktif Anket Oluşturucu</h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Anket Başlığı</label>
-                                    <input type="text" id="survey-title" placeholder="Anketinizin başlığını girin"
-                                        class="w-full p-3 border rounded-lg">
-                                </div>
-
-                                <div id="question-container" class="space-y-4">
-                                    <!-- Sorular buraya dinamik olarak eklenecek -->
-                                </div>
-
-                                <div class="flex space-x-3">
-                                    <button onclick="addQuestion('likert')"
-                                        class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
-                                        Likert Sorusu Ekle
-                                    </button>
-                                    <button onclick="addQuestion('multiple')"
-                                        class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
-                                        Çoktan Seçmeli Ekle
-                                    </button>
-                                    <button onclick="addQuestion('open')"
-                                        class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
-                                        Açık Uçlu Ekle
-                                    </button>
-                                </div>
-
-                                <div class="flex space-x-3 pt-4 border-t">
-                                    <button onclick="previewSurvey()"
-                                        class="flex-1 bg-gray-500 text-white py-3 rounded-lg hover:bg-gray-600 transition-colors">
-                                        Anketi Önizle
-                                    </button>
-                                    <button onclick="exportSurvey()"
-                                        class="flex-1 bg-indigo-500 text-white py-3 rounded-lg hover:bg-indigo-600 transition-colors">
-                                        PDF Olarak İndir
-                                    </button>
-                                </div>
+                        <!-- Etik İlkeler Tablosu -->
+                        <div class="mt-8 card p-6 bg-gray-50 border-gray-200">
+                            <h4 class="font-semibold text-lg mb-4 text-gray-800">Araştırma Etiği Temel İlkeleri</h4>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="p-3 font-semibold text-gray-700">İlke</th>
+                                            <th class="p-3 font-semibold text-gray-700">Açıklama</th>
+                                            <th class="p-3 font-semibold text-gray-700">Uygulama</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b bg-white">
+                                            <td class="p-3 font-medium">Gönüllülük</td>
+                                            <td class="p-3 text-gray-600">Katılımcılar zorlama olmadan katılmalı</td>
+                                            <td class="p-3 text-gray-600">Açık ret hakkı ve çekilme seçeneği</td>
+                                        </tr>
+                                        <tr class="border-b bg-white">
+                                            <td class="p-3 font-medium">Bilgilendirilmiş Onam</td>
+                                            <td class="p-3 text-gray-600">Katılımcılar süreç hakkında bilgilendirilmeli
+                                            </td>
+                                            <td class="p-3 text-gray-600">Yazılı veya sözlü onam alınması</td>
+                                        </tr>
+                                        <tr class="border-b bg-white">
+                                            <td class="p-3 font-medium">Gizlilik</td>
+                                            <td class="p-3 text-gray-600">Kişisel veriler korunmalı</td>
+                                            <td class="p-3 text-gray-600">Anonimleştirme ve güvenli saklama</td>
+                                        </tr>
+                                        <tr class="border-b bg-white">
+                                            <td class="p-3 font-medium">Zarar Vermeme</td>
+                                            <td class="p-3 text-gray-600">Fiziksel veya psikolojik zarar önlenmeli</td>
+                                            <td class="p-3 text-gray-600">Risk değerlendirmesi ve önlemler</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-
-                        <!-- Etik Kurul Başvuru Şablonları -->
-                        <!-- Etik Kurul ve Araştırma Belgeleri Bölümünü Bu Şekilde Değiştir -->
-                        <div class="mt-8">
-                            <h3 class="text-xl font-bold mb-6 text-gray-900">Etik Kurul ve Araştırma Belgeleri</h3>
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <!-- Etik Kurul Başvuru Formu -->
-                                <div class="card p-6 bg-orange-50 border-orange-200 hover:shadow-lg transition-all">
-                                    <div
-                                        class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mb-4">
-                                        <span class="text-xl">📋</span>
-                                    </div>
-                                    <h4 class="font-semibold text-lg mb-3 text-orange-700">Etik Kurul Başvuru Formu</h4>
-                                    <p class="text-sm text-gray-600 mb-4">Araştırma etiği başvurusu için hazır şablon ve
-                                        kılavuz. Tüm gerekli bölümleri içerir.</p>
-                                    <div class="flex space-x-2">
-                                        <button onclick="downloadEthicsTemplate('ethics-application')"
-                                            class="flex-1 bg-orange-500 text-white py-2 px-3 rounded text-sm hover:bg-orange-600 transition-colors">
-                                            Şablonu İndir
-                                        </button>
-                                        <button onclick="previewEthicsTemplate('ethics-application')"
-                                            class="flex-1 bg-white text-orange-500 border border-orange-500 py-2 px-3 rounded text-sm hover:bg-orange-50 transition-colors">
-                                            Önizleme
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <!-- Katılımcı Bilgilendirme Formu -->
-                                <div class="card p-6 bg-red-50 border-red-200 hover:shadow-lg transition-all">
-                                    <div
-                                        class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                                        <span class="text-xl">📝</span>
-                                    </div>
-                                    <h4 class="font-semibold text-lg mb-3 text-red-700">Katılımcı Bilgilendirme Formu
-                                    </h4>
-                                    <p class="text-sm text-gray-600 mb-4">Araştırma katılımcıları için bilgilendirme ve
-                                        onam formu şablonu.</p>
-                                    <div class="flex space-x-2">
-                                        <button onclick="downloadEthicsTemplate('consent-form')"
-                                            class="flex-1 bg-red-500 text-white py-2 px-3 rounded text-sm hover:bg-red-600 transition-colors">
-                                            Şablonu İndir
-                                        </button>
-                                        <button onclick="previewEthicsTemplate('consent-form')"
-                                            class="flex-1 bg-white text-red-500 border border-red-500 py-2 px-3 rounded text-sm hover:bg-red-50 transition-colors">
-                                            Önizleme
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <!-- Veri Gizlilik Formu -->
-                                <div class="card p-6 bg-blue-50 border-blue-200 hover:shadow-lg transition-all">
-                                    <div
-                                        class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                                        <span class="text-xl">🔒</span>
-                                    </div>
-                                    <h4 class="font-semibold text-lg mb-3 text-blue-700">Veri Gizlilik Formu</h4>
-                                    <p class="text-sm text-gray-600 mb-4">KVKK uyumlu veri işleme ve gizlilik bildirimi
-                                        şablonu.</p>
-                                    <div class="flex space-x-2">
-                                        <button onclick="downloadEthicsTemplate('privacy-form')"
-                                            class="flex-1 bg-blue-500 text-white py-2 px-3 rounded text-sm hover:bg-blue-600 transition-colors">
-                                            Şablonu İndir
-                                        </button>
-                                        <button onclick="previewEthicsTemplate('privacy-form')"
-                                            class="flex-1 bg-white text-blue-500 border border-blue-500 py-2 px-3 rounded text-sm hover:bg-blue-50 transition-colors">
-                                            Önizleme
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <!-- Araştırma Protokolü Şablonu -->
-                                <div class="card p-6 bg-green-50 border-green-200 hover:shadow-lg transition-all">
-                                    <div
-                                        class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                                        <span class="text-xl">📊</span>
-                                    </div>
-                                    <h4 class="font-semibold text-lg mb-3 text-green-700">Araştırma Protokolü</h4>
-                                    <p class="text-sm text-gray-600 mb-4">Detaylı araştırma metodolojisi ve uygulama
-                                        planı şablonu.</p>
-                                    <div class="flex space-x-2">
-                                        <button onclick="downloadEthicsTemplate('research-protocol')"
-                                            class="flex-1 bg-green-500 text-white py-2 px-3 rounded text-sm hover:bg-green-600 transition-colors">
-                                            Şablonu İndir
-                                        </button>
-                                        <button onclick="previewEthicsTemplate('research-protocol')"
-                                            class="flex-1 bg-white text-green-500 border border-green-500 py-2 px-3 rounded text-sm hover:bg-green-50 transition-colors">
-                                            Önizleme
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </section>
-
-                <!-- Modal for Template Preview -->
-                <div id="preview-modal"
-                    class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
-                    <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-                        <div class="p-6 border-b">
-                            <div class="flex justify-between items-center">
-                                <h3 id="modal-title" class="text-xl font-bold">Şablon Önizleme</h3>
-                                <button onclick="closePreview()" class="text-gray-500 hover:text-gray-700">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div id="modal-content" class="p-6">
-                            <!-- Preview content will be loaded here -->
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </div>
-
         <!-- Navigasyon Butonları -->
         <section class="flex justify-between items-center mt-12 pt-8 border-t border-gray-200">
             <a href="index.html" class="flex items-center text-gray-600 hover:text-indigo-600 transition-colors">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
-                Veri Toplama Ana Sayfası
+                Önceki: Ana Sayfa
             </a>
             <a href="ikincil-veri.html"
                 class="flex items-center bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition-colors">
@@ -731,8 +942,87 @@
     <footer class="bg-gray-900 text-white mt-20">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid md:grid-cols-4 gap-8">
-                <!-- Footer içeriği -->
+                <!-- Bölüm 1: Hakkında -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Veri Analizi Rehberi</h3>
+                    <p class="text-gray-400 text-sm mb-4">
+                        Betül YEL tarafından hazırlanan kapsamlı veri analizi öğrenme platformu.
+                    </p>
+                    <div class="flex space-x-3">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <span class="sr-only">GitHub</span>
+                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">...</svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <span class="sr-only">LinkedIn</span>
+                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">...</svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Bölüm 2: Popüler Konular -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Popüler Konular</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="veri-temizleme/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Python ile Veri Temizleme</a>
+                        </li>
+                        <li><a href="veri-analizi/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Makine
+                                Öğrenmesi Temelleri</a></li>
+                        <li><a href="veri-gorsellestirme/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Chart.js Grafikleri</a></li>
+                        <li><a href="veri-toplama/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Web
+                                Scraping Teknikleri</a></li>
+                        <li><a href="sonuc-sunumu/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Etkili
+                                Sunum Hazırlama</a></li>
+                    </ul>
+                </div>
+
+                <!-- Bölüm 3: Hızlı Bağlantılar -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Hızlı Bağlantılar</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="veri-toplama/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Veri
+                                Toplama</a></li>
+                        <li><a href="veri-temizleme/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Veri
+                                Temizleme</a></li>
+                        <li><a href="veri-analizi/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Veri
+                                Analizi</a></li>
+                        <li><a href="veri-gorsellestirme/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Görselleştirme</a></li>
+                        <li><a href="sonuc-sunumu/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Sonuç
+                                Sunumu</a></li>
+                    </ul>
+                </div>
+
+                <!-- Bölüm 4: Araçlar -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Kullanılan Araçlar</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="araclar-ve-kaynaklar/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Python & Pandas</a>
+                        </li>
+                        <li><a href="araclar-ve-kaynaklar/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">SQL Veritabanları</a>
+                        </li>
+                        <li><a href="araclar-ve-kaynaklar/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Chart.js</a></li>
+                        <li><a href="araclar-ve-kaynaklar/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Tableau</a></li>
+                        <li><a href="araclar-ve-kaynaklar/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Jupyter Notebook</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
+
             <div class="border-t border-gray-800 mt-8 pt-8 text-center">
                 <p class="text-gray-400 text-sm">
                     &copy; 2025 <span class="font-semibold text-indigo-300">Betül YEL</span> - Etkileşimli Veri Analizi
@@ -743,1447 +1033,149 @@
     </footer>
 
     <script>
-        // Accordion Fonksiyonu
-        document.querySelectorAll('.accordion-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const content = header.nextElementSibling;
-                const arrow = header.querySelector('span');
-
-                content.classList.toggle('open');
-                arrow.style.transform = content.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
-            });
-        });
-
         // Örneklem Hesaplama Fonksiyonu
         function calculateSample() {
             const population = parseInt(document.getElementById('population').value);
             const confidence = parseInt(document.getElementById('confidence').value);
             const margin = parseInt(document.getElementById('margin').value) / 100;
 
-            // Basit örneklem hesaplama formülü
-            let zScore = 1.96; // %95 güven için
-            if (confidence === 90) zScore = 1.645;
-            if (confidence === 99) zScore = 2.576;
+            // Basit örneklem hesaplama formülü (gerçek uygulamada daha karmaşık formüller kullanılır)
+            let zScore;
+            switch (confidence) {
+                case 90: zScore = 1.645; break;
+                case 95: zScore = 1.96; break;
+                case 99: zScore = 2.576; break;
+                default: zScore = 1.96;
+            }
 
-            const p = 0.5; // Conservative estimate
-            const sampleSize = Math.ceil((zScore * zScore * p * (1 - p)) / (margin * margin));
+            const p = 0.5; // En kötü durum varsayımı
+            const sampleSize = Math.ceil((Math.pow(zScore, 2) * p * (1 - p)) / Math.pow(margin, 2));
 
-            const adjustedSample = Math.ceil(sampleSize / (1 + ((sampleSize - 1) / population)));
-
-            document.getElementById('sample-size').textContent = adjustedSample;
+            document.getElementById('sample-size').textContent = sampleSize;
         }
 
-        // A/B Test Hesaplama Fonksiyonu
+        // A/B Test Güç Hesaplama Fonksiyonu
         function calculateABTest() {
             const baseRate = parseInt(document.getElementById('base-rate').value) / 100;
             const minEffect = parseInt(document.getElementById('min-effect').value) / 100;
             const powerLevel = parseInt(document.getElementById('power-level').value) / 100;
 
-            // Basit A/B test örneklem hesaplama
-            const zAlpha = 1.96; // 5% significance
-            const zBeta = 0.84; // 80% power
+            // Basit A/B test örneklem hesaplama (gerçek uygulamada daha karmaşık formüller kullanılır)
+            const effectSize = minEffect / baseRate;
+            const samplePerGroup = Math.ceil(16 / Math.pow(effectSize, 2));
 
-            const p1 = baseRate;
-            const p2 = baseRate + minEffect;
-            const p = (p1 + p2) / 2;
-
-            const sampleSize = Math.ceil(
-                (zAlpha * Math.sqrt(2 * p * (1 - p)) + zBeta * Math.sqrt(p1 * (1 - p1) + p2 * (1 - p2))) ** 2
-                / (minEffect ** 2)
-            );
-
-            document.getElementById('sample-size-ab').textContent = sampleSize;
+            document.getElementById('sample-per-group').textContent = samplePerGroup;
         }
 
-        // Soru Tipi Demo
+        // Accordion Fonksiyonları
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const isOpen = content.classList.contains('open');
+
+                // Tüm accordion içeriklerini kapat
+                document.querySelectorAll('.accordion-content').forEach(item => {
+                    item.classList.remove('open');
+                });
+
+                // Tüm accordion başlıklarının oklarını sıfırla
+                document.querySelectorAll('.accordion-header').forEach(item => {
+                    item.querySelector('span').style.transform = 'rotate(0deg)';
+                });
+
+                // Eğer tıklanan accordion kapalıysa aç
+                if (!isOpen) {
+                    content.classList.add('open');
+                    header.querySelector('span').style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+
+        // Soru Tipi Demo Fonksiyonu
         document.getElementById('question-type').addEventListener('change', function () {
-            const demoDiv = document.getElementById('question-demo');
+            const demoContainer = document.getElementById('question-demo');
             const type = this.value;
 
             let demoHTML = '';
 
-            if (type === 'likert') {
-                demoHTML = `
-                    <p class="mb-3 font-medium">Bu ürünü ne kadar beğendiniz?</p>
-                    <div class="flex justify-between text-sm">
-                        <label><input type="radio" name="likert" class="mr-1"> Hiç Beğenmedim</label>
-                        <label><input type="radio" name="likert" class="mr-1"> Beğenmedim</label>
-                        <label><input type="radio" name="likert" class="mr-1"> Kararsızım</label>
-                        <label><input type="radio" name="likert" class="mr-1"> Beğendim</label>
-                        <label><input type="radio" name="likert" class="mr-1"> Çok Beğendim</label>
-                    </div>
-                `;
-            } else if (type === 'multiple') {
-                demoHTML = `
-                    <p class="mb-3 font-medium">Hangi renkleri tercih edersiniz? (Birden fazla seçebilirsiniz)</p>
-                    <div class="space-y-2">
-                        <label class="block"><input type="checkbox" class="mr-2"> Kırmızı</label>
-                        <label class="block"><input type="checkbox" class="mr-2"> Mavi</label>
-                        <label class="block"><input type="checkbox" class="mr-2"> Yeşil</label>
-                        <label class="block"><input type="checkbox" class="mr-2"> Sarı</label>
-                    </div>
-                `;
-            } else if (type === 'open') {
-                demoHTML = `
-                    <p class="mb-3 font-medium">Ürünümüz hakkındaki görüşleriniz nelerdir?</p>
-                    <textarea class="w-full p-2 border rounded" rows="3" placeholder="Lütfen görüşlerinizi buraya yazın..."></textarea>
-                `;
+            switch (type) {
+                case 'likert':
+                    demoHTML = `
+                        <h6 class="font-medium mb-3">Ürünümüzü ne kadar memnuniyetle kullanıyorsunuz?</h6>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="radio" id="very-satisfied" name="satisfaction" class="mr-2">
+                                <label for="very-satisfied">Çok Memnun</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="satisfied" name="satisfaction" class="mr-2">
+                                <label for="satisfied">Memnun</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="neutral" name="satisfaction" class="mr-2">
+                                <label for="neutral">Ne Memnun Ne Memnun Değil</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="dissatisfied" name="satisfaction" class="mr-2">
+                                <label for="dissatisfied">Memnun Değil</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="very-dissatisfied" name="satisfaction" class="mr-2">
+                                <label for="very-dissatisfied">Çok Memnun Değil</label>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'multiple':
+                    demoHTML = `
+                        <h6 class="font-medium mb-3">Hangi özellikleri kullanıyorsunuz? (Birden fazla seçebilirsiniz)</h6>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="feature1" class="mr-2">
+                                <label for="feature1">Raporlama</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="feature2" class="mr-2">
+                                <label for="feature2">Analiz</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="feature3" class="mr-2">
+                                <label for="feature3">Veri Görselleştirme</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="feature4" class="mr-2">
+                                <label for="feature4">Otomasyon</label>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'open':
+                    demoHTML = `
+                        <h6 class="font-medium mb-3">Ürünümüzü nasıl geliştirebileceğimiz konusunda önerileriniz nelerdir?</h6>
+                        <textarea class="w-full p-2 border rounded" rows="4" placeholder="Lütfen görüşlerinizi buraya yazın..."></textarea>
+                    `;
+                    break;
             }
 
-            demoDiv.innerHTML = demoHTML;
+            demoContainer.innerHTML = demoHTML;
         });
 
         // İlk yüklemede demo göster
         document.getElementById('question-type').dispatchEvent(new Event('change'));
 
-        // Mobile menu
-        document.addEventListener('DOMContentLoaded', () => {
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            if (mobileMenuButton) {
-                mobileMenuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
+        // Mobil menü fonksiyonu
+        document.getElementById('mobile-menu-button').addEventListener('click', function () {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
         });
-        // Template data
-        const templates = {
-            'customer-satisfaction': {
-                title: 'Müşteri Memnuniyeti Anketi Şablonu',
-                content: `
-            <div class="space-y-6">
-                <h4 class="font-bold text-lg">Müşteri Memnuniyeti Anketi</h4>
-                
-                <div class="border rounded-lg p-4">
-                    <p class="font-medium mb-3">1. Genel olarak ürün/hizmetimizden ne kadar memnunsunuz?</p>
-                    <div class="flex justify-between text-sm">
-                        <label class="text-center"><input type="radio" name="q1" class="mr-1"> Hiç Memnun Değilim</label>
-                        <label class="text-center"><input type="radio" name="q1" class="mr-1"> Memnun Değilim</label>
-                        <label class="text-center"><input type="radio" name="q1" class="mr-1"> Kararsızım</label>
-                        <label class="text-center"><input type="radio" name="q1" class="mr-1"> Memnunum</label>
-                        <label class="text-center"><input type="radio" name="q1" class="mr-1"> Çok Memnunum</label>
-                    </div>
-                </div>
 
-                <div class="border rounded-lg p-4">
-                    <p class="font-medium mb-3">2. Ürün/hizmet kalitesini nasıl değerlendirirsiniz?</p>
-                    <div class="flex justify-between text-sm">
-                        <label class="text-center"><input type="radio" name="q2" class="mr-1"> Çok Kötü</label>
-                        <label class="text-center"><input type="radio" name="q2" class="mr-1"> Kötü</label>
-                        <label class="text-center"><input type="radio" name="q2" class="mr-1"> Orta</label>
-                        <label class="text-center"><input type="radio" name="q2" class="mr-1"> İyi</label>
-                        <label class="text-center"><input type="radio" name="q2" class="mr-1"> Çok İyi</label>
-                    </div>
-                </div>
-
-                <div class="border rounded-lg p-4">
-                    <p class="font-medium mb-3">3. İyileştirme önerileriniz nelerdir?</p>
-                    <textarea class="w-full p-2 border rounded" rows="3" placeholder="Lütfen önerilerinizi yazın..."></textarea>
-                </div>
-            </div>
-        `
-            },
-            'employee-engagement': {
-                title: 'Çalışan Katılım Anketi Şablonu',
-                content: `
-            <div class="space-y-6">
-                <h4 class="font-bold text-lg">Çalışan Katılım ve Memnuniyet Anketi</h4>
-                
-                <div class="border rounded-lg p-4">
-                    <p class="font-medium mb-3">1. İş yerinizde kendinizi değerli hissediyor musunuz?</p>
-                    <div class="space-y-2">
-                        <label class="block"><input type="radio" name="q1" class="mr-2"> Kesinlikle Evet</label>
-                        <label class="block"><input type="radio" name="q1" class="mr-2"> Evet</label>
-                        <label class="block"><input type="radio" name="q1" class="mr-2"> Kararsızım</label>
-                        <label class="block"><input type="radio" name="q1" class="mr-2"> Hayır</label>
-                        <label class="block"><input type="radio" name="q1" class="mr-2"> Kesinlikle Hayır</label>
-                    </div>
-                </div>
-
-                <div class="border rounded-lg p-4">
-                    <p class="font-medium mb-3">2. Hangi alanlarda eğitim/gelişim desteğine ihtiyaç duyuyorsunuz?</p>
-                    <div class="space-y-2">
-                        <label class="block"><input type="checkbox" class="mr-2"> Teknik Beceriler</label>
-                        <label class="block"><input type="checkbox" class="mr-2"> Liderlik</label>
-                        <label class="block"><input type="checkbox" class="mr-2"> İletişim</label>
-                        <label class="block"><input type="checkbox" class="mr-2"> Proje Yönetimi</label>
-                        <label class="block"><input type="checkbox" class="mr-2"> Diğer</label>
-                    </div>
-                </div>
-            </div>
-        `
-            }
-        };
-
-        // Template functions
-        function downloadTemplate(templateId) {
-            const template = templates[templateId];
-            if (template) {
-                // Create a blob and download link
-                const blob = new Blob([template.content], { type: 'text/html' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${templateId}-template.html`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-
-                alert('Şablon indiriliyor...');
-            }
-        }
-
-        function previewTemplate(templateId) {
-            const template = templates[templateId];
-            if (template) {
-                document.getElementById('modal-title').textContent = template.title;
-                document.getElementById('modal-content').innerHTML = template.content;
-                document.getElementById('preview-modal').classList.remove('hidden');
-            }
-        }
-
-        function closePreview() {
-            document.getElementById('preview-modal').classList.add('hidden');
-        }
-
-        // Interactive Survey Builder
-        let questionCount = 0;
-
-        function addQuestion(type) {
-            questionCount++;
-            const container = document.getElementById('question-container');
-
-            let questionHTML = '';
-            const questionId = `question-${questionCount}`;
-
-            if (type === 'likert') {
-                questionHTML = `
-            <div class="border rounded-lg p-4 bg-white" id="${questionId}">
-                <div class="flex justify-between items-start mb-3">
-                    <input type="text" placeholder="Soru metnini girin" class="flex-1 p-2 border rounded mr-2" value="Bu ifadeye ne kadar katılıyorsunuz?">
-                    <button onclick="removeQuestion('${questionId}')" class="text-red-500 hover:text-red-700">✕</button>
-                </div>
-                <div class="flex justify-between text-sm">
-                    <label class="text-center"><input type="radio" name="${questionId}" class="mr-1"> Hiç Katılmıyorum</label>
-                    <label class="text-center"><input type="radio" name="${questionId}" class="mr-1"> Katılmıyorum</label>
-                    <label class="text-center"><input type="radio" name="${questionId}" class="mr-1"> Kararsızım</label>
-                    <label class="text-center"><input type="radio" name="${questionId}" class="mr-1"> Katılıyorum</label>
-                    <label class="text-center"><input type="radio" name="${questionId}" class="mr-1"> Tamamen Katılıyorum</label>
-                </div>
-            </div>
-        `;
-            } else if (type === 'multiple') {
-                questionHTML = `
-            <div class="border rounded-lg p-4 bg-white" id="${questionId}">
-                <div class="flex justify-between items-start mb-3">
-                    <input type="text" placeholder="Soru metnini girin" class="flex-1 p-2 border rounded mr-2" value="Aşağıdakilerden hangileri size uygun?">
-                    <button onclick="removeQuestion('${questionId}')" class="text-red-500 hover:text-red-700">✕</button>
-                </div>
-                <div class="space-y-2">
-                    <div class="flex items-center">
-                        <input type="checkbox" class="mr-2">
-                        <input type="text" placeholder="Seçenek 1" class="flex-1 p-1 border rounded" value="Birinci seçenek">
-                    </div>
-                    <div class="flex items-center">
-                        <input type="checkbox" class="mr-2">
-                        <input type="text" placeholder="Seçenek 2" class="flex-1 p-1 border rounded" value="İkinci seçenek">
-                    </div>
-                    <button onclick="addOption('${questionId}')" class="text-blue-500 text-sm">+ Seçenek Ekle</button>
-                </div>
-            </div>
-        `;
-            } else if (type === 'open') {
-                questionHTML = `
-            <div class="border rounded-lg p-4 bg-white" id="${questionId}">
-                <div class="flex justify-between items-start mb-3">
-                    <input type="text" placeholder="Soru metnini girin" class="flex-1 p-2 border rounded mr-2" value="Görüşlerinizi belirtin:">
-                    <button onclick="removeQuestion('${questionId}')" class="text-red-500 hover:text-red-700">✕</button>
-                </div>
-                <textarea class="w-full p-2 border rounded" rows="3" placeholder="Cevabınız..."></textarea>
-            </div>
-        `;
-            }
-
-            container.innerHTML += questionHTML;
-        }
-
-        function removeQuestion(questionId) {
-            const element = document.getElementById(questionId);
-            if (element) {
-                element.remove();
-            }
-        }
-
-        function addOption(questionId) {
-            const question = document.getElementById(questionId);
-            const optionsContainer = question.querySelector('.space-y-2');
-            const newOption = document.createElement('div');
-            newOption.className = 'flex items-center';
-            newOption.innerHTML = `
-        <input type="checkbox" class="mr-2">
-        <input type="text" placeholder="Yeni seçenek" class="flex-1 p-1 border rounded">
-    `;
-            optionsContainer.appendChild(newOption);
-        }
-
-        function previewSurvey() {
-            const title = document.getElementById('survey-title').value || 'Anket Önizleme';
-            const questions = document.getElementById('question-container').innerHTML;
-
-            document.getElementById('modal-title').textContent = title;
-            document.getElementById('modal-content').innerHTML = `
-        <div class="space-y-6">
-            <h4 class="font-bold text-lg text-center">${title}</h4>
-            ${questions}
-            <div class="text-center">
-                <button class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600">Anketi Gönder</button>
-            </div>
-        </div>
-    `;
-            document.getElementById('preview-modal').classList.remove('hidden');
-        }
-
-        function exportSurvey() {
-            const title = document.getElementById('survey-title').value || 'Anket';
-            const questionsContainer = document.getElementById('question-container');
-
-            // Create PDF content
-            let pdfContent = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>${title}</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; margin: 40px; }
-                        .survey-title { text-align: center; font-size: 24px; margin-bottom: 30px; color: #333; }
-                        .question { margin-bottom: 25px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
-                        .question-text { font-weight: bold; margin-bottom: 10px; color: #555; }
-                        .options { margin-left: 20px; }
-                        .option { margin-bottom: 5px; }
-                        .open-ended { width: 100%; min-height: 80px; border: 1px solid #ccc; padding: 8px; }
-                        .likert-scale { display: flex; justify-content: space-between; margin-top: 10px; }
-                        .likert-option { text-align: center; font-size: 12px; }
-                        .page-break { page-break-after: always; }
-                    </style>
-                </head>
-                <body>
-                    <div class="survey-title">${title}</div>
-            `;
-
-            // Add each question to PDF content
-            questionsContainer.querySelectorAll('[id^="question-"]').forEach((questionEl, index) => {
-                const questionInput = questionEl.querySelector('input[type="text"]');
-                const questionText = questionInput ? questionInput.value : `Soru ${index + 1}`;
-
-                pdfContent += `<div class="question">`;
-                pdfContent += `<div class="question-text">${index + 1}. ${questionText}</div>`;
-
-                // Check question type and format accordingly
-                if (questionEl.querySelector('input[type="radio"]')) {
-                    // Likert scale question
-                    pdfContent += `<div class="likert-scale">`;
-                    const labels = ['Hiç Katılmıyorum', 'Katılmıyorum', 'Kararsızım', 'Katılıyorum', 'Tamamen Katılıyorum'];
-                    labels.forEach(label => {
-                        pdfContent += `<div class="likert-option">`;
-                        pdfContent += `□ ${label}`;
-                        pdfContent += `</div>`;
-                    });
-                    pdfContent += `</div>`;
-
-                } else if (questionEl.querySelector('input[type="checkbox"]')) {
-                    // Multiple choice question
-                    pdfContent += `<div class="options">`;
-                    questionEl.querySelectorAll('input[type="text"]').forEach((optionInput, optIndex) => {
-                        if (optIndex > 0) { // Skip the first input which is the question text
-                            pdfContent += `<div class="option">`;
-                            pdfContent += `□ ${optionInput.value || `Seçenek ${optIndex}`}`;
-                            pdfContent += `</div>`;
-                        }
-                    });
-                    pdfContent += `</div>`;
-
-                } else if (questionEl.querySelector('textarea')) {
-                    // Open-ended question
-                    pdfContent += `<div class="open-ended"></div>`;
-                }
-
-                pdfContent += `</div>`;
-
-                // Add page break every 5 questions
-                if ((index + 1) % 5 === 0) {
-                    pdfContent += `<div class="page-break"></div>`;
-                }
-            });
-
-            pdfContent += `
-                </body>
-                </html>
-            `;
-
-            // Create and download PDF
-            downloadPDF(pdfContent, `${title.replace(/\s+/g, '_')}_anket.html`);
-
-            // Show success message
-            showNotification('Anket başarıyla HTML formatında indirildi!', 'success');
-        }
-
-        function downloadPDF(content, filename) {
-            try {
-                // Create a blob and download link
-                const blob = new Blob([content], { type: 'text/html; charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                a.style.display = 'none';
-
-                document.body.appendChild(a);
-                a.click();
-
-                // Clean up
-                setTimeout(() => {
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                }, 100);
-
-            } catch (error) {
-                console.error('PDF oluşturma hatası:', error);
-                showNotification('PDF oluşturulurken bir hata oluştu. HTML formatında indirildi.', 'error');
-
-                // Fallback: Download as HTML
-                const blob = new Blob([content], { type: 'text/html' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename.replace('.pdf', '.html');
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }
-        }
-
-        function showNotification(message, type = 'info') {
-            // Remove existing notification
-            const existingNotification = document.getElementById('survey-notification');
-            if (existingNotification) {
-                existingNotification.remove();
-            }
-
-            // Create new notification
-            const notification = document.createElement('div');
-            notification.id = 'survey-notification';
-            notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 transition-all duration-300 ${type === 'success' ? 'bg-green-500 text-white' :
-                type === 'error' ? 'bg-red-500 text-white' :
-                    'bg-blue-500 text-white'
-                }`;
-            notification.innerHTML = `
-                <div class="flex items-center">
-                    <span class="mr-2">${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
-                    <span>${message}</span>
-                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-            `;
-
-            document.body.appendChild(notification);
-
-            // Auto remove after 5 seconds
-            setTimeout(() => {
-                if (notification.parentElement) {
-                    notification.remove();
-                }
-            }, 5000);
-        }
-
-        // Enhanced template download with better file types
-        function downloadTemplate(templateId) {
-            const template = templates[templateId];
-            if (template) {
-                // Create comprehensive template content
-                const templateContent = createTemplateContent(templateId);
-
-                // Create and download file
-                const blob = new Blob([templateContent], { type: 'text/html' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${templateId}-template.html`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-
-                showNotification('Şablon başarıyla indirildi!', 'success');
-            }
-        }
-
-        function createTemplateContent(templateId) {
-            const template = templates[templateId];
-            return `
-        <!DOCTYPE html>
-        <html lang="tr">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>${template.title}</title>
-            <style>
-                body { 
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-                    max-width: 800px; 
-                    margin: 0 auto; 
-                    padding: 40px 20px; 
-                    background-color: #f8f9fa; 
-                }
-                .survey-container { 
-                    background: white; 
-                    padding: 40px; 
-                    border-radius: 12px; 
-                    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
-                }
-                .survey-title { 
-                    text-align: center; 
-                    font-size: 28px; 
-                    margin-bottom: 40px; 
-                    color: #2d3748; 
-                    border-bottom: 3px solid #4c51bf; 
-                    padding-bottom: 15px; 
-                }
-                .question { 
-                    margin-bottom: 30px; 
-                    padding: 20px; 
-                    border: 2px solid #e2e8f0; 
-                    border-radius: 8px; 
-                    background: #f7fafc; 
-                }
-                .question-text { 
-                    font-weight: 600; 
-                    margin-bottom: 15px; 
-                    color: #4a5568; 
-                    font-size: 16px; 
-                }
-                .options { margin-left: 10px; }
-                .option { 
-                    margin-bottom: 8px; 
-                    padding: 8px 12px; 
-                    background: white; 
-                    border: 1px solid #cbd5e0; 
-                    border-radius: 4px; 
-                }
-                .open-ended { 
-                    width: 100%; 
-                    min-height: 100px; 
-                    border: 2px solid #cbd5e0; 
-                    padding: 12px; 
-                    border-radius: 6px; 
-                    font-family: inherit; 
-                }
-                .likert-scale { 
-                    display: flex; 
-                    justify-content: space-between; 
-                    margin-top: 15px; 
-                    background: white; 
-                    padding: 15px; 
-                    border-radius: 6px; 
-                }
-                .likert-option { 
-                    text-align: center; 
-                    font-size: 12px; 
-                    flex: 1; 
-                    padding: 5px; 
-                }
-                input[type="radio"], input[type="checkbox"] { 
-                    margin-right: 8px; 
-                    transform: scale(1.2); 
-                }
-                .required { color: #e53e3e; }
-                .instructions { 
-                    background: #ebf8ff; 
-                    padding: 15px; 
-                    border-radius: 6px; 
-                    margin-bottom: 20px; 
-                    border-left: 4px solid #3182ce; 
-                }
-            </style>
-        </head>
-        <body>
-            <div class="survey-container">
-                <div class="survey-title">${template.title}</div>
-                
-                <div class="instructions">
-                    <strong>Anket Talimatları:</strong><br>
-                    • Lütfen tüm soruları dikkatlice okuyunuz.<br>
-                    • Her soruyu samimi bir şekilde cevaplayınız.<br>
-                    • Anket tamamen anonimdir.
-                </div>
-                
-                ${template.content}
-                
-                <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid #e2e8f0;">
-                    <button style="background: #4c51bf; color: white; padding: 12px 30px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer;">
-                        Anketi Gönder
-                    </button>
-                </div>
-            </div>
-        </body>
-        </html>`;
-        }
-        // Ethics templates data
-        const ethicsTemplates = {
-            'ethics-application': {
-                title: 'Etik Kurul Başvuru Formu',
-                content: `
-            <div class="space-y-6">
-                <div class="border-b pb-4">
-                    <h4 class="font-bold text-lg text-center">ETİK KURUL BAŞVURU FORMU</h4>
-                    <p class="text-sm text-gray-600 text-center">Araştırma Etiği Komisyonu</p>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Araştırma Başlığı *</label>
-                        <input type="text" class="w-full p-2 border rounded" placeholder="Araştırmanın başlığını yazın">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Araştırmacı Adı Soyadı *</label>
-                        <input type="text" class="w-full p-2 border rounded" placeholder="Adınız ve soyadınız">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Araştırmanın Amacı *</label>
-                    <textarea class="w-full p-2 border rounded" rows="3" placeholder="Araştırmanın amacını detaylı şekilde açıklayın"></textarea>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Yöntem *</label>
-                    <textarea class="w-full p-2 border rounded" rows="3" placeholder="Kullanılacak araştırma yöntemlerini açıklayın"></textarea>
-                </div>
-
-                <div class="border rounded-lg p-4">
-                    <h5 class="font-semibold mb-3">Etik Değerlendirme</h5>
-                    <div class="space-y-3">
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2">
-                            Katılımcılardan yazılı onam alınacaktır
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2">
-                            Veriler anonim olarak saklanacaktır
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2">
-                            Katılımcılara zarar verebilecek sorular yoktur
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2">
-                            Gizlilik politikası uygulanacaktır
-                        </label>
-                    </div>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Başlangıç Tarihi *</label>
-                        <input type="date" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Bitiş Tarihi *</label>
-                        <input type="date" class="w-full p-2 border rounded">
-                    </div>
-                </div>
-
-                <div class="border-t pt-4">
-                    <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" required>
-                        <span class="text-sm">Yukarıdaki bilgilerin doğru olduğunu ve etik kurallara uyacağımı taahhüt ederim *</span>
-                    </label>
-                </div>
-            </div>
-        `
-            },
-            'consent-form': {
-                title: 'Katılımcı Bilgilendirme ve Onam Formu',
-                content: `
-            <div class="space-y-6">
-                <div class="border-b pb-4">
-                    <h4 class="font-bold text-lg text-center">KATILIMCI BİLGİLENDİRME VE ONAM FORMU</h4>
-                </div>
-
-                <div class="bg-blue-50 p-4 rounded-lg">
-                    <p class="text-sm text-blue-800">
-                        <strong>Sayın Katılımcı,</strong><br>
-                        Bu form, araştırmamıza katılımınız öncesinde sizi bilgilendirmek amacıyla hazırlanmıştır.
-                        Lütfen formu dikkatlice okuyunuz.
-                    </p>
-                </div>
-
-                <div>
-                    <h5 class="font-semibold mb-2">Araştırmanın Amacı</h5>
-                    <textarea class="w-full p-2 border rounded" rows="2" placeholder="Araştırmanın amacını buraya yazın"></textarea>
-                </div>
-
-                <div>
-                    <h5 class="font-semibold mb-2">Katılım Süreci</h5>
-                    <textarea class="w-full p-2 border rounded" rows="3" placeholder="Katılım sürecini ve ne yapılacağını açıklayın"></textarea>
-                </div>
-
-                <div class="border rounded-lg p-4">
-                    <h5 class="font-semibold mb-3">Gizlilik ve Güvenlik</h5>
-                    <div class="space-y-2 text-sm">
-                        <p>• Kişisel bilgileriniz gizli tutulacaktır</p>
-                        <p>• Veriler anonim olarak işlenecektir</p>
-                        <p>• Araştırma sonuçları sadece akademik amaçlarla kullanılacaktır</p>
-                        <p>• İstediğiniz zaman araştırmadan çekilebilirsiniz</p>
-                    </div>
-                </div>
-
-                <div class="border rounded-lg p-4">
-                    <h5 class="font-semibold mb-3">Katılımcı Onayı</h5>
-                    <div class="space-y-3">
-                        <label class="flex items-start">
-                            <input type="checkbox" class="mr-2 mt-1">
-                            <span class="text-sm">Araştırmanın amacını ve yöntemini anladım</span>
-                        </label>
-                        <label class="flex items-start">
-                            <input type="checkbox" class="mr-2 mt-1">
-                            <span class="text-sm">Soruları cevaplamak için yeterli bilgiye sahip olduğumu düşünüyorum</span>
-                        </label>
-                        <label class="flex items-start">
-                            <input type="checkbox" class="mr-2 mt-1">
-                            <span class="text-sm">Gönüllü olarak katılıyorum ve istediğim zaman çekilebileceğimi biliyorum</span>
-                        </label>
-                        <label class="flex items-start">
-                            <input type="checkbox" class="mr-2 mt-1">
-                            <span class="text-sm">Verilerimin gizliliğinin korunacağını kabul ediyorum</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-4 border-t pt-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Katılımcı Adı Soyadı</label>
-                        <input type="text" class="w-full p-2 border rounded" placeholder="Adınız ve soyadınız">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">İmza</label>
-                        <input type="text" class="w-full p-2 border rounded" placeholder="İmza">
-                    </div>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Tarih</label>
-                        <input type="date" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Araştırmacı İmzası</label>
-                        <input type="text" class="w-full p-2 border rounded" placeholder="Araştırmacı imzası">
-                    </div>
-                </div>
-            </div>
-        `
-            },
-            'privacy-form': {
-                title: 'Veri Gizlilik ve İşleme Formu',
-                content: `
-            <div class="space-y-6">
-                <div class="border-b pb-4">
-                    <h4 class="font-bold text-lg text-center">VERİ GİZLİLİK VE İŞLEME BİLDİRİMİ</h4>
-                    <p class="text-sm text-gray-600 text-center">KVKK Uyumlu</p>
-                </div>
-
-                <div class="bg-yellow-50 p-4 rounded-lg">
-                    <p class="text-sm text-yellow-800">
-                        <strong>Önemli:</strong> Bu form, 6698 sayılı Kişisel Verilerin Korunması Kanunu'na uygun olarak hazırlanmıştır.
-                    </p>
-                </div>
-
-                <div>
-                    <h5 class="font-semibold mb-2">Veri Sorumlusu</h5>
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <input type="text" class="p-2 border rounded" placeholder="Kurum/Şirket Adı">
-                        <input type="text" class="p-2 border rounded" placeholder="İletişim Bilgileri">
-                    </div>
-                </div>
-
-                <div>
-                    <h5 class="font-semibold mb-2">Toplanan Veri Türleri</h5>
-                    <div class="space-y-2">
-                        <label class="flex items-center"><input type="checkbox" class="mr-2"> Kimlik bilgileri</label>
-                        <label class="flex items-center"><input type="checkbox" class="mr-2"> İletişim bilgileri</label>
-                        <label class="flex items-center"><input type="checkbox" class="mr-2"> Demografik bilgiler</label>
-                        <label class="flex items-center"><input type="checkbox" class="mr-2"> Görüş ve tercihler</label>
-                        <label class="flex items-center"><input type="checkbox" class="mr-2"> Diğer: <input type="text" class="ml-2 p-1 border rounded w-32" placeholder="Belirtiniz"></label>
-                    </div>
-                </div>
-
-                <div>
-                    <h5 class="font-semibold mb-2">Veri İşleme Amaçları</h5>
-                    <textarea class="w-full p-2 border rounded" rows="3" placeholder="Verilerin hangi amaçlarla işleneceğini açıklayın"></textarea>
-                </div>
-
-                <div class="border rounded-lg p-4">
-                    <h5 class="font-semibold mb-3">Veri Güvenliği Önlemleri</h5>
-                    <div class="space-y-2 text-sm">
-                        <p>• Veriler şifreli ortamda saklanacaktır</p>
-                        <p>• Sadece yetkili personel erişebilecektir</p>
-                        <p>• Veri işleme logları tutulacaktır</p>
-                        <p>• Veri silme politikası uygulanacaktır</p>
-                    </div>
-                </div>
-            </div>
-        `
-            },
-            'research-protocol': {
-                title: 'Araştırma Protokolü Şablonu',
-                content: `
-            <div class="space-y-6">
-                <div class="border-b pb-4">
-                    <h4 class="font-bold text-lg text-center">ARAŞTIRMA PROTOKOLÜ</h4>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Protokol Numarası</label>
-                        <input type="text" class="w-full p-2 border rounded" placeholder="PRT-2024-001">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Versiyon</label>
-                        <input type="text" class="w-full p-2 border rounded" placeholder="1.0">
-                    </div>
-                </div>
-
-                <div>
-                    <h5 class="font-semibold mb-2">Hipotez/Araştırma Sorusu</h5>
-                    <textarea class="w-full p-2 border rounded" rows="2" placeholder="Ana araştırma sorusu veya hipotezi yazın"></textarea>
-                </div>
-
-                <div>
-                    <h5 class="font-semibold mb-2">Yöntem</h5>
-                    <select class="w-full p-2 border rounded">
-                        <option>Nicel Araştırma</option>
-                        <option>Nitel Araştırma</option>
-                        <option>Karma Yöntem</option>
-                        <option>Deneysel Araştırma</option>
-                        <option>Vaka Çalışması</option>
-                    </select>
-                </div>
-
-                <div>
-                    <h5 class="font-semibold mb-2">Örneklem</h5>
-                    <div class="grid md:grid-cols-3 gap-4">
-                        <input type="number" class="p-2 border rounded" placeholder="Hedef Örneklem">
-                        <input type="text" class="p-2 border rounded" placeholder="Örneklem Tekniği">
-                        <input type="text" class="p-2 border rounded" placeholder="Evren">
-                    </div>
-                </div>
-
-                <div>
-                    <h5 class="font-semibold mb-2">Veri Toplama Araçları</h5>
-                    <div class="space-y-2">
-                        <label class="flex items-center"><input type="checkbox" class="mr-2"> Anket</label>
-                        <label class="flex items-center"><input type="checkbox" class="mr-2"> Görüşme</label>
-                        <label class="flex items-center"><input type="checkbox" class="mr-2"> Gözlem</label>
-                        <label class="flex items-center"><input type="checkbox" class="mr-2"> Deney</label>
-                        <label class="flex items-center"><input type="checkbox" class="mr-2"> Doküman Analizi</label>
-                    </div>
-                </div>
-
-                <div class="border rounded-lg p-4">
-                    <h5 class="font-semibold mb-3">Zaman Çizelgesi</h5>
-                    <div class="space-y-3">
-                        <div class="flex justify-between">
-                            <span>Hazırlık Aşaması</span>
-                            <input type="text" class="w-20 p-1 border rounded" placeholder="2 hafta">
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Veri Toplama</span>
-                            <input type="text" class="w-20 p-1 border rounded" placeholder="4 hafta">
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Veri Analizi</span>
-                            <input type="text" class="w-20 p-1 border rounded" placeholder="3 hafta">
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Raporlama</span>
-                            <input type="text" class="w-20 p-1 border rounded" placeholder="2 hafta">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `
-            }
-        };
-
-        // Ethics template functions
-        function downloadEthicsTemplate(templateId) {
-            const template = ethicsTemplates[templateId];
-            if (template) {
-                const templateContent = createEthicsTemplateContent(templateId);
-
-                const blob = new Blob([templateContent], { type: 'text/html' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${templateId}-formu.html`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-
-                showNotification(`${template.title} başarıyla indirildi!`, 'success');
-            }
-        }
-
-        function previewEthicsTemplate(templateId) {
-            const template = ethicsTemplates[templateId];
-            if (template) {
-                document.getElementById('modal-title').textContent = template.title;
-                document.getElementById('modal-content').innerHTML = template.content;
-                document.getElementById('preview-modal').classList.remove('hidden');
-            }
-        }
-
-        function createEthicsTemplateContent(templateId) {
-            const template = ethicsTemplates[templateId];
-            return `
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${template.title}</title>
-    <style>
-        body { 
-            font-family: 'Times New Roman', Times, serif; 
-            max-width: 210mm; 
-            margin: 20px auto; 
-            padding: 20px; 
-            background: white;
-            color: #000;
-            line-height: 1.6;
-        }
-        .header { 
-            text-align: center; 
-            margin-bottom: 30px; 
-            border-bottom: 2px solid #000;
-            padding-bottom: 15px;
-        }
-        .header h1 { 
-            font-size: 18px; 
-            margin: 0;
-            font-weight: bold;
-        }
-        .header .subtitle {
-            font-size: 14px;
-            margin-top: 5px;
-        }
-        .form-section {
-            margin-bottom: 25px;
-        }
-        .form-section h2 {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            border-left: 3px solid #000;
-            padding-left: 10px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        input[type="text"], input[type="date"], textarea, select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            font-size: 12px;
-            font-family: inherit;
-        }
-        textarea {
-            resize: vertical;
-            min-height: 60px;
-        }
-        .checkbox-group {
-            margin: 10px 0;
-        }
-        .checkbox-group label {
-            font-weight: normal;
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-        .signature-area {
-            margin-top: 40px;
-            border-top: 1px solid #000;
-            padding-top: 20px;
-        }
-        .signature-line {
-            display: inline-block;
-            width: 200px;
-            border-bottom: 1px solid #000;
-            margin: 0 10px;
-        }
-        .footer {
-            text-align: center;
-            font-size: 10px;
-            margin-top: 50px;
-            color: #666;
-        }
-        @media print {
-            body { margin: 0; padding: 15px; }
-            .no-print { display: none; }
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>${template.title}</h1>
-        <div class="subtitle">${templateId.includes('ethics') ? 'Araştırma Etiği Komisyonu' : 'Araştırma Dokümanı'}</div>
-    </div>
-
-    ${template.content}
-
-    <div class="footer">
-        <p>Bu form elektronik ortamda doldurulabilir. Lütfen tüm alanları eksiksiz doldurunuz.</p>
-        <p>Oluşturulma Tarihi: ${new Date().toLocaleDateString('tr-TR')}</p>
-    </div>
-
-    <div class="no-print" style="text-align: center; margin-top: 30px;">
-        <button onclick="window.print()" style="background: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">
-            Belgeyi Yazdır
-        </button>
-    </div>
-</body>
-</html>`;
-        }
-        // PDF export için global değişken
-        const { jsPDF } = window.jspdf;
-
-        // Ana PDF export fonksiyonu
-        function exportSurvey() {
-            const title = document.getElementById('survey-title').value || 'Anket';
-            const questionsContainer = document.getElementById('question-container');
-
-            // PDF oluştur
-            const doc = new jsPDF();
-
-            // Başlık
-            doc.setFontSize(20);
-            doc.setTextColor(40, 40, 40);
-            doc.text(title, 105, 20, { align: 'center' });
-
-            // Tarih
-            doc.setFontSize(10);
-            doc.setTextColor(100, 100, 100);
-            doc.text(`Oluşturulma Tarihi: ${new Date().toLocaleDateString('tr-TR')}`, 105, 30, { align: 'center' });
-
-            let yPosition = 45;
-            const pageHeight = doc.internal.pageSize.height;
-            const margin = 20;
-
-            // Her soruyu PDF'e ekle
-            questionsContainer.querySelectorAll('[id^="question-"]').forEach((questionEl, index) => {
-                // Sayfa sonu kontrolü
-                if (yPosition > pageHeight - 50) {
-                    doc.addPage();
-                    yPosition = margin;
-                }
-
-                const questionInput = questionEl.querySelector('input[type="text"]');
-                const questionText = questionInput ? questionInput.value : `Soru ${index + 1}`;
-
-                // Soru numarası ve metni
-                doc.setFontSize(12);
-                doc.setTextColor(0, 0, 0);
-                doc.setFont(undefined, 'bold');
-                doc.text(`${index + 1}. ${questionText}`, margin, yPosition);
-                yPosition += 8;
-
-                // Soru tipine göre içerik ekle
-                if (questionEl.querySelector('input[type="radio"]')) {
-                    // Likert ölçeği
-                    doc.setFont(undefined, 'normal');
-                    const options = ['Hiç Katılmıyorum', 'Katılmıyorum', 'Kararsızım', 'Katılıyorum', 'Tamamen Katılıyorum'];
-                    options.forEach((option, i) => {
-                        if (yPosition > pageHeight - 20) {
-                            doc.addPage();
-                            yPosition = margin;
-                        }
-                        doc.text(`   □ ${option}`, margin, yPosition);
-                        yPosition += 6;
-                    });
-
-                } else if (questionEl.querySelector('input[type="checkbox"]')) {
-                    // Çoktan seçmeli
-                    doc.setFont(undefined, 'normal');
-                    questionEl.querySelectorAll('input[type="text"]').forEach((optionInput, optIndex) => {
-                        if (optIndex > 0 && optionInput.value) {
-                            if (yPosition > pageHeight - 20) {
-                                doc.addPage();
-                                yPosition = margin;
-                            }
-                            doc.text(`   □ ${optionInput.value}`, margin, yPosition);
-                            yPosition += 6;
-                        }
-                    });
-
-                } else if (questionEl.querySelector('textarea')) {
-                    // Açık uçlu
-                    if (yPosition > pageHeight - 40) {
-                        doc.addPage();
-                        yPosition = margin;
-                    }
-                    doc.setFont(undefined, 'normal');
-                    doc.text('   ______________________________________________________', margin, yPosition);
-                    yPosition += 10;
-                    doc.text('   ______________________________________________________', margin, yPosition);
-                    yPosition += 10;
-                    doc.text('   ______________________________________________________', margin, yPosition);
-                }
-
-                yPosition += 10; // Sorular arası boşluk
-            });
-
-            // PDF'i indir
-            doc.save(`${title.replace(/[^a-zA-Z0-9]/g, '_')}_anket.pdf`);
-            showNotification('Anket PDF formatında indirildi!', 'success');
-        }
-
-        // Template indirme fonksiyonlarını PDF'e çevirelim
-        function downloadTemplate(templateId) {
-            const template = templates[templateId];
-            if (template) {
-                generateTemplatePDF(templateId, template);
-            }
-        }
-
-        function downloadEthicsTemplate(templateId) {
-            const template = ethicsTemplates[templateId];
-            if (template) {
-                generateEthicsPDF(templateId, template);
-            }
-        }
-
-        // Anket şablonları için PDF oluşturma
-        function generateTemplatePDF(templateId, template) {
-            const doc = new jsPDF();
-
-            // Başlık
-            doc.setFontSize(16);
-            doc.setTextColor(40, 40, 40);
-            doc.text(template.title, 105, 20, { align: 'center' });
-
-            // Açıklama
-            doc.setFontSize(10);
-            doc.setTextColor(100, 100, 100);
-            doc.text('Bu anket şablonu Veri Analizi Rehberi tarafından oluşturulmuştur', 105, 30, { align: 'center' });
-
-            let yPosition = 45;
-
-            // HTML içeriğini parse edip PDF'e ekle
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = template.content;
-
-            // Soruları işle
-            tempDiv.querySelectorAll('.question, [class*="border"]').forEach((element, index) => {
-                if (yPosition > 250) {
-                    doc.addPage();
-                    yPosition = 20;
-                }
-
-                const questionText = element.querySelector('.question-text, [class*="font-medium"]');
-                if (questionText) {
-                    doc.setFontSize(12);
-                    doc.setTextColor(0, 0, 0);
-                    doc.setFont(undefined, 'bold');
-                    const text = questionText.textContent.replace(/\d+\.\s*/, '');
-                    doc.text(`${index + 1}. ${text}`, 20, yPosition);
-                    yPosition += 8;
-                }
-
-                // Seçenekleri ekle
-                const options = element.querySelectorAll('input[type="radio"], input[type="checkbox"]');
-                if (options.length > 0) {
-                    doc.setFont(undefined, 'normal');
-                    doc.setFontSize(10);
-
-                    options.forEach((option, optIndex) => {
-                        if (yPosition > 270) {
-                            doc.addPage();
-                            yPosition = 20;
-                        }
-
-                        const label = option.parentElement.textContent.trim();
-                        if (label && !label.includes('Seçenek')) {
-                            doc.text(`   □ ${label}`, 20, yPosition);
-                            yPosition += 6;
-                        }
-                    });
-                }
-
-                // Textarea için boş alan
-                if (element.querySelector('textarea')) {
-                    if (yPosition > 250) {
-                        doc.addPage();
-                        yPosition = 20;
-                    }
-                    doc.text('   ______________________________', 20, yPosition);
-                    yPosition += 8;
-                    doc.text('   ______________________________', 20, yPosition);
-                    yPosition += 8;
-                    doc.text('   ______________________________', 20, yPosition);
-                }
-
-                yPosition += 10;
-            });
-
-            // Footer
-            doc.setFontSize(8);
-            doc.setTextColor(150, 150, 150);
-            doc.text('Veri Analizi Rehberi - Betül YEL', 105, 280, { align: 'center' });
-
-            doc.save(`${templateId}_sablon.pdf`);
-            showNotification(`${template.title} PDF formatında indirildi!`, 'success');
-        }
-
-        // Etik belgeler için PDF oluşturma
-        function generateEthicsPDF(templateId, template) {
-            const doc = new jsPDF();
-
-            // Başlık
-            doc.setFontSize(14);
-            doc.setTextColor(0, 0, 0);
-            doc.setFont(undefined, 'bold');
-            doc.text(template.title.toUpperCase(), 105, 20, { align: 'center' });
-
-            // Alt başlık
-            doc.setFontSize(10);
-            doc.setTextColor(100, 100, 100);
-            if (templateId.includes('ethics')) {
-                doc.text('Araştırma Etiği Komisyonu', 105, 27, { align: 'center' });
-            } else if (templateId.includes('consent')) {
-                doc.text('Katılımcı Bilgilendirme ve Onam Formu', 105, 27, { align: 'center' });
-            } else if (templateId.includes('privacy')) {
-                doc.text('KVKK Uyumlu Veri Gizlilik Bildirimi', 105, 27, { align: 'center' });
-            } else if (templateId.includes('research')) {
-                doc.text('Araştırma Protokolü Dokümanı', 105, 27, { align: 'center' });
-            }
-
-            let yPosition = 40;
-            const pageHeight = doc.internal.pageSize.height;
-
-            // HTML içeriğini parse et
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = template.content;
-
-            // Form elemanlarını işle
-            const processElement = (element) => {
-                if (yPosition > pageHeight - 20) {
-                    doc.addPage();
-                    yPosition = 20;
-                }
-
-                // Başlık
-                if (element.tagName === 'H5' || element.classList.contains('font-semibold')) {
-                    doc.setFontSize(11);
-                    doc.setTextColor(0, 0, 0);
-                    doc.setFont(undefined, 'bold');
-                    doc.text(element.textContent, 20, yPosition);
-                    yPosition += 7;
-                }
-
-                // Input alanları
-                else if (element.tagName === 'INPUT' && element.type === 'text') {
-                    doc.setFontSize(9);
-                    doc.setTextColor(0, 0, 0);
-                    doc.setFont(undefined, 'normal');
-
-                    const label = element.previousElementSibling?.textContent || 'Alan';
-                    doc.text(`${label}:`, 20, yPosition);
-
-                    // Input çizgisi
-                    doc.line(50, yPosition - 1, 180, yPosition - 1);
-                    yPosition += 8;
-                }
-
-                // Textarea
-                else if (element.tagName === 'TEXTAREA') {
-                    doc.setFontSize(9);
-                    doc.setTextColor(0, 0, 0);
-
-                    const label = element.previousElementSibling?.textContent || 'Açıklama';
-                    doc.text(`${label}:`, 20, yPosition);
-                    yPosition += 5;
-
-                    // Textarea kutusu
-                    doc.rect(20, yPosition, 170, 20);
-                    yPosition += 25;
-                }
-
-                // Checkbox grupları
-                else if (element.type === 'checkbox') {
-                    doc.setFontSize(9);
-                    doc.setTextColor(0, 0, 0);
-                    doc.setFont(undefined, 'normal');
-
-                    const label = element.nextSibling?.textContent || 'Seçenek';
-                    doc.text(`□ ${label}`, 25, yPosition);
-                    yPosition += 5;
-                }
-
-                // Paragraf ve açıklamalar
-                else if (element.tagName === 'P' && element.textContent.trim()) {
-                    doc.setFontSize(9);
-                    doc.setTextColor(0, 0, 0);
-                    doc.setFont(undefined, 'normal');
-
-                    const lines = doc.splitTextToSize(element.textContent, 170);
-                    doc.text(lines, 20, yPosition);
-                    yPosition += lines.length * 5 + 2;
-                }
-
-                // Liste elemanları
-                else if (element.tagName === 'LI' || (element.tagName === 'P' && element.textContent.includes('•'))) {
-                    doc.setFontSize(9);
-                    doc.setTextColor(0, 0, 0);
-                    doc.text(element.textContent, 25, yPosition);
-                    yPosition += 5;
-                }
-            };
-
-            // Tüm elemanları recursive olarak işle
-            const processAllElements = (parent) => {
-                for (let child of parent.children) {
-                    processElement(child);
-                    if (child.children.length > 0) {
-                        processAllElements(child);
-                    }
-                }
-            };
-
-            processAllElements(tempDiv);
-
-            // İmza alanı
-            if (yPosition > pageHeight - 40) {
-                doc.addPage();
-                yPosition = 20;
-            }
-
-            doc.setFontSize(10);
-            doc.setTextColor(0, 0, 0);
-            doc.setFont(undefined, 'bold');
-            doc.text('İmza:', 20, yPosition + 10);
-            doc.line(40, yPosition + 9, 100, yPosition + 9);
-
-            doc.text('Tarih:', 120, yPosition + 10);
-            doc.line(140, yPosition + 9, 180, yPosition + 9);
-
-            // Footer
-            doc.setFontSize(8);
-            doc.setTextColor(150, 150, 150);
-            doc.text('Veri Analizi Rehberi - Betül YEL', 105, pageHeight - 10, { align: 'center' });
-            doc.text(`Oluşturulma Tarihi: ${new Date().toLocaleDateString('tr-TR')}`, 105, pageHeight - 5, { align: 'center' });
-
-            doc.save(`${templateId}_formu.pdf`);
-            showNotification(`${template.title} PDF formatında indirildi!`, 'success');
-        }
-
-        // HTML2Canvas ile görsel PDF oluşturma (alternatif yöntem)
-        function generateVisualPDF(elementId, filename) {
-            const element = document.getElementById(elementId);
-
-            html2canvas(element, {
-                scale: 2,
-                useCORS: true,
-                logging: false
-            }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF();
-                const imgProps = pdf.getImageProperties(imgData);
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save(`${filename}.pdf`);
-
-                showNotification('PDF başarıyla oluşturuldu!', 'success');
-            }).catch(error => {
-                console.error('PDF oluşturma hatası:', error);
-                showNotification('PDF oluşturulurken hata oluştu.', 'error');
-            });
-        }
-
-        // Mevcut fonksiyonları güncelle
-        function previewSurvey() {
-            const title = document.getElementById('survey-title').value || 'Anket Önizleme';
-            const questions = document.getElementById('question-container').innerHTML;
-
-            document.getElementById('modal-title').textContent = title;
-            document.getElementById('modal-content').innerHTML = `
-        <div class="space-y-6" id="survey-preview">
-            <h4 class="font-bold text-lg text-center">${title}</h4>
-            ${questions}
-            <div class="text-center">
-                <button onclick="generateVisualPDF('survey-preview', 'anket_onizleme')" class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 mr-2">
-                    PDF Olarak İndir
-                </button>
-                <button onclick="closePreview()" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600">
-                    Kapat
-                </button>
-            </div>
-        </div>
-    `;
-            document.getElementById('preview-modal').classList.remove('hidden');
-        }
-
-        function previewTemplate(templateId) {
-            const template = templates[templateId];
-            if (template) {
-                document.getElementById('modal-title').textContent = template.title;
-                document.getElementById('modal-content').innerHTML = `
-            <div id="template-preview">
-                ${template.content}
-                <div class="text-center mt-6">
-                    <button onclick="downloadTemplate('${templateId}')" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
-                        PDF Olarak İndir
-                    </button>
-                </div>
-            </div>
-        `;
-                document.getElementById('preview-modal').classList.remove('hidden');
-            }
-        }
-
-        function previewEthicsTemplate(templateId) {
-            const template = ethicsTemplates[templateId];
-            if (template) {
-                document.getElementById('modal-title').textContent = template.title;
-                document.getElementById('modal-content').innerHTML = `
-            <div id="ethics-preview">
-                ${template.content}
-                <div class="text-center mt-6">
-                    <button onclick="downloadEthicsTemplate('${templateId}')" class="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600">
-                        PDF Olarak İndir
-                    </button>
-                </div>
-            </div>
-        `;
-                document.getElementById('preview-modal').classList.remove('hidden');
-            }
-        }
+        // Sayfa yüklendiğinde örneklem hesaplamalarını yap
+        window.addEventListener('load', function () {
+            calculateSample();
+            calculateABTest();
+        });
     </script>
+
 </body>
 
 </html>

@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Scraping Teknikleri - Veri Analizi Rehberi</title>
+    <link rel="icon" href="../favicon.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #7c3aed;
+            border-bottom-color: #7c3aed;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .breadcrumb {
+            background-color: #f1f5f9;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .accordion-content.open {
+            max-height: 2000px;
+        }
+
+        .use-case-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin: 0.125rem;
+        }
+
+        .scraping-demo {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .scraping-demo-header {
+            background-color: #f8fafc;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 600;
+        }
+
+        .scraping-demo-content {
+            padding: 1rem;
+        }
+
+        .code-block {
+            background-color: #1a202c;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md border-b border-gray-200">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="../index.html" class="text-xl font-bold text-indigo-700">Veri Analizi Rehberi</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="../index.html" class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Ana
+                            Sayfa</a>
+                        <a href="index.html" class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Toplama</a>
+                        <a href="../veri-temizleme/index.html"
+                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Temizleme</a>
+                        <a href="../veri-analizi/index.html"
+                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Analiz</a>
+                        <a href="../veri-gorsellestirme/index.html"
+                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Görselleştirme</a>
+                        <a href="../sonuc-sunumu/index.html"
+                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Sunum</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-button" type="button"
+                        class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <span class="sr-only">Menüyü aç</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="../index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Ana Sayfa</a>
+                <a href="index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri Toplama</a>
+                <a href="../veri-temizleme/index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri Temizleme</a>
+                <a href="../veri-analizi/index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri Analizi</a>
+                <a href="../veri-gorsellestirme/index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri
+                    Görselleştirme</a>
+                <a href="../sonuc-sunumu/index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Sonuçların
+                    Sunumu</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb inline-flex items-center text-sm text-gray-600 mb-6">
+            <a href="../index.html" class="hover:text-indigo-600">Ana Sayfa</a>
+            <span class="mx-2">›</span>
+            <a href="index.html" class="hover:text-indigo-600">Veri Toplama</a>
+            <span class="mx-2">›</span>
+            <span class="text-indigo-600 font-medium">Web Scraping Teknikleri</span>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="text-center mb-12">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Web Scraping Teknikleri</h1>
+                <p class="text-lg text-gray-600 mb-6">Web'den veri çıkarma teknikleri ve profesyonel scraping
+                    stratejileri</p>
+
+                <!-- Progress Steps -->
+                <!-- Progress Steps - Web Scraping -->
+                <div class="flex justify-center items-center mb-6">
+                    <div class="flex items-center">
+                        <!-- Adım 1 -->
+                        <div class="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">1</span>
+                        </div>
+                        <div class="w-8 h-1 bg-indigo-500 mx-1"></div>
+
+                        <!-- Adım 2 -->
+                        <div class="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">2</span>
+                        </div>
+                        <div class="w-8 h-1 bg-indigo-500 mx-1"></div>
+
+                        <!-- Adım 3 - Aktif -->
+                        <div class="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">3</span>
+                        </div>
+                        <div class="w-8 h-1 bg-gray-300 mx-1"></div>
+
+                        <!-- Adım 4 -->
+                        <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-gray-600 text-xs font-bold">4</span>
+                        </div>
+                        <div class="w-8 h-1 bg-gray-300 mx-1"></div>
+
+                        <!-- Adım 5 -->
+                        <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-gray-600 text-xs font-bold">5</span>
+                        </div>
+                        <div class="w-8 h-1 bg-gray-300 mx-1"></div>
+
+                        <!-- Adım 6 -->
+                        <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-gray-600 text-xs font-bold">6</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500 text-center">Birincil → İkincil → Web Scraping → API → Veritabanı →
+                    Kalite</p>
+            </div>
+        </section>
+
+        <!-- Ana İçerik -->
+        <div class="grid lg:grid-cols-4 gap-8">
+            <!-- Sidebar Navigasyon -->
+            <div class="lg:col-span-1">
+                <div class="card p-6 sticky top-24">
+                    <h3 class="font-bold text-lg mb-4 text-indigo-600">İçindekiler</h3>
+                    <nav class="space-y-2">
+                        <a href="#giris"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Giriş</a>
+                        <a href="#static-content"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Static
+                            Content Extraction</a>
+                        <a href="#dynamic-content"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Dynamic
+                            Content Scraping</a>
+                        <a href="#advanced-frameworks"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Advanced
+                            Scraping Frameworks</a>
+                        <a href="#etik-ve-yasal"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Etik
+                            ve Yasal Konular</a>
+                        <a href="#demo-uygulamalar"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Demo
+                            Uygulamalar</a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Ana İçerik -->
+            <div class="lg:col-span-3">
+                <!-- Giriş Bölümü -->
+                <section id="giris" class="mb-12 scroll-mt-24">
+                    <div class="card p-8 bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-200">
+                        <div class="flex items-start">
+                            <div
+                                class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mr-6 flex-shrink-0">
+                                <span class="text-2xl">🕷️</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900 mb-4">Web Scraping Nedir? Ne Zaman
+                                    Kullanılır?</h2>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h3 class="font-semibold text-lg mb-3 text-purple-700">✅ Ne Zaman Kullanılır?
+                                        </h3>
+                                        <ul class="space-y-2 text-gray-600">
+                                            <li>• <strong>API olmayan</strong> web sitelerinden veri çekmek için</li>
+                                            <li>• <strong>Rekabet analizi</strong> ve fiyat karşılaştırması</li>
+                                            <li>• <strong>Pazar araştırması</strong> ve trend analizi</li>
+                                            <li>• <strong>İçerik toplama</strong> ve veri madenciliği</li>
+                                            <li>• <strong>Otomatik veri güncelleme</strong> sistemleri</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-lg mb-3 text-green-700">🎯 Avantajları</h3>
+                                        <ul class="space-y-2 text-gray-600">
+                                            <li>• <strong>Geniş veri erişimi</strong> - Web'in tamamı</li>
+                                            <li>• <strong>Esneklik</strong> - Özelleştirilebilir yapı</li>
+                                            <li>• <strong>Gerçek zamanlı veri</strong> - Anlık güncellemeler</li>
+                                            <li>• <strong>Maliyet etkin</strong> - API maliyetleri yok</li>
+                                            <li>• <strong>Ölçeklenebilirlik</strong> - Büyük veri setleri</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Static Content Extraction Bölümü -->
+                <section id="static-content" class="mb-12 scroll-mt-24">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-2xl">📄</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">Static Content Extraction</h2>
+                                <p class="text-gray-600">Statik HTML içeriğinden veri çıkarma teknikleri ve optimizasyon
+                                    stratejileri</p>
+                            </div>
+                        </div>
+
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-blue-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Basit web siteleri</span>
+                                <span class="use-case-badge bg-green-100 text-green-800">Hızlı veri çekme</span>
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Düşük kaynak kullanımı</span>
+                                <span class="use-case-badge bg-orange-100 text-orange-800">Kolay implementasyon</span>
+                            </div>
+                            <p class="text-sm text-blue-700">
+                                <strong>Kullanım Amacı:</strong> JavaScript gerektirmeyen, statik HTML içerikli web
+                                sitelerinden veri çıkarmak.
+                                <strong>Örnek:</strong> Haber sitelerinden makale başlıklarını ve içeriklerini çekmek.
+                            </p>
+                        </div>
+
+                        <!-- BeautifulSoup Selector Strategies -->
+                        <div class="mb-6">
+                            <button
+                                class="accordion-header w-full text-left font-semibold text-lg bg-blue-50 p-4 rounded-lg flex justify-between items-center">
+                                BeautifulSoup Selector Strategies
+                                <span class="transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content bg-white border border-blue-100 rounded-b-lg">
+                                <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Ne Zaman Kullanılır?</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            HTML parsing ihtiyacı olduğunda, hızlı prototipleme için, küçük ölçekli
+                                            scraping projelerinde.
+                                        </p>
+                                    </div>
+
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h4 class="font-semibold mb-3 text-blue-700">Selector Türleri</h4>
+                                            <ul class="space-y-2 text-sm text-gray-600">
+                                                <li>• <strong>CSS Selectors</strong> - find(), select()</li>
+                                                <li>• <strong>Tag Name</strong> - find_all('tag')</li>
+                                                <li>• <strong>Attributes</strong> - find(attrs={'class': 'value'})</li>
+                                                <li>• <strong>Text Content</strong> - find(text='pattern')</li>
+                                                <li>• <strong>Regular Expressions</strong> -
+                                                    find_all(text=re.compile('pattern'))</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-3 text-green-700">En İyi Uygulamalar</h4>
+                                            <ul class="space-y-2 text-sm text-gray-600">
+                                                <li>• <strong>Robust Selectors</strong> - Birden fazla selector kullan
+                                                </li>
+                                                <li>• <strong>Error Handling</strong> - try/except blokları</li>
+                                                <li>• <strong>Performance</strong> - LXML parser kullanımı</li>
+                                                <li>• <strong>Maintainability</strong> - Configurable selectors</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!-- BeautifulSoup Demo -->
+                                    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                                        <h5 class="font-semibold mb-3">BeautifulSoup Demo - Haber Sitesi Scraping</h5>
+                                        <div class="scraping-demo mb-4">
+                                            <div class="scraping-demo-header">Örnek HTML Yapısı</div>
+                                            <div class="scraping-demo-content">
+                                                <div class="code-block">
+                                                    &lt;div class="news-container"&gt;<br>
+                                                    &nbsp;&nbsp;&lt;article class="news-item"&gt;<br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;h2 class="title"&gt;&lt;a
+                                                    href="/haber1"&gt;İlk Haber Başlığı&lt;/a&gt;&lt;/h2&gt;<br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="meta"&gt;&lt;span
+                                                    class="date"&gt;01.01.2023&lt;/span&gt;&lt;/div&gt;<br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p class="summary"&gt;Haber özeti burada
+                                                    yer alıyor...&lt;/p&gt;<br>
+                                                    &nbsp;&nbsp;&lt;/article&gt;<br>
+                                                    &nbsp;&nbsp;&lt;article class="news-item"&gt;<br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;h2 class="title"&gt;&lt;a
+                                                    href="/haber2"&gt;İkinci Haber Başlığı&lt;/a&gt;&lt;/h2&gt;<br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="meta"&gt;&lt;span
+                                                    class="date"&gt;02.01.2023&lt;/span&gt;&lt;/div&gt;<br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p class="summary"&gt;İkinci haberin
+                                                    özeti...&lt;/p&gt;<br>
+                                                    &nbsp;&nbsp;&lt;/article&gt;<br>
+                                                    &lt;/div&gt;
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="code-block">
+                                            import requests<br>
+                                            from bs4 import BeautifulSoup<br>
+                                            import json<br>
+                                            <br>
+                                            def scrape_news_site(url):<br>
+                                            &nbsp;&nbsp;try:<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;# Sayfayı indir<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;response = requests.get(url)<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;response.raise_for_status() # HTTP hatalarını
+                                            kontrol et<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;# BeautifulSoup ile parse et<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;soup = BeautifulSoup(response.content, 'lxml')<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;# Haberleri bul<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;news_items = []<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;articles = soup.find_all('article',
+                                            class_='news-item')<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;for article in articles:<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Çoklu selector stratejisi<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title_elem = article.find('h2',
+                                            class_='title') or article.find('h2')<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title = title_elem.get_text(strip=True)
+                                            if title_elem else 'Başlık bulunamadı'<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;link_elem = title_elem.find('a') if
+                                            title_elem else None<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;link = link_elem['href'] if link_elem
+                                            and link_elem.has_attr('href') else ''<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date_elem = article.find('span',
+                                            class_='date')<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date = date_elem.get_text(strip=True) if
+                                            date_elem else 'Tarih bulunamadı'<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;summary_elem = article.find('p',
+                                            class_='summary')<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;summary =
+                                            summary_elem.get_text(strip=True) if summary_elem else 'Özet bulunamadı'<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;news_items.append({<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'title': title,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'link': link,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'date': date,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'summary': summary<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;return news_items<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;except requests.RequestException as e:<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;print(f"İstek hatası: {e}")<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;return []<br>
+                                            &nbsp;&nbsp;except Exception as e:<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;print(f"Parse hatası: {e}")<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;return []<br>
+                                            <br>
+                                            # Kullanım<br>
+                                            news_url = "https://example-news-site.com"<br>
+                                            news_data = scrape_news_site(news_url)<br>
+                                            <br>
+                                            print(f"Toplam {len(news_data)} haber bulundu:")<br>
+                                            for i, news in enumerate(news_data, 1):<br>
+                                            &nbsp;&nbsp;print(f"{i}. {news['title']} - {news['date']}")<br>
+                                            &nbsp;&nbsp;print(f" Özet: {news['summary'][:100]}...")<br>
+                                            &nbsp;&nbsp;print()
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pagination Handling -->
+                        <div class="mb-6">
+                            <button
+                                class="accordion-header w-full text-left font-semibold text-lg bg-green-50 p-4 rounded-lg flex justify-between items-center">
+                                Pagination Handling (10+ Pattern)
+                                <span class="transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content bg-white border border-green-100 rounded-b-lg">
+                                <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Ne Zaman Kullanılır?</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            Çok sayfalı içeriğe sahip web sitelerinden tüm verileri çıkarmak için:
+                                            e-ticaret ürün listeleri, blog sayfaları, forumlar.
+                                        </p>
+                                    </div>
+
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h4 class="font-semibold mb-3">Pagination Pattern'leri</h4>
+                                            <ul class="space-y-3 text-sm text-gray-600">
+                                                <li>
+                                                    <strong>Page Number Pattern</strong><br>
+                                                    • URL: /page/1, /page/2<br>
+                                                    • Örnek: Blog sayfaları
+                                                </li>
+                                                <li>
+                                                    <strong>Offset Pattern</strong><br>
+                                                    • URL: ?start=0, ?start=20<br>
+                                                    • Örnek: Arama sonuçları
+                                                </li>
+                                                <li>
+                                                    <strong>Next Button Pattern</strong><br>
+                                                    • "Sonraki" butonu takibi<br>
+                                                    • Örnek: E-ticaret siteleri
+                                                </li>
+                                                <li>
+                                                    <strong>Infinite Scroll</strong><br>
+                                                    • AJAX istekleri analizi<br>
+                                                    • Örnek: Sosyal medya
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-3">Implementasyon Stratejileri</h4>
+                                            <div class="space-y-3 text-sm text-gray-600">
+                                                <div class="p-3 bg-blue-50 rounded-lg">
+                                                    <strong>Basit Sayfa Numaralandırma</strong>
+                                                    <p>• Sabit URL pattern<br>• Maksimum sayfa kontrolü<br>• Hata
+                                                        toleransı</p>
+                                                </div>
+                                                <div class="p-3 bg-green-50 rounded-lg">
+                                                    <strong>Dinamik Next Button</strong>
+                                                    <p>• DOM analizi<br>• Link extraction<br>• Son sayfa tespiti</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Pagination Demo -->
+                                    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                                        <h5 class="font-semibold mb-3">Pagination Handling Demo</h5>
+                                        <div class="code-block">
+                                            import requests<br>
+                                            from bs4 import BeautifulSoup<br>
+                                            import time<br>
+                                            <br>
+                                            def scrape_paginated_site(base_url, max_pages=10):<br>
+                                            &nbsp;&nbsp;all_data = []<br>
+                                            &nbsp;&nbsp;current_page = 1<br>
+                                            &nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;while current_page <= max_pages:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;try:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# URL oluştur<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if '?' in base_url:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url =
+                                                f"{base_url}&page={current_page}"<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url =
+                                                f"{base_url}?page={current_page}"<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f"Sayfa {current_page}
+                                                çekiliyor: {url}")<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;response = requests.get(url)<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;response.raise_for_status()<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;soup =
+                                                BeautifulSoup(response.content, 'lxml')<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Verileri çıkar<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page_data =
+                                                extract_data_from_page(soup)<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Eğer sayfada veri yoksa döngüyü
+                                                sonlandır<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if not page_data:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Sayfada veri
+                                                bulunamadı, scraping sonlandırılıyor.")<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all_data.extend(page_data)<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Sonraki sayfa kontrolü<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if not has_next_page(soup):<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Son sayfaya
+                                                ulaşıldı.")<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current_page += 1<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.sleep(1) # Politika: 1 saniye
+                                                bekle<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;except requests.RequestException as e:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f"Sayfa {current_page} için
+                                                hata: {e}")<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;return all_data<br>
+                                                <br>
+                                                def extract_data_from_page(soup):<br>
+                                                &nbsp;&nbsp;# Sayfadan veri çıkarma mantığı<br>
+                                                &nbsp;&nbsp;items = []<br>
+                                                &nbsp;&nbsp;# Örnek: Ürün kartlarını bul<br>
+                                                &nbsp;&nbsp;product_cards = soup.find_all('div',
+                                                class_='product-card')<br>
+                                                &nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;for card in product_cards:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;title_elem = card.find('h3',
+                                                class_='product-title')<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;price_elem = card.find('span',
+                                                class_='price')<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;if title_elem and price_elem:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items.append({<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'title':
+                                                title_elem.get_text(strip=True),<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'price':
+                                                price_elem.get_text(strip=True)<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})<br>
+                                                &nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;return items<br>
+                                                <br>
+                                                def has_next_page(soup):<br>
+                                                &nbsp;&nbsp;# Sonraki sayfa kontrolü<br>
+                                                &nbsp;&nbsp;next_button = soup.find('a', class_='next-page')<br>
+                                                &nbsp;&nbsp;return next_button is not None and 'disabled' not in
+                                                next_button.get('class', [])<br>
+                                                <br>
+                                                # Kullanım<br>
+                                                base_url = "https://example-ecommerce.com/products"<br>
+                                                all_products = scrape_paginated_site(base_url, max_pages=5)<br>
+                                                print(f"Toplam {len(all_products)} ürün bulundu.")
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Dynamic Content Scraping Bölümü -->
+                <section id="dynamic-content" class="mb-12 scroll-mt-24">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-2xl">⚡</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">Dynamic Content Scraping</h2>
+                                <p class="text-gray-600">JavaScript ile yüklenen dinamik içerikleri çıkarma teknikleri
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-orange-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-orange-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-orange-100 text-orange-800">SPA uygulamaları</span>
+                                <span class="use-case-badge bg-blue-100 text-blue-800">AJAX içerik</span>
+                                <span class="use-case-badge bg-green-100 text-green-800">Kullanıcı etkileşimi</span>
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Form doldurma</span>
+                            </div>
+                            <p class="text-sm text-orange-700">
+                                <strong>Kullanım Amacı:</strong> JavaScript ile dinamik olarak yüklenen içerikleri
+                                çıkarmak, kullanıcı etkileşimi gerektiren senaryoları otomatize etmek.
+                                <strong>Örnek:</strong> Infinite scroll içeren sosyal medya sitelerinden veri çekmek.
+                            </p>
+                        </div>
+
+                        <!-- Selenium WebDriver -->
+                        <div class="mb-6">
+                            <button
+                                class="accordion-header w-full text-left font-semibold text-lg bg-orange-50 p-4 rounded-lg flex justify-between items-center">
+                                Selenium WebDriver Configurations
+                                <span class="transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content bg-white border border-orange-100 rounded-b-lg">
+                                <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Ne Zaman Kullanılır?</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            Gerçek bir tarayıcı ortamı gerektiğinde, kullanıcı etkileşimi (tıklama, form
+                                            doldurma) gerektiğinde, kompleks JavaScript uygulamaları için.
+                                        </p>
+                                    </div>
+
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h4 class="font-semibold mb-3">WebDriver Seçenekleri</h4>
+                                            <ul class="space-y-3 text-sm text-gray-600">
+                                                <li>
+                                                    <strong>Chrome Driver</strong><br>
+                                                    • En popüler seçenek<br>
+                                                    • Headless mod desteği<br>
+                                                    • Zengin options API
+                                                </li>
+                                                <li>
+                                                    <strong>Firefox Driver</strong><br>
+                                                    • Açık kaynak<br>
+                                                    • Güçlü debugging<br>
+                                                    • Gecko engine
+                                                </li>
+                                                <li>
+                                                    <strong>Edge Driver</strong><br>
+                                                    • Windows optimizasyonu<br>
+                                                    • Chromium tabanlı<br>
+                                                    • Enterprise uyumluluk
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-3">Konfigürasyon Stratejileri</h4>
+                                            <div class="space-y-3 text-sm text-gray-600">
+                                                <div class="p-3 bg-blue-50 rounded-lg">
+                                                    <strong>Headless Mod</strong>
+                                                    <p>• Görsel olmayan tarayıcı<br>• Daha hızlı çalışma<br>• Sunucu
+                                                        uyumluluğu</p>
+                                                </div>
+                                                <div class="p-3 bg-green-50 rounded-lg">
+                                                    <strong>User-Agent Yönetimi</strong>
+                                                    <p>• Gerçek kullanıcı taklidi<br>• Anti-bot atlatma<br>•
+                                                        Mobil/desktop switch</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Selenium Demo -->
+                                    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                                        <h5 class="font-semibold mb-3">Selenium Demo - Dinamik İçerik Scraping</h5>
+                                        <div class="code-block">
+                                            from selenium import webdriver<br>
+                                            from selenium.webdriver.common.by import By<br>
+                                            from selenium.webdriver.support.ui import WebDriverWait<br>
+                                            from selenium.webdriver.support import expected_conditions as EC<br>
+                                            from selenium.webdriver.chrome.options import Options<br>
+                                            import time<br>
+                                            import json<br>
+                                            <br>
+                                            def setup_driver(headless=True):<br>
+                                            &nbsp;&nbsp;"""Chrome WebDriver kurulumu"""<br>
+                                            &nbsp;&nbsp;chrome_options = Options()<br>
+                                            &nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;if headless:<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;chrome_options.add_argument("--headless")<br>
+                                            &nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;# Anti-detection ayarları<br>
+                                            &nbsp;&nbsp;chrome_options.add_argument("--no-sandbox")<br>
+                                            &nbsp;&nbsp;chrome_options.add_argument("--disable-dev-shm-usage")<br>
+                                            &nbsp;&nbsp;chrome_options.add_argument("--disable-blink-features=AutomationControlled")<br>
+                                            &nbsp;&nbsp;chrome_options.add_experimental_option("excludeSwitches",
+                                            ["enable-automation"])<br>
+                                            &nbsp;&nbsp;chrome_options.add_experimental_option('useAutomationExtension',
+                                            False)<br>
+                                            &nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;# User-agent ayarı<br>
+                                            &nbsp;&nbsp;chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows
+                                            NT 10.0; Win64; x64) AppleWebKit/537.36")<br>
+                                            &nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;driver = webdriver.Chrome(options=chrome_options)<br>
+                                            &nbsp;&nbsp;driver.execute_script("Object.defineProperty(navigator,
+                                            'webdriver', {get: () => undefined})")<br>
+                                            &nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;return driver<br>
+                                            <br>
+                                            def scrape_dynamic_content(url, wait_time=10):<br>
+                                            &nbsp;&nbsp;"""Dinamik içerik scraping fonksiyonu"""<br>
+                                            &nbsp;&nbsp;driver = setup_driver(headless=True)<br>
+                                            &nbsp;&nbsp;scraped_data = []<br>
+                                            &nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;try:<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;print(f"Sayfa yükleniyor: {url}")<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;driver.get(url)<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;# Sayfanın yüklenmesini bekle<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;WebDriverWait(driver, wait_time).until(<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EC.presence_of_element_located((By.TAG_NAME,
+                                            "body"))<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;# Infinite scroll handling<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;print("Infinite scroll işleniyor...")<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;scroll_and_collect(driver, scraped_data)<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;return scraped_data<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;except Exception as e:<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;print(f"Hata oluştu: {e}")<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;return scraped_data<br>
+                                            &nbsp;&nbsp;finally:<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;driver.quit()<br>
+                                            <br>
+                                            def scroll_and_collect(driver, data_list, max_scrolls=10):<br>
+                                            &nbsp;&nbsp;"""Infinite scroll handling ve veri toplama"""<br>
+                                            &nbsp;&nbsp;last_height = driver.execute_script("return
+                                            document.body.scrollHeight")<br>
+                                            &nbsp;&nbsp;scroll_attempts = 0<br>
+                                            &nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;while scroll_attempts < max_scrolls:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;# Sayfayı en alta kaydır<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;driver.execute_script("window.scrollTo(0,
+                                                document.body.scrollHeight);")<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;time.sleep(2) # Yeni içeriklerin yüklenmesini
+                                                bekle<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;# Yeni içerikleri topla<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;new_items = extract_items_from_page(driver)<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;for item in new_items:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if item not in data_list:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data_list.append(item)<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;# Yeni yükseklik kontrolü<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;new_height = driver.execute_script("return
+                                                document.body.scrollHeight")<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;if new_height == last_height:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Daha fazla içerik yok,
+                                                scrolling durduruluyor.")<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;last_height = new_height<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;scroll_attempts += 1<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;print(f"Scroll {scroll_attempts} tamamlandı.
+                                                Toplam {len(data_list)} öğe bulundu.")<br>
+                                                <br>
+                                                def extract_items_from_page(driver):<br>
+                                                &nbsp;&nbsp;"""Sayfadan öğeleri çıkar"""<br>
+                                                &nbsp;&nbsp;items = []<br>
+                                                &nbsp;&nbsp;try:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;# Örnek: Sosyal medya gönderilerini çıkar<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;posts = driver.find_elements(By.CSS_SELECTOR,
+                                                ".post, .tweet, .card")<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;for post in posts:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text_elem =
+                                                post.find_element(By.CSS_SELECTOR, ".content, .text, .message")<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text =
+                                                text_elem.text.strip() if text_elem else ""<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time_elem =
+                                                post.find_element(By.CSS_SELECTOR, ".time, .date, .timestamp")<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timestamp =
+                                                time_elem.text.strip() if time_elem else ""<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if text: # Boş olmayan
+                                                gönderileri ekle<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items.append({<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'text':
+                                                text,<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'timestamp':
+                                                timestamp<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;except Exception as e:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue # Hatalı
+                                                öğeleri atla<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;except Exception as e:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;print(f"Öğe çıkarma hatası: {e}")<br>
+                                                &nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;return items<br>
+                                                <br>
+                                                # Kullanım örneği<br>
+                                                if __name__ == "__main__":<br>
+                                                &nbsp;&nbsp;target_url = "https://example-social-media.com/feed"<br>
+                                                &nbsp;&nbsp;data = scrape_dynamic_content(target_url)<br>
+                                                &nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;print(f"Toplam {len(data)} gönderi toplandı:")<br>
+                                                &nbsp;&nbsp;for i, item in enumerate(data[:5], 1): # İlk 5 göster<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;print(f"{i}. {item['timestamp']}:
+                                                {item['text'][:100]}...")<br>
+                                                &nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;# JSON olarak kaydet<br>
+                                                &nbsp;&nbsp;with open('scraped_data.json', 'w', encoding='utf-8') as
+                                                f:<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;json.dump(data, f, ensure_ascii=False,
+                                                indent=2)<br>
+                                                &nbsp;&nbsp;print("Veriler 'scraped_data.json' dosyasına kaydedildi.")
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Advanced Scraping Frameworks Bölümü -->
+                <section id="advanced-frameworks" class="mb-12 scroll-mt-24">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-2xl">🏗️</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">Advanced Scraping Frameworks</h2>
+                                <p class="text-gray-600">Profesyonel scraping projeleri için gelişmiş framework'ler ve
+                                    mimariler</p>
+                            </div>
+                        </div>
+
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-purple-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Büyük ölçekli projeler</span>
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Dağıtık sistemler</span>
+                                <span class="use-case-badge bg-green-100 text-green-800">Yüksek performans</span>
+                                <span class="use-case-badge bg-orange-100 text-orange-800">Otomasyon
+                                    pipeline'ları</span>
+                            </div>
+                            <p class="text-sm text-purple-700">
+                                <strong>Kullanım Amacı:</strong> Büyük ölçekli, dağıtık scraping sistemleri kurmak,
+                                yüksek performanslı ve güvenilir veri toplama pipeline'ları oluşturmak.
+                                <strong>Örnek:</strong> Yüzlerce e-ticaret sitesinden günlük fiyat verileri toplamak.
+                            </p>
+                        </div>
+
+                        <!-- Scrapy Architecture -->
+                        <div class="mb-6">
+                            <button
+                                class="accordion-header w-full text-left font-semibold text-lg bg-purple-50 p-4 rounded-lg flex justify-between items-center">
+                                Scrapy Architecture Deep Dive
+                                <span class="transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content bg-white border border-purple-100 rounded-b-lg">
+                                <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Ne Zaman Kullanılır?</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            Büyük ölçekli scraping projelerinde, yüksek performans gerektiğinde,
+                                            otomatik pipeline'lar oluşturmak için.
+                                        </p>
+                                    </div>
+
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h4 class="font-semibold mb-3">Scrapy Bileşenleri</h4>
+                                            <ul class="space-y-3 text-sm text-gray-600">
+                                                <li>
+                                                    <strong>Spiders</strong><br>
+                                                    • Özel parsing mantığı<br>
+                                                    • URL yönetimi<br>
+                                                    • Data extraction
+                                                </li>
+                                                <li>
+                                                    <strong>Middlewares</strong><br>
+                                                    • Request/response işleme<br>
+                                                    • Proxy rotation<br>
+                                                    • User-agent management
+                                                </li>
+                                                <li>
+                                                    <strong>Item Pipelines</strong><br>
+                                                    • Data validation<br>
+                                                    • Cleaning & transformation<br>
+                                                    • Storage
+                                                </li>
+                                                <li>
+                                                    <strong>Schedulers</strong><br>
+                                                    • URL prioritization<br>
+                                                    • Concurrent requests<br>
+                                                    • Rate limiting
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-3">Mimari Avantajları</h4>
+                                            <div class="space-y-3 text-sm text-gray-600">
+                                                <div class="p-3 bg-blue-50 rounded-lg">
+                                                    <strong>Yüksek Performans</strong>
+                                                    <p>• Asenkron işleme<br>• Concurrent requests<br>• Optimized
+                                                        scheduling</p>
+                                                </div>
+                                                <div class="p-3 bg-green-50 rounded-lg">
+                                                    <strong>Extensibility</strong>
+                                                    <p>• Plugin architecture<br>• Custom middlewares<br>• Flexible
+                                                        pipelines</p>
+                                                </div>
+                                                <div class="p-3 bg-purple-50 rounded-lg">
+                                                    <strong>Robustness</strong>
+                                                    <p>• Error handling<br>• Retry mechanisms<br>• Data validation</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Scrapy Spider Örneği -->
+                                    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                                        <h5 class="font-semibold mb-3">Scrapy Spider Örneği - E-ticaret Sitesi</h5>
+                                        <div class="code-block">
+                                            import scrapy<br>
+                                            from scrapy.crawler import CrawlerProcess<br>
+                                            from scrapy.utils.project import get_project_settings<br>
+                                            import json<br>
+                                            from datetime import datetime<br>
+                                            <br>
+                                            class EcommerceSpider(scrapy.Spider):<br>
+                                            &nbsp;&nbsp;name = 'ecommerce_spider'<br>
+                                            &nbsp;&nbsp;allowed_domains = ['example-ecommerce.com']<br>
+                                            &nbsp;&nbsp;start_urls = ['https://example-ecommerce.com/products']<br>
+                                            &nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;custom_settings = {<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;'CONCURRENT_REQUESTS': 4,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;'DOWNLOAD_DELAY': 1,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64;
+                                            x64) AppleWebKit/537.36',<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;'ROBOTSTXT_OBEY': True,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;'FEED_FORMAT': 'json',<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;'FEED_URI': 'products_%(time)s.json'<br>
+                                            &nbsp;&nbsp;}<br>
+                                            &nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;def parse(self, response):<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;"""Ana sayfa parsing"""<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;# Kategori linklerini bul<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;categories = response.css('.category-list
+                                            a::attr(href)').getall()<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;for category_url in categories:<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;yield response.follow(<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;category_url, <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback=self.parse_category,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta={'category':
+                                            category_url.split('/')[-1]}<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                                            &nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;def parse_category(self, response):<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;"""Kategori sayfası parsing"""<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;category = response.meta.get('category',
+                                            'unknown')<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;# Ürün kartlarını işle<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;products = response.css('.product-card')<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;for product in products:<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;yield {<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'category': category,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'title':
+                                            product.css('.product-title::text').get().strip(),<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'price':
+                                            product.css('.price::text').get().strip(),<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'url':
+                                            response.urljoin(product.css('a::attr(href)').get()),<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'scraped_at':
+                                            datetime.now().isoformat()<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;# Sayfalama - sonraki sayfa<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;next_page =
+                                            response.css('.next-page::attr(href)').get()<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;if next_page:<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;yield response.follow(<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next_page, <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback=self.parse_category,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta={'category':
+                                            category}<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                                            <br>
+                                            class PriceValidationPipeline:<br>
+                                            &nbsp;&nbsp;"""Fiyat validasyon pipeline'ı"""<br>
+                                            &nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;def process_item(self, item, spider):<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;# Fiyat formatını temizle<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;if 'price' in item:<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;price = item['price']<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Sadece sayısal karakterleri ve nokta
+                                            tut<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cleaned_price = ''.join(c for c in price
+                                            if c.isdigit() or c == '.' or c == ',')<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item['price_cleaned'] =
+                                            cleaned_price<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;return item<br>
+                                            <br>
+                                            # Spider'ı çalıştır<br>
+                                            if __name__ == "__main__":<br>
+                                            &nbsp;&nbsp;process = CrawlerProcess(get_project_settings())<br>
+                                            &nbsp;&nbsp;process.crawl(EcommerceSpider)<br>
+                                            &nbsp;&nbsp;process.start()<br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Etik ve Yasal Konular Bölümü -->
+                <section id="etik-ve-yasal" class="mb-12 scroll-mt-24">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-2xl">⚖️</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">Etik ve Yasal Konular</h2>
+                                <p class="text-gray-600">Web scraping'in yasal sınırları ve etik kuralları</p>
+                            </div>
+                        </div>
+
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-red-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-red-800 mb-2">🚀 Neden Önemli?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-red-100 text-red-800">Yasal uyumluluk</span>
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Etik scraping</span>
+                                <span class="use-case-badge bg-green-100 text-green-800">Sürdürülebilirlik</span>
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Hesap verilebilirlik</span>
+                            </div>
+                            <p class="text-sm text-red-700">
+                                <strong>Önem:</strong> Yasalara uygun scraping yapmak, web sitelerine zarar vermemek ve
+                                sürdürülebilir bir scraping ekosistemi oluşturmak için kritik öneme sahiptir.
+                            </p>
+                        </div>
+
+                        <!-- Yasal Çerçeve -->
+                        <div class="mb-6">
+                            <button
+                                class="accordion-header w-full text-left font-semibold text-lg bg-red-50 p-4 rounded-lg flex justify-between items-center">
+                                Yasal Çerçeve ve Sınırlamalar
+                                <span class="transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content bg-white border border-red-100 rounded-b-lg">
+                                <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Bilinmesi Gerekenler</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            Web scraping yasal bir gri alandır. Her ülkenin farklı düzenlemeleri vardır
+                                            ve mahkeme kararları sürekli değişmektedir.
+                                        </p>
+                                    </div>
+
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h4 class="font-semibold mb-3">Yasal Durum</h4>
+                                            <ul class="space-y-3 text-sm text-gray-600">
+                                                <li>
+                                                    <strong>ABD - HiQ vs LinkedIn</strong><br>
+                                                    • Public data scraping genellikle legal<br>
+                                                    • CFAA ihlali olmamalı<br>
+                                                    • Terms of service dikkate alınmalı
+                                                </li>
+                                                <li>
+                                                    <strong>AB - GDPR</strong><br>
+                                                    • Kişisel verilerin korunması<br>
+                                                    • Explicit consent gerekliliği<br>
+                                                    • Data minimization
+                                                </li>
+                                                <li>
+                                                    <strong>Türkiye</strong><br>
+                                                    • KVKK uyumluluğu<br>
+                                                    • 5651 sayılı kanun<br>
+                                                    • Fikri mülkiyet hakları
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-3">Risk Yönetimi</h4>
+                                            <div class="space-y-3 text-sm text-gray-600">
+                                                <div class="p-3 bg-green-50 rounded-lg">
+                                                    <strong>✅ Güvenli Uygulamalar</strong>
+                                                    <p>• robots.txt'ye uyum<br>• Rate limiting<br>• Public data
+                                                        only<br>• Non-commercial use</p>
+                                                </div>
+                                                <div class="p-3 bg-red-50 rounded-lg">
+                                                    <strong>❌ Riskli Uygulamalar</strong>
+                                                    <p>• Login bypass<br>• Copyright violation<br>• ToS violation<br>•
+                                                        Competitive scraping</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Etik Kurallar -->
+                                    <div class="mt-6">
+                                        <h5 class="font-semibold mb-3">Etik Web Scraping Kuralları</h5>
+                                        <div class="grid md:grid-cols-2 gap-4">
+                                            <div class="p-4 bg-blue-50 rounded-lg">
+                                                <h6 class="font-semibold text-blue-700 mb-2">🤝 Sitelere Saygı</h6>
+                                                <ul class="text-sm text-gray-600 space-y-1">
+                                                    <li>• robots.txt'ye uyun</li>
+                                                    <li>• Rate limiting uygulayın</li>
+                                                    <li>• Sunucu yükünü minimize edin</li>
+                                                    <li>• Primetime'tan kaçının</li>
+                                                </ul>
+                                            </div>
+                                            <div class="p-4 bg-green-50 rounded-lg">
+                                                <h6 class="font-semibold text-green-700 mb-2">🔒 Veri Sorumluluğu</h6>
+                                                <ul class="text-sm text-gray-600 space-y-1">
+                                                    <li>• Kişisel verileri koruyun</li>
+                                                    <li>• Lisansları dikkate alın</li>
+                                                    <li>• Telif hakkına saygı gösterin</li>
+                                                    <li>• Veriyi sorumlu kullanın</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Demo Uygulamalar Bölümü -->
+                <section id="demo-uygulamalar" class="scroll-mt-24">
+                    <div class="card p-8">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Demo Uygulamalar</h2>
+
+                        <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <!-- Demo 1 -->
+                            <div class="card p-6 bg-blue-50 border-blue-200 hover:shadow-lg transition-all">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                    <span class="text-xl">🛒</span>
+                                </div>
+                                <h4 class="font-semibold text-lg mb-3 text-blue-700">E-ticaret Fiyat Karşılaştırma</h4>
+                                <p class="text-sm text-gray-600 mb-4">Çoklu e-ticaret sitesinden ürün fiyatlarını çekme
+                                    ve karşılaştırma</p>
+                                <div class="flex space-x-2">
+                                    <button onclick="previewExample('price-comparison')"
+                                        class="flex-1 bg-white text-blue-500 border border-blue-500 py-2 px-3 rounded text-sm hover:bg-blue-50 transition-colors">
+                                        Kod Örneğini Gör
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Demo 2 -->
+                            <div class="card p-6 bg-green-50 border-green-200 hover:shadow-lg transition-all">
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                                    <span class="text-xl">📰</span>
+                                </div>
+                                <h4 class="font-semibold text-lg mb-3 text-green-700">Haber Toplama Botu</h4>
+                                <p class="text-sm text-gray-600 mb-4">Çoklu haber kaynağından otomatik içerik toplama ve
+                                    kategorize etme</p>
+                                <div class="flex space-x-2">
+                                    <button onclick="previewExample('news-aggregator')"
+                                        class="flex-1 bg-white text-green-500 border border-green-500 py-2 px-3 rounded text-sm hover:bg-green-50 transition-colors">
+                                        Kod Örneğini Gör
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Canlı Scraping Demo -->
+                        <div class="card p-6 bg-gradient-to-r from-indigo-50 to-purple-50 border-indigo-200">
+                            <h3 class="text-xl font-bold mb-4 text-indigo-700">Canlı Scraping Demo</h3>
+                            <div class="space-y-4">
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Demo Seçin</label>
+                                        <select id="demo-select" class="w-full p-3 border rounded-lg">
+                                            <option value="books">Kitap Bilgileri (Demo Site)</option>
+                                            <option value="quotes">Alıntılar (Demo Site)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Limit</label>
+                                        <input type="number" id="demo-limit" value="5" min="1" max="20"
+                                            class="w-full p-3 border rounded-lg">
+                                    </div>
+                                </div>
+
+                                <div class="flex space-x-3">
+                                    <button onclick="runScrapingDemo()"
+                                        class="flex-1 bg-indigo-500 text-white py-3 rounded-lg hover:bg-indigo-600 transition-colors">
+                                        Demo'yu Çalıştır
+                                    </button>
+                                    <button onclick="clearDemoResults()"
+                                        class="flex-1 bg-gray-500 text-white py-3 rounded-lg hover:bg-gray-600 transition-colors">
+                                        Temizle
+                                    </button>
+                                </div>
+
+                                <div id="demo-results" class="hidden mt-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Scraping
+                                        Sonuçları</label>
+                                    <div class="bg-white border rounded-lg p-4 max-h-60 overflow-y-auto">
+                                        <pre id="demo-results-content" class="text-sm"></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- Navigasyon Butonları -->
+        <section class="flex justify-between items-center mt-12 pt-8 border-t border-gray-200">
+            <a href="ikincil-veri.html" class="flex items-center text-gray-600 hover:text-indigo-600 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Önceki: İkincil Veri
+            </a>
+            <a href="api-entegrasyonu.html"
+                class="flex items-center bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition-colors">
+                Sonraki: API Entegrasyonları
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-900 text-white mt-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Bölüm 1: Hakkında -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Veri Analizi Rehberi</h3>
+                    <p class="text-gray-400 text-sm mb-4">
+                        Betül YEL tarafından hazırlanan kapsamlı veri analizi öğrenme platformu.
+                    </p>
+                    <div class="flex space-x-3">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <span class="sr-only">GitHub</span>
+                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">...</svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <span class="sr-only">LinkedIn</span>
+                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">...</svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Bölüm 2: Popüler Konular -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Popüler Konular</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="veri-temizleme/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Python ile Veri Temizleme</a>
+                        </li>
+                        <li><a href="veri-analizi/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Makine
+                                Öğrenmesi Temelleri</a></li>
+                        <li><a href="veri-gorsellestirme/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Chart.js Grafikleri</a></li>
+                        <li><a href="veri-toplama/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Web
+                                Scraping Teknikleri</a></li>
+                        <li><a href="sonuc-sunumu/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Etkili
+                                Sunum Hazırlama</a></li>
+                    </ul>
+                </div>
+
+                <!-- Bölüm 3: Hızlı Bağlantılar -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Hızlı Bağlantılar</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="veri-toplama/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Veri
+                                Toplama</a></li>
+                        <li><a href="veri-temizleme/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Veri
+                                Temizleme</a></li>
+                        <li><a href="veri-analizi/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Veri
+                                Analizi</a></li>
+                        <li><a href="veri-gorsellestirme/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Görselleştirme</a></li>
+                        <li><a href="sonuc-sunumu/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Sonuç
+                                Sunumu</a></li>
+                    </ul>
+                </div>
+
+                <!-- Bölüm 4: Araçlar -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Kullanılan Araçlar</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="araclar-ve-kaynaklar/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Python & Pandas</a>
+                        </li>
+                        <li><a href="araclar-ve-kaynaklar/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">SQL Veritabanları</a>
+                        </li>
+                        <li><a href="araclar-ve-kaynaklar/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Chart.js</a></li>
+                        <li><a href="araclar-ve-kaynaklar/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Tableau</a></li>
+                        <li><a href="araclar-ve-kaynaklar/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Jupyter Notebook</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400 text-sm">
+                    &copy; 2025 <span class="font-semibold text-indigo-300">Betül YEL</span> - Etkileşimli Veri Analizi
+                    Rehberi. Tüm hakları saklıdır.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Accordion Fonksiyonu
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const arrow = header.querySelector('span');
+
+                content.classList.toggle('open');
+                arrow.style.transform = content.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+            });
+        });
+
+        // Demo Örnekleri
+        const examples = {
+            'price-comparison': {
+                title: 'E-ticaret Fiyat Karşılaştırma - Çoklu Site Scraping',
+                content: `# E-ticaret fiyat karşılaştırma scraping botu
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+from concurrent.futures import ThreadPoolExecutor
+import time
+
+class PriceComparator:
+    def __init__(self):
+        self.results = []
+        
+    def scrape_amazon(self, product_name):
+        """Amazon'dan ürün fiyatlarını çek"""
+        try:
+            # Basitleştirilmiş örnek - gerçek implementasyon daha kompleks olmalı
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+            
+            # Amazon search URL
+            search_url = f"https://www.amazon.com.tr/s?k={product_name.replace(' ', '+')}"
+            response = requests.get(search_url, headers=headers)
+            soup = BeautifulSoup(response.content, 'html.parser')
+            
+            products = []
+            product_cards = soup.select('.s-result-item')
+            
+            for card in product_cards[:5]:  # İlk 5 ürün
+                title_elem = card.select_one('.a-text-normal')
+                price_elem = card.select_one('.a-price-whole')
+                
+                if title_elem and price_elem:
+                    products.append({
+                        'title': title_elem.get_text(strip=True),
+                        'price': price_elem.get_text(strip=True),
+                        'site': 'Amazon'
+                    })
+            
+            return products
+            
+        except Exception as e:
+            print(f"Amazon scraping hatası: {e}")
+            return []
+
+    def scrape_hepsiburada(self, product_name):
+        """Hepsiburada'dan ürün fiyatlarını çek"""
+        try:
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+            
+            search_url = f"https://www.hepsiburada.com/ara?q={product_name.replace(' ', '%20')}"
+            response = requests.get(search_url, headers=headers)
+            soup = BeautifulSoup(response.content, 'html.parser')
+            
+            products = []
+            product_cards = soup.select('.productListContent-item')
+            
+            for card in product_cards[:5]:
+                title_elem = card.select_one('[data-test-id="product-card-name"]')
+                price_elem = card.select_one('[data-test-id="price-current"]')
+                
+                if title_elem and price_elem:
+                    products.append({
+                        'title': title_elem.get_text(strip=True),
+                        'price': price_elem.get_text(strip=True),
+                        'site': 'Hepsiburada'
+                    })
+            
+            return products
+            
+        except Exception as e:
+            print(f"Hepsiburada scraping hatası: {e}")
+            return []
+
+    def compare_prices(self, product_name):
+        """Tüm sitelerden fiyatları karşılaştır"""
+        with ThreadPoolExecutor(max_workers=3) as executor:
+            futures = [
+                executor.submit(self.scrape_amazon, product_name),
+                executor.submit(self.scrape_hepsiburada, product_name)
+            ]
+            
+            all_products = []
+            for future in futures:
+                try:
+                    products = future.result(timeout=10)
+                    all_products.extend(products)
+                except Exception as e:
+                    print(f"Thread hatası: {e}")
+        
+        # Fiyatları temizle ve sırala
+        for product in all_products:
+            # Fiyat temizleme
+            product['price_clean'] = self.clean_price(product['price'])
+        
+        # Fiyata göre sırala
+        all_products.sort(key=lambda x: x['price_clean'] or float('inf'))
+        
+        return all_products
+
+    def clean_price(self, price_str):
+        """Fiyat string'ini temizle ve float'a çevir"""
+        try:
+            # TL, $ vb. sembolleri kaldır
+            cleaned = ''.join(c for c in price_str if c.isdigit() or c == ',' or c == '.')
+            # Virgülleri noktaya çevir
+            cleaned = cleaned.replace(',', '.')
+            return float(cleaned)
+        except:
+            return None
+
+# Kullanım
+if __name__ == "__main__":
+    comparator = PriceComparator()
+    product = "iphone 13"
+    
+    print(f"'{product}' için fiyat karşılaştırması yapılıyor...")
+    results = comparator.compare_prices(product)
+    
+    print(f"\\nToplam {len(results)} ürün bulundu:")
+    print("=" * 80)
+    
+    for i, product in enumerate(results, 1):
+        price_display = f"{product['price_clean']:.2f} TL" if product['price_clean'] else "Fiyat bilgisi yok"
+        print(f"{i}. {product['site']} - {product['title'][:60]}... - {price_display}")
+    
+    # En ucuz ürünü bul
+    affordable_products = [p for p in results if p['price_clean']]
+    if affordable_products:
+        cheapest = min(affordable_products, key=lambda x: x['price_clean'])
+        print(f"\\n🎯 EN Ucuz: {cheapest['site']} - {cheapest['price_clean']:.2f} TL")`
+            },
+            'news-aggregator': {
+                title: 'Haber Toplama Botu - Çoklu Kaynak Scraping',
+                content: `# Haber toplama ve kategorize etme botu
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+from datetime import datetime
+import json
+import re
+
+class NewsAggregator:
+    def __init__(self):
+        self.news_sources = {
+            'hurriyet': {
+                'url': 'https://www.hurriyet.com.tr/',
+                'selectors': {
+                    'articles': '.news-item, .card',
+                    'title': '.news-title, .card-title',
+                    'link': 'a::attr(href)',
+                    'summary': '.news-summary, .card-text',
+                    'time': '.news-time, .time'
+                }
+            },
+            'milliyet': {
+                'url': 'https://www.milliyet.com.tr/',
+                'selectors': {
+                    'articles': '.newsBox, .widget-news',
+                    'title': '.newsTitle, .title',
+                    'link': 'a::attr(href)',
+                    'summary': '.newsSpot, .spot',
+                    'time': '.newsDate, .date'
+                }
+            }
+        }
+        
+    def scrape_news_source(self, source_name, limit=10):
+        """Belirli bir haber kaynağından haberleri çek"""
+        source = self.news_sources.get(source_name)
+        if not source:
+            return []
+        
+        try:
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+            
+            response = requests.get(source['url'], headers=headers)
+            response.raise_for_status()
+            
+            soup = BeautifulSoup(response.content, 'html.parser')
+            articles = soup.select(source['selectors']['articles'])[:limit]
+            
+            news_items = []
+            
+            for article in articles:
+                try:
+                    # Başlık
+                    title_elem = article.select_one(source['selectors']['title'])
+                    title = title_elem.get_text(strip=True) if title_elem else 'Başlık yok'
+                    
+                    # Link
+                    link_elem = article.select_one('a')
+                    link = link_elem['href'] if link_elem and link_elem.has_attr('href') else ''
+                    if link and not link.startswith('http'):
+                        link = requests.compat.urljoin(source['url'], link)
+                    
+                    # Özet
+                    summary_elem = article.select_one(source['selectors']['summary'])
+                    summary = summary_elem.get_text(strip=True) if summary_elem else ''
+                    
+                    # Zaman
+                    time_elem = article.select_one(source['selectors']['time'])
+                    time_text = time_elem.get_text(strip=True) if time_elem else ''
+                    
+                    # Kategori tahmini
+                    category = self.predict_category(title, summary)
+                    
+                    news_items.append({
+                        'source': source_name,
+                        'title': title,
+                        'link': link,
+                        'summary': summary,
+                        'time': time_text,
+                        'category': category,
+                        'scraped_at': datetime.now().isoformat()
+                    })
+                    
+                except Exception as e:
+                    print(f"Haber işleme hatası: {e}")
+                    continue
+            
+            return news_items
+            
+        except Exception as e:
+            print(f"{source_name} scraping hatası: {e}")
+            return []
+    
+    def predict_category(self, title, summary):
+        """Başlık ve özete göre kategori tahmini"""
+        text = f"{title} {summary}".lower()
+        
+        categories = {
+            'politika': ['siyaset', 'meclis', 'bakan', 'cumhurbaşkanı', 'parti', 'seçim'],
+            'spor': ['spor', 'futbol', 'basketbol', 'maç', 'takım', 'lig'],
+            'ekonomi': ['ekonomi', 'borsa', 'dolar', 'euro', 'faiz', 'enflasyon'],
+            'teknoloji': ['teknoloji', 'yazılım', 'telefon', 'internet', 'sosyal medya'],
+            'sağlık': ['sağlık', 'hasta', 'doktor', 'hastane', 'ilaç', 'covid']
+        }
+        
+        for category, keywords in categories.items():
+            if any(keyword in text for keyword in keywords):
+                return category
+        
+        return 'diğer'
+    
+    def aggregate_news(self, limit_per_source=5):
+        """Tüm kaynaklardan haberleri topla ve birleştir"""
+        all_news = []
+        
+        for source_name in self.news_sources.keys():
+            print(f"{source_name} haberleri çekiliyor...")
+            news = self.scrape_news_source(source_name, limit_per_source)
+            all_news.extend(news)
+            # Politika: Her istek arasında bekle
+            import time
+            time.sleep(2)
+        
+        # Tarihe göre sırala (basitleştirilmiş)
+        all_news.sort(key=lambda x: x['scraped_at'], reverse=True)
+        
+        return all_news
+    
+    def export_news(self, news_items, format='json'):
+        """Haberleri farklı formatlarda export et"""
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        if format == 'json':
+            filename = f'news_aggregation_{timestamp}.json'
+            with open(filename, 'w', encoding='utf-8') as f:
+                json.dump(news_items, f, ensure_ascii=False, indent=2)
+        
+        elif format == 'csv':
+            filename = f'news_aggregation_{timestamp}.csv'
+            df = pd.DataFrame(news_items)
+            df.to_csv(filename, index=False, encoding='utf-8-sig')
+        
+        elif format == 'excel':
+            filename = f'news_aggregation_{timestamp}.xlsx'
+            df = pd.DataFrame(news_items)
+            df.to_excel(filename, index=False)
+        
+        print(f"Haberler {filename} dosyasına kaydedildi.")
+        return filename
+
+# Kullanım
+if __name__ == "__main__":
+    aggregator = NewsAggregator()
+    
+    print("Haber toplama başlıyor...")
+    all_news = aggregator.aggregate_news(limit_per_source=5)
+    
+    print(f"\\nToplam {len(all_news)} haber toplandı:")
+    print("=" * 100)
+    
+    # Kategorilere göre grupla
+    categories = {}
+    for news in all_news:
+        category = news['category']
+        if category not in categories:
+            categories[category] = []
+        categories[category].append(news)
+    
+    # Kategori bazlı rapor
+    for category, items in categories.items():
+        print(f"\\n📰 {category.upper()} ({len(items)} haber):")
+        for i, news in enumerate(items[:3], 1):  # Her kategoriden ilk 3 haber
+            print(f"  {i}. {news['source']}: {news['title'][:80]}...")
+    
+    # Dosyaya kaydet
+    filename = aggregator.export_news(all_news, 'json')
+    print(f"\\n✅ Tüm haberler '{filename}' dosyasına kaydedildi.")`
+            }
+        };
+
+        function previewExample(exampleId) {
+            const example = examples[exampleId];
+            if (example) {
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+                modal.innerHTML = `
+                    <div class="bg-white rounded-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+                        <div class="flex justify-between items-center mb-4 flex-shrink-0">
+                            <h3 class="text-xl font-bold">${example.title}</h3>
+                            <button onclick="this.parentElement.parentElement.parentElement.remove()" class="text-gray-500 hover:text-gray-700">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="bg-gray-800 text-green-400 p-4 rounded font-mono text-sm overflow-auto flex-grow">
+                            <pre class="whitespace-pre-wrap">${example.content}</pre>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+        }
+
+        // Canlı Scraping Demo
+        async function runScrapingDemo() {
+            const demoType = document.getElementById('demo-select').value;
+            const limit = parseInt(document.getElementById('demo-limit').value);
+
+            document.getElementById('demo-results-content').textContent = 'Scraping başlatılıyor...';
+            document.getElementById('demo-results').classList.remove('hidden');
+
+            try {
+                let results;
+
+                if (demoType === 'books') {
+                    results = await scrapeBooksDemo(limit);
+                } else if (demoType === 'quotes') {
+                    results = await scrapeQuotesDemo(limit);
+                }
+
+                document.getElementById('demo-results-content').textContent =
+                    JSON.stringify(results, null, 2);
+
+            } catch (error) {
+                document.getElementById('demo-results-content').textContent =
+                    `Hata: ${error.message}`;
+            }
+        }
+
+        // Demo scraping fonksiyonları
+        async function scrapeBooksDemo(limit) {
+            // Gerçek scraping yerine mock data döndürüyoruz
+            await new Promise(resolve => setTimeout(resolve, 2000)); // 2 saniye bekle
+
+            const mockBooks = [
+                {
+                    title: "Veri Bilimi ve Makine Öğrenmesi",
+                    author: "Ahmet Yılmaz",
+                    price: "45.00 TL",
+                    rating: "4.5/5"
+                },
+                {
+                    title: "Web Scraping Teknikleri",
+                    author: "Mehmet Demir",
+                    price: "38.50 TL",
+                    rating: "4.2/5"
+                },
+                {
+                    title: "Python ile Veri Analizi",
+                    author: "Ayşe Kaya",
+                    price: "52.00 TL",
+                    rating: "4.7/5"
+                },
+                {
+                    title: "Yapay Zeka Uygulamaları",
+                    author: "Ali Şahin",
+                    price: "60.00 TL",
+                    rating: "4.8/5"
+                },
+                {
+                    title: "Büyük Veri ve Hadoop",
+                    author: "Zeynep Öztürk",
+                    price: "48.75 TL",
+                    rating: "4.3/5"
+                }
+            ];
+
+            return mockBooks.slice(0, limit);
+        }
+
+        async function scrapeQuotesDemo(limit) {
+            // Gerçek scraping yerine mock data döndürüyoruz
+            await new Promise(resolve => setTimeout(resolve, 1500)); // 1.5 saniye bekle
+
+            const mockQuotes = [
+                {
+                    quote: "Veri, yeni petroldür.",
+                    author: "Clive Humby",
+                    category: "Teknoloji"
+                },
+                {
+                    quote: "En değerli kaynağınız verinizdir.",
+                    author: "Bernard Marr",
+                    category: "İş"
+                },
+                {
+                    quote: "Veriden bilgi, bilgiden bilgelik doğar.",
+                    author: "Anonim",
+                    category: "Felsefe"
+                },
+                {
+                    quote: "Ölçemediğiniz şeyi yönetemezsiniz.",
+                    author: "Peter Drucker",
+                    category: "Yönetim"
+                },
+                {
+                    quote: "Veri demokrasisi geleceğin temelidir.",
+                    author: "Tim O'Reilly",
+                    category: "Teknoloji"
+                }
+            ];
+
+            return mockQuotes.slice(0, limit);
+        }
+
+        function clearDemoResults() {
+            document.getElementById('demo-results').classList.add('hidden');
+        }
+
+        // Mobile menu
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

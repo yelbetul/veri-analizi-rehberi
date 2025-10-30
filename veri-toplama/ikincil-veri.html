@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İkincil Veri Kaynakları - Veri Analizi Rehberi</title>
+    <link rel="icon" href="../favicon.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #7c3aed;
+            border-bottom-color: #7c3aed;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .breadcrumb {
+            background-color: #f1f5f9;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .accordion-content.open {
+            max-height: 2000px;
+        }
+
+        .use-case-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin: 0.125rem;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md border-b border-gray-200">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="../index.html" class="text-xl font-bold text-indigo-700">Veri Analizi Rehberi</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="../index.html" class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Ana
+                            Sayfa</a>
+                        <a href="index.html" class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Toplama</a>
+                        <a href="../veri-temizleme/index.html"
+                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Temizleme</a>
+                        <a href="../veri-analizi/index.html"
+                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Analiz</a>
+                        <a href="../veri-gorsellestirme/index.html"
+                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Görselleştirme</a>
+                        <a href="../sonuc-sunumu/index.html"
+                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Sunum</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-button" type="button"
+                        class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <span class="sr-only">Menüyü aç</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="../index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Ana Sayfa</a>
+                <a href="index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri Toplama</a>
+                <a href="../veri-temizleme/index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri Temizleme</a>
+                <a href="../veri-analizi/index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri Analizi</a>
+                <a href="../veri-gorsellestirme/index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri
+                    Görselleştirme</a>
+                <a href="../sonuc-sunumu/index.html"
+                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Sonuçların
+                    Sunumu</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb inline-flex items-center text-sm text-gray-600 mb-6">
+            <a href="../index.html" class="hover:text-indigo-600">Ana Sayfa</a>
+            <span class="mx-2">›</span>
+            <a href="index.html" class="hover:text-indigo-600">Veri Toplama</a>
+            <span class="mx-2">›</span>
+            <span class="text-indigo-600 font-medium">İkincil Veri Kaynakları</span>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="text-center mb-12">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">İkincil Veri Kaynakları</h1>
+                <p class="text-lg text-gray-600 mb-6">Mevcut veri kaynaklarından etkili şekilde yararlanma yöntemleri ve
+                    entegrasyon stratejileri</p>
+
+                <!-- Progress Steps -->
+                <!-- Progress Steps - İkincil Veri Kaynakları -->
+                <div class="flex justify-center items-center mb-6">
+                    <div class="flex items-center">
+                        <!-- Adım 1 -->
+                        <div class="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">1</span>
+                        </div>
+                        <div class="w-8 h-1 bg-indigo-500 mx-1"></div>
+
+                        <!-- Adım 2 - Aktif -->
+                        <div class="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">2</span>
+                        </div>
+                        <div class="w-8 h-1 bg-gray-300 mx-1"></div>
+
+                        <!-- Adım 3 -->
+                        <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-gray-600 text-xs font-bold">3</span>
+                        </div>
+                        <div class="w-8 h-1 bg-gray-300 mx-1"></div>
+
+                        <!-- Adım 4 -->
+                        <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-gray-600 text-xs font-bold">4</span>
+                        </div>
+                        <div class="w-8 h-1 bg-gray-300 mx-1"></div>
+
+                        <!-- Adım 5 -->
+                        <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-gray-600 text-xs font-bold">5</span>
+                        </div>
+                        <div class="w-8 h-1 bg-gray-300 mx-1"></div>
+
+                        <!-- Adım 6 -->
+                        <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-gray-600 text-xs font-bold">6</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500 text-center">Birincil → İkincil → Web Scraping → API → Veritabanı →
+                    Kalite</p>
+            </div>
+        </section>
+
+        <!-- Ana İçerik -->
+        <div class="grid lg:grid-cols-4 gap-8">
+            <!-- Sidebar Navigasyon -->
+            <div class="lg:col-span-1">
+                <div class="card p-6 sticky top-24">
+                    <h3 class="font-bold text-lg mb-4 text-indigo-600">İçindekiler</h3>
+                    <nav class="space-y-2">
+                        <a href="#giris"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Giriş</a>
+                        <a href="#kurumsal-sistemler"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Kurumsal
+                            Veri Sistemleri</a>
+                        <a href="#acik-veri"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Açık
+                            Veri Ekosistemi</a>
+                        <a href="#api-entegrasyon"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">API
+                            Entegrasyonları</a>
+                        <a href="#veri-kalite"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Veri
+                            Kalite Yönetimi</a>
+                        <a href="#uygulama-ornekleri"
+                            class="block text-gray-600 hover:text-indigo-600 py-2 border-l-2 border-transparent hover:border-indigo-500 pl-4 transition-all">Uygulama
+                            Örnekleri</a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Ana İçerik -->
+            <div class="lg:col-span-3">
+                <!-- Giriş Bölümü -->
+                <section id="giris" class="mb-12 scroll-mt-24">
+                    <div class="card p-8 bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
+                        <div class="flex items-start">
+                            <div
+                                class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mr-6 flex-shrink-0">
+                                <span class="text-2xl">📚</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900 mb-4">İkincil Veri Nedir? Ne Zaman
+                                    Kullanılır?</h2>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h3 class="font-semibold text-lg mb-3 text-blue-700">✅ Ne Zaman Kullanılır?</h3>
+                                        <ul class="space-y-2 text-gray-600">
+                                            <li>• <strong>Zaman ve maliyet kısıtı</strong> olduğunda</li>
+                                            <li>• <strong>Karşılaştırmalı analiz</strong> yapmak için</li>
+                                            <li>• <strong>Trend analizi</strong> ve pazar araştırması</li>
+                                            <li>• <strong>Doğrulama</strong> ve veri zenginleştirme</li>
+                                            <li>• <strong>Historical data</strong> ihtiyacı olduğunda</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-lg mb-3 text-green-700">🎯 Avantajları</h3>
+                                        <ul class="space-y-2 text-gray-600">
+                                            <li>• <strong>Hızlı erişim</strong> - Veri hazır</li>
+                                            <li>• <strong>Düşük maliyet</strong> - Toplama gerekmez</li>
+                                            <li>• <strong>Kapsamlı veri</strong> - Geniş örneklem</li>
+                                            <li>• <strong>Zaman serisi</strong> - Geçmiş veriler</li>
+                                            <li>• <strong>Benchmarking</strong> - Kıyaslama imkanı</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Kurumsal Veri Sistemleri Bölümü -->
+                <section id="kurumsal-sistemler" class="mb-12 scroll-mt-24">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-2xl">🏢</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">Kurumsal Veri Sistemleri</h2>
+                                <p class="text-gray-600">Kurumsal veri sistemlerinden veri çekme ve entegrasyon
+                                    stratejileri</p>
+                            </div>
+                        </div>
+
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-blue-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Mevcut sistem entegrasyonu</span>
+                                <span class="use-case-badge bg-green-100 text-green-800">Operasyonel veri analizi</span>
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Gerçek zamanlı
+                                    raporlama</span>
+                                <span class="use-case-badge bg-orange-100 text-orange-800">Legacy sistem
+                                    migrasyonu</span>
+                            </div>
+                            <p class="text-sm text-blue-700">
+                                <strong>Kullanım Amacı:</strong> Şirketin mevcut sistemlerindeki (CRM, ERP, veri ambarı)
+                                verileri analiz için kullanmak.
+                                <strong>Örnek:</strong> Salesforce'dan müşteri verilerini çekip satış trendlerini analiz
+                                etmek.
+                            </p>
+                        </div>
+
+                        <!-- CRM Entegrasyon Pattern'leri -->
+                        <div class="mb-6">
+                            <button
+                                class="accordion-header w-full text-left font-semibold text-lg bg-blue-50 p-4 rounded-lg flex justify-between items-center">
+                                CRM Entegrasyon Pattern'leri (15+ Sistem)
+                                <span class="transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content bg-white border border-blue-100 rounded-b-lg">
+                                <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Ne Zaman Kullanılır?</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            Müşteri ilişkileri yönetimi verilerine ihtiyaç duyduğunuzda: müşteri
+                                            segmentasyonu, satış pipeline analizi, müşteri memnuniyeti ölçümü için.
+                                        </p>
+                                    </div>
+
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h4 class="font-semibold mb-3 text-blue-700">Popüler CRM Sistemleri</h4>
+                                            <ul class="space-y-2 text-sm text-gray-600">
+                                                <li>• <strong>Salesforce</strong> - REST API ile veri çekme</li>
+                                                <li>• <strong>HubSpot</strong> - Webhooks ve API entegrasyonu</li>
+                                                <li>• <strong>Zoho CRM</strong> - OAuth 2.0 authentication</li>
+                                                <li>• <strong>Microsoft Dynamics 365</strong> - SOAP servisleri</li>
+                                                <li>• <strong>Pipedrive</strong> - Custom field mapping</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-3 text-green-700">Entegrasyon Pattern'leri</h4>
+                                            <ul class="space-y-2 text-sm text-gray-600">
+                                                <li>• <strong>Batch Processing</strong> - Toplu veri senkronizasyonu
+                                                </li>
+                                                <li>• <strong>Real-time Sync</strong> - Anlık veri akışı</li>
+                                                <li>• <strong>Event-driven</strong> - Olay tabanlı tetikleyiciler</li>
+                                                <li>• <strong>Delta Sync</strong> - Değişen verilerin senkronizasyonu
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!-- CRM API Demo -->
+                                    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                                        <h5 class="font-semibold mb-3">Salesforce API Demo</h5>
+                                        <div
+                                            class="bg-gray-800 text-green-400 p-4 rounded-lg font-mono text-sm overflow-x-auto">
+                                            <code>
+// Salesforce REST API Örneği<br>
+const getSalesforceData = async () => {<br>
+&nbsp;&nbsp;const response = await fetch(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'https://yourinstance.salesforce.com/services/data/v52.0/query/?q=SELECT+Id,Name+FROM+Account',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headers: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Authorization': 'Bearer ' + accessToken,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Content-Type': 'application/json'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;return await response.json();<br>
+};<br>
+<br>
+// Kullanım: Müşteri hesaplarını çek ve analiz et<br>
+getSalesforceData().then(accounts => {<br>
+&nbsp;&nbsp;console.log('Toplam müşteri sayısı:', accounts.totalSize);<br>
+&nbsp;&nbsp;// Bu verilerle satış trendleri analizi yapılabilir<br>
+});
+                                            </code>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ERP Data Extraction -->
+                        <div class="mb-6">
+                            <button
+                                class="accordion-header w-full text-left font-semibold text-lg bg-green-50 p-4 rounded-lg flex justify-between items-center">
+                                ERP Data Extraction Best Practices
+                                <span class="transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content bg-white border border-green-100 rounded-b-lg">
+                                <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Ne Zaman Kullanılır?</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            Operasyonel verilere ihtiyaç duyduğunuzda: stok yönetimi, üretim planlama,
+                                            finansal analiz, tedarik zinciri optimizasyonu için.
+                                        </p>
+                                    </div>
+
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h4 class="font-semibold mb-3">ERP Sistemleri</h4>
+                                            <ul class="space-y-3 text-sm text-gray-600">
+                                                <li>
+                                                    <strong>SAP</strong><br>
+                                                    • RFC Bağlantıları<br>
+                                                    • BAPI ve IDoc kullanımı<br>
+                                                    • ABAP programlama arayüzü
+                                                </li>
+                                                <li>
+                                                    <strong>Oracle ERP</strong><br>
+                                                    • PL/SQL stored procedures<br>
+                                                    • Web servis entegrasyonu<br>
+                                                    • BI Publisher raporları
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-3">En İyi Uygulamalar</h4>
+                                            <div class="space-y-3 text-sm text-gray-600">
+                                                <div class="p-3 bg-yellow-50 rounded-lg">
+                                                    <strong>Performans Optimizasyonu</strong>
+                                                    <p>• Index kullanımı<br>• Query optimizasyonu<br>• Batch processing
+                                                    </p>
+                                                </div>
+                                                <div class="p-3 bg-green-50 rounded-lg">
+                                                    <strong>Güvenlik</strong>
+                                                    <p>• Role-based access<br>• Data encryption<br>• Audit logging</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Açık Veri Ekosistemi Bölümü -->
+                <section id="acik-veri" class="mb-12 scroll-mt-24">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-2xl">🌐</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">Açık Veri Ekosistemi</h2>
+                                <p class="text-gray-600">Kamu ve açık veri kaynaklarından veri toplama ve analiz etme
+                                    yöntemleri</p>
+                            </div>
+                        </div>
+
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-green-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-green-100 text-green-800">Pazar araştırması</span>
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Sosyal analizler</span>
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Akademik araştırma</span>
+                                <span class="use-case-badge bg-orange-100 text-orange-800">Karşılaştırmalı analiz</span>
+                            </div>
+                            <p class="text-sm text-green-700">
+                                <strong>Kullanım Amacı:</strong> Ücretsiz ve açık veri kaynaklarından makro trendleri,
+                                ekonomik göstergeleri, sosyal verileri analiz etmek.
+                                <strong>Örnek:</strong> TÜİK verileriyle bölgesel ekonomik analiz yapmak.
+                            </p>
+                        </div>
+
+                        <!-- Kamu Veri Portalları -->
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-lg mb-4">50+ Kamu Veri Portalı Katalogu</h4>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <h5 class="font-medium mb-3 text-blue-700">Türkiye Kaynakları</h5>
+                                    <div class="space-y-2 text-sm">
+                                        <div class="flex items-center p-2 bg-blue-50 rounded">
+                                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                                            <div>
+                                                <a href="https://data.tuik.gov.tr"
+                                                    class="text-blue-600 hover:text-blue-800 font-medium">TÜİK Veri
+                                                    Portalı</a>
+                                                <p class="text-xs text-gray-600">Ekonomik, sosyal, demografik veriler
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center p-2 bg-blue-50 rounded">
+                                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                                            <div>
+                                                <a href="https://acikveri.biz"
+                                                    class="text-blue-600 hover:text-blue-800 font-medium">Açık Veri
+                                                    Biz</a>
+                                                <p class="text-xs text-gray-600">Çeşitli kamu kurumlarından veriler</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center p-2 bg-blue-50 rounded">
+                                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                                            <div>
+                                                <a href="https://data.ibb.gov.tr"
+                                                    class="text-blue-600 hover:text-blue-800 font-medium">İBB Açık
+                                                    Veri</a>
+                                                <p class="text-xs text-gray-600">İstanbul'a ait kentsel veriler</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium mb-3 text-green-700">Uluslararası Kaynaklar</h5>
+                                    <div class="space-y-2 text-sm">
+                                        <div class="flex items-center p-2 bg-green-50 rounded">
+                                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                            <div>
+                                                <a href="https://data.worldbank.org"
+                                                    class="text-green-600 hover:text-green-800 font-medium">World Bank
+                                                    Data</a>
+                                                <p class="text-xs text-gray-600">Küresel ekonomik göstergeler</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center p-2 bg-green-50 rounded">
+                                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                            <div>
+                                                <a href="https://data.gov"
+                                                    class="text-green-600 hover:text-green-800 font-medium">data.gov
+                                                    (USA)</a>
+                                                <p class="text-xs text-gray-600">ABD federal veri portali</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center p-2 bg-green-50 rounded">
+                                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                            <div>
+                                                <a href="https://data.europa.eu"
+                                                    class="text-green-600 hover:text-green-800 font-medium">EU Open
+                                                    Data</a>
+                                                <p class="text-xs text-gray-600">Avrupa Birliği veri portali</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Veri Lisanslama -->
+                        <div class="mb-6">
+                            <button
+                                class="accordion-header w-full text-left font-semibold text-lg bg-yellow-50 p-4 rounded-lg flex justify-between items-center">
+                                Veri Lisanslama ve Kullanım Hakları
+                                <span class="transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content bg-white border border-yellow-100 rounded-b-lg">
+                                <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Neden Önemli?</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            Verileri yasal olarak kullanabilmek ve telif hakları ihlallerinden kaçınmak
+                                            için lisansları anlamak çok önemlidir.
+                                        </p>
+                                    </div>
+
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h5 class="font-semibold mb-3">Lisans Türleri</h5>
+                                            <ul class="space-y-3 text-sm text-gray-600">
+                                                <li>
+                                                    <strong>Creative Commons</strong><br>
+                                                    • CC BY - Atıf gerektirir<br>
+                                                    • CC BY-SA - Aynı lisansla paylaş<br>
+                                                    • CC0 - Kamu malı
+                                                </li>
+                                                <li>
+                                                    <strong>Open Data Commons</strong><br>
+                                                    • ODbL - Açık veritabanı lisansı<br>
+                                                    • PDDL - Kamu malı veritabanı
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h5 class="font-semibold mb-3">Kullanım Kılavuzu</h5>
+                                            <div class="space-y-3 text-sm">
+                                                <div class="p-3 bg-green-50 rounded-lg">
+                                                    <strong>✅ İzin Verilen</strong>
+                                                    <p>• Ticari kullanım<br>• Dağıtım<br>• Değişiklik</p>
+                                                </div>
+                                                <div class="p-3 bg-red-50 rounded-lg">
+                                                    <strong>❌ Kısıtlamalar</strong>
+                                                    <p>• Atıf gerekliliği<br>• Ticari kısıtlamalar<br>• Paylaşım
+                                                        şartları</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- API Entegrasyonları Bölümü -->
+                <section id="api-entegrasyon" class="mb-12 scroll-mt-24">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-2xl">🔌</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">API Entegrasyonları</h2>
+                                <p class="text-gray-600">API'lerden veri çekme, rate limit yönetimi ve optimizasyon
+                                    stratejileri</p>
+                            </div>
+                        </div>
+
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-orange-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-orange-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-orange-100 text-orange-800">Gerçek zamanlı veri</span>
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Üçüncü parti entegrasyon</span>
+                                <span class="use-case-badge bg-green-100 text-green-800">Otomatik veri güncelleme</span>
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Servis mimarisi</span>
+                            </div>
+                            <p class="text-sm text-orange-700">
+                                <strong>Kullanım Amacı:</strong> Harici servislerden güncel verileri otomatik olarak
+                                çekmek ve sisteminize entegre etmek.
+                                <strong>Örnek:</strong> Hava durumu API'sinden veri çekip lojistik planlaması yapmak.
+                            </p>
+                        </div>
+
+                        <!-- Rate Limit Management -->
+                        <div class="mb-6">
+                            <button
+                                class="accordion-header w-full text-left font-semibold text-lg bg-orange-50 p-4 rounded-lg flex justify-between items-center">
+                                API Rate Limit Management Strategies
+                                <span class="transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content bg-white border border-orange-100 rounded-b-lg">
+                                <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Ne Zaman Önemli?</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            Büyük veri setleri çekerken, yüksek frekanslı isteklerde veya ücretli
+                                            API'ler kullanırken rate limit yönetimi kritik öneme sahiptir.
+                                        </p>
+                                    </div>
+
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h5 class="font-semibold mb-3">Rate Limit Türleri</h5>
+                                            <ul class="space-y-3 text-sm text-gray-600">
+                                                <li>
+                                                    <strong>Per Second Limits</strong><br>
+                                                    • 10 requests/second<br>
+                                                    • 1000 requests/minute
+                                                </li>
+                                                <li>
+                                                    <strong>Daily/Weekly Limits</strong><br>
+                                                    • 10,000 requests/day<br>
+                                                    • 50,000 requests/week
+                                                </li>
+                                                <li>
+                                                    <strong>Burst Limits</strong><br>
+                                                    • Anlık yüksek trafik<br>
+                                                    • Kısa süreli limit artışı
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h5 class="font-semibold mb-3">Yönetim Stratejileri</h5>
+                                            <div class="space-y-3 text-sm">
+                                                <div class="p-3 bg-blue-50 rounded-lg">
+                                                    <strong>Retry Mekanizmaları</strong>
+                                                    <p>• Exponential backoff<br>• Jitter ekleme<br>• Circuit breaker</p>
+                                                </div>
+                                                <div class="p-3 bg-green-50 rounded-lg">
+                                                    <strong>Önbellekleme</strong>
+                                                    <p>• Response caching<br>• Local storage<br>• CDN kullanımı</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Rate Limit Örnek Kodu -->
+                                    <div class="mt-6 bg-gray-50 p-4 rounded-lg">
+                                        <h5 class="font-semibold mb-3">Python ile Rate Limit Yönetimi</h5>
+                                        <div
+                                            class="bg-gray-800 text-green-400 p-4 rounded-lg font-mono text-sm overflow-x-auto">
+                                            <code>
+import time<br>
+import requests<br>
+from requests.adapters import HTTPAdapter<br>
+from requests.packages.urllib3.util.retry import Retry<br>
+<br>
+# Retry stratejisi<br>
+retry_strategy = Retry(<br>
+&nbsp;&nbsp;total=3,<br>
+&nbsp;&nbsp;backoff_factor=1,<br>
+&nbsp;&nbsp;status_forcelist=[429, 500, 502, 503, 504],<br>
+)<br>
+<br>
+# Session oluşturma<br>
+session = requests.Session()<br>
+session.mount("https://", HTTPAdapter(max_retries=retry_strategy))<br>
+<br>
+# Rate limit kontrolü<br>
+def make_request_with_backoff(url):<br>
+&nbsp;&nbsp;for attempt in range(5):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;response = session.get(url)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if response.status_code != 429:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return response<br>
+&nbsp;&nbsp;&nbsp;&nbsp;time.sleep(2 ** attempt)  # Exponential backoff<br>
+&nbsp;&nbsp;return None<br>
+<br>
+# Kullanım: Rate limit'e takılmadan güvenli istek<br>
+response = make_request_with_backoff('https://api.example.com/data')<br>
+if response:<br>
+&nbsp;&nbsp;print('Veri başarıyla alındı')<br>
+else:<br>
+&nbsp;&nbsp;print('İstek başarısız oldu')
+                                            </code>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Veri Kalite Yönetimi Bölümü -->
+                <section id="veri-kalite" class="mb-12 scroll-mt-24">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-2xl">📊</span>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">Veri Kalite Yönetimi</h2>
+                                <p class="text-gray-600">İkincil veri kaynaklarında veri kalitesini değerlendirme ve
+                                    iyileştirme yöntemleri</p>
+                            </div>
+                        </div>
+
+                        <!-- Kullanım Senaryoları -->
+                        <div class="mb-6 bg-red-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-red-800 mb-2">🚀 Ne İşe Yarar?</h4>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="use-case-badge bg-red-100 text-red-800">Veri güvenilirliği</span>
+                                <span class="use-case-badge bg-blue-100 text-blue-800">Kalite kontrol</span>
+                                <span class="use-case-badge bg-green-100 text-green-800">Analiz doğruluğu</span>
+                                <span class="use-case-badge bg-purple-100 text-purple-800">Karar destek</span>
+                            </div>
+                            <p class="text-sm text-red-700">
+                                <strong>Kullanım Amacı:</strong> İkincil veri kaynaklarının güvenilirliğini
+                                değerlendirmek, veri kalitesini ölçmek ve analizlerin doğruluğunu garanti altına almak.
+                                <strong>Örnek:</strong> Açık veri setindeki eksik ve tutarsız verileri tespit edip
+                                temizlemek.
+                            </p>
+                        </div>
+
+                        <!-- Dataset Quality Assessment -->
+                        <div class="mb-6">
+                            <button
+                                class="accordion-header w-full text-left font-semibold text-lg bg-red-50 p-4 rounded-lg flex justify-between items-center">
+                                Dataset Quality Assessment Framework
+                                <span class="transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content bg-white border border-red-100 rounded-b-lg">
+                                <div class="p-6">
+                                    <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
+                                        <h5 class="font-semibold text-yellow-800 mb-2">💡 Neden Önemli?</h5>
+                                        <p class="text-sm text-yellow-700">
+                                            Kalitesiz veri = Kalitesiz analiz! İkincil veri kaynaklarında kalite
+                                            kontrolü, güvenilir sonuçlar almak için hayati öneme sahiptir.
+                                        </p>
+                                    </div>
+
+                                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                                        <div class="text-center p-4 bg-white border rounded-lg">
+                                            <div class="text-2xl font-bold text-blue-600 mb-2">✓</div>
+                                            <h5 class="font-semibold text-sm">Doğruluk</h5>
+                                            <p class="text-xs text-gray-600">Verinin gerçeği yansıtma derecesi</p>
+                                        </div>
+                                        <div class="text-center p-4 bg-white border rounded-lg">
+                                            <div class="text-2xl font-bold text-green-600 mb-2">✓</div>
+                                            <h5 class="font-semibold text-sm">Tamlık</h5>
+                                            <p class="text-xs text-gray-600">Eksik veri oranı</p>
+                                        </div>
+                                        <div class="text-center p-4 bg-white border rounded-lg">
+                                            <div class="text-2xl font-bold text-purple-600 mb-2">✓</div>
+                                            <h5 class="font-semibold text-sm">Tutarlılık</h5>
+                                            <p class="text-xs text-gray-600">İç tutarlılık derecesi</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Kalite Metrikleri -->
+                                    <div class="bg-gray-50 p-4 rounded-lg">
+                                        <h5 class="font-semibold mb-3">Kalite Metrikleri Hesaplama Aracı</h5>
+                                        <div class="space-y-4">
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700 mb-1">Toplam Kayıt
+                                                    Sayısı</label>
+                                                <input type="number" id="total-records" value="10000"
+                                                    class="w-full p-2 border rounded">
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700 mb-1">Eksik Veri
+                                                    Sayısı</label>
+                                                <input type="number" id="missing-data" value="250"
+                                                    class="w-full p-2 border rounded">
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700 mb-1">Tutarsız
+                                                    Kayıt Sayısı</label>
+                                                <input type="number" id="inconsistent-data" value="150"
+                                                    class="w-full p-2 border rounded">
+                                            </div>
+                                            <button onclick="calculateQualityMetrics()"
+                                                class="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600">Kalite
+                                                Metriklerini Hesapla</button>
+
+                                            <div id="quality-results" class="mt-4 space-y-2 hidden">
+                                                <div class="grid grid-cols-2 gap-2 text-sm">
+                                                    <div class="p-2 bg-blue-50 rounded">Tamlık Oranı: <span
+                                                            id="completeness-score" class="font-semibold">-</span></div>
+                                                    <div class="p-2 bg-green-50 rounded">Tutarlılık Oranı: <span
+                                                            id="consistency-score" class="font-semibold">-</span></div>
+                                                </div>
+                                                <div class="p-2 bg-yellow-50 rounded text-sm">
+                                                    Genel Kalite Skoru: <span id="overall-quality"
+                                                        class="font-semibold">-</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Kalite İyileştirme Stratejileri -->
+                                    <div class="mt-6">
+                                        <h5 class="font-semibold mb-3">Kalite İyileştirme Stratejileri</h5>
+                                        <div class="grid md:grid-cols-2 gap-4">
+                                            <div class="p-4 bg-green-50 rounded-lg">
+                                                <h6 class="font-semibold text-green-700 mb-2">✅ Proaktif Yaklaşımlar
+                                                </h6>
+                                                <ul class="text-sm text-gray-600 space-y-1">
+                                                    <li>• Veri kaynağı değerlendirme kriterleri</li>
+                                                    <li>• Metadata analizi ve dokümantasyon</li>
+                                                    <li>• Sample data testleri</li>
+                                                    <li>• Data profiling araçları</li>
+                                                </ul>
+                                            </div>
+                                            <div class="p-4 bg-blue-50 rounded-lg">
+                                                <h6 class="font-semibold text-blue-700 mb-2">🛠️ Reaktif Çözümler</h6>
+                                                <ul class="text-sm text-gray-600 space-y-1">
+                                                    <li>• Data cleaning pipeline'ları</li>
+                                                    <li>• Outlier detection algoritmaları</li>
+                                                    <li>• Data validation rules</li>
+                                                    <li>• Automated quality reports</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Uygulama Örnekleri Bölümü -->
+                <section id="uygulama-ornekleri" class="scroll-mt-24">
+                    <div class="card p-8">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Pratik Uygulama Örnekleri</h2>
+
+                        <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <!-- Örnek 1 -->
+                            <div class="card p-6 bg-blue-50 border-blue-200 hover:shadow-lg transition-all">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                    <span class="text-xl">💰</span>
+                                </div>
+                                <h4 class="font-semibold text-lg mb-3 text-blue-700">Finansal Veri Entegrasyonu</h4>
+                                <p class="text-sm text-gray-600 mb-4">Bloomberg, Yahoo Finance API'lerinden finansal
+                                    veri çekme ve analiz etme</p>
+                                <div class="flex space-x-2">
+                                    <button onclick="previewExample('financial-integration')"
+                                        class="flex-1 bg-white text-blue-500 border border-blue-500 py-2 px-3 rounded text-sm hover:bg-blue-50 transition-colors">
+                                        Kod Örneğini Gör
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Örnek 2 -->
+                            <div class="card p-6 bg-green-50 border-green-200 hover:shadow-lg transition-all">
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                                    <span class="text-xl">🏥</span>
+                                </div>
+                                <h4 class="font-semibold text-lg mb-3 text-green-700">Sağlık Verileri Analizi</h4>
+                                <p class="text-sm text-gray-600 mb-4">WHO ve sağlık bakanlığı verilerinden
+                                    epidemiyolojik analizler</p>
+                                <div class="flex space-x-2">
+                                    <button onclick="previewExample('health-data-analysis')"
+                                        class="flex-1 bg-white text-green-500 border border-green-500 py-2 px-3 rounded text-sm hover:bg-green-50 transition-colors">
+                                        Kod Örneğini Gör
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- API Test Arayüzü -->
+                        <div class="card p-6 bg-gradient-to-r from-indigo-50 to-purple-50 border-indigo-200">
+                            <h3 class="text-xl font-bold mb-4 text-indigo-700">API Test Arayüzü</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">API Endpoint</label>
+                                    <input type="text" id="api-endpoint" placeholder="https://api.example.com/data"
+                                        class="w-full p-3 border rounded-lg"
+                                        value="https://jsonplaceholder.typicode.com/posts">
+                                </div>
+
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">HTTP Method</label>
+                                        <select id="http-method" class="w-full p-3 border rounded-lg">
+                                            <option value="GET">GET</option>
+                                            <option value="POST">POST</option>
+                                            <option value="PUT">PUT</option>
+                                            <option value="DELETE">DELETE</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Headers</label>
+                                        <textarea id="api-headers" class="w-full p-3 border rounded-lg" rows="2"
+                                            placeholder='{"Content-Type": "application/json"}'></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="flex space-x-3">
+                                    <button onclick="testAPI()"
+                                        class="flex-1 bg-indigo-500 text-white py-3 rounded-lg hover:bg-indigo-600 transition-colors">
+                                        API'yi Test Et
+                                    </button>
+                                    <button onclick="clearAPIResponse()"
+                                        class="flex-1 bg-gray-500 text-white py-3 rounded-lg hover:bg-gray-600 transition-colors">
+                                        Temizle
+                                    </button>
+                                </div>
+
+                                <div id="api-response" class="hidden mt-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">API Yanıtı</label>
+                                    <div
+                                        class="bg-gray-800 text-green-400 p-4 rounded-lg font-mono text-sm max-h-60 overflow-y-auto">
+                                        <pre id="response-content"></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- Navigasyon Butonları -->
+        <section class="flex justify-between items-center mt-12 pt-8 border-t border-gray-200">
+            <a href="birincil-veri.html"
+                class="flex items-center text-gray-600 hover:text-indigo-600 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Önceki: Birincil Veri Toplama
+            </a>
+            <a href="web-scraping.html"
+                class="flex items-center bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition-colors">
+                Sonraki: Web Scraping Teknikleri
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-900 text-white mt-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Bölüm 1: Hakkında -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Veri Analizi Rehberi</h3>
+                    <p class="text-gray-400 text-sm mb-4">
+                        Betül YEL tarafından hazırlanan kapsamlı veri analizi öğrenme platformu.
+                    </p>
+                    <div class="flex space-x-3">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <span class="sr-only">GitHub</span>
+                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">...</svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <span class="sr-only">LinkedIn</span>
+                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">...</svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Bölüm 2: Popüler Konular -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Popüler Konular</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="veri-temizleme/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Python ile Veri Temizleme</a>
+                        </li>
+                        <li><a href="veri-analizi/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Makine
+                                Öğrenmesi Temelleri</a></li>
+                        <li><a href="veri-gorsellestirme/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Chart.js Grafikleri</a></li>
+                        <li><a href="veri-toplama/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Web
+                                Scraping Teknikleri</a></li>
+                        <li><a href="sonuc-sunumu/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Etkili
+                                Sunum Hazırlama</a></li>
+                    </ul>
+                </div>
+
+                <!-- Bölüm 3: Hızlı Bağlantılar -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Hızlı Bağlantılar</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="veri-toplama/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Veri
+                                Toplama</a></li>
+                        <li><a href="veri-temizleme/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Veri
+                                Temizleme</a></li>
+                        <li><a href="veri-analizi/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Veri
+                                Analizi</a></li>
+                        <li><a href="veri-gorsellestirme/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Görselleştirme</a></li>
+                        <li><a href="sonuc-sunumu/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Sonuç
+                                Sunumu</a></li>
+                    </ul>
+                </div>
+
+                <!-- Bölüm 4: Araçlar -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Kullanılan Araçlar</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="araclar-ve-kaynaklar/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Python & Pandas</a>
+                        </li>
+                        <li><a href="araclar-ve-kaynaklar/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">SQL Veritabanları</a>
+                        </li>
+                        <li><a href="araclar-ve-kaynaklar/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Chart.js</a></li>
+                        <li><a href="araclar-ve-kaynaklar/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Tableau</a></li>
+                        <li><a href="araclar-ve-kaynaklar/index.html"
+                                class="text-gray-400 hover:text-white transition-colors">Jupyter Notebook</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400 text-sm">
+                    &copy; 2025 <span class="font-semibold text-indigo-300">Betül YEL</span> - Etkileşimli Veri Analizi
+                    Rehberi. Tüm hakları saklıdır.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Accordion Fonksiyonu
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const arrow = header.querySelector('span');
+
+                content.classList.toggle('open');
+                arrow.style.transform = content.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+            });
+        });
+
+        // Veri Kalite Metrikleri Hesaplama
+        function calculateQualityMetrics() {
+            const totalRecords = parseInt(document.getElementById('total-records').value);
+            const missingData = parseInt(document.getElementById('missing-data').value);
+            const inconsistentData = parseInt(document.getElementById('inconsistent-data').value);
+
+            const completenessScore = ((totalRecords - missingData) / totalRecords * 100).toFixed(1);
+            const consistencyScore = ((totalRecords - inconsistentData) / totalRecords * 100).toFixed(1);
+            const overallQuality = ((parseFloat(completenessScore) + parseFloat(consistencyScore)) / 2).toFixed(1);
+
+            document.getElementById('completeness-score').textContent = completenessScore + '%';
+            document.getElementById('consistency-score').textContent = consistencyScore + '%';
+            document.getElementById('overall-quality').textContent = overallQuality + '%';
+
+            document.getElementById('quality-results').classList.remove('hidden');
+        }
+
+        // API Test Fonksiyonu
+        async function testAPI() {
+            const endpoint = document.getElementById('api-endpoint').value;
+            const method = document.getElementById('http-method').value;
+            const headersText = document.getElementById('api-headers').value;
+
+            try {
+                const headers = headersText ? JSON.parse(headersText) : {};
+
+                const response = await fetch(endpoint, {
+                    method: method,
+                    headers: headers
+                });
+
+                const data = await response.json();
+
+                document.getElementById('response-content').textContent = JSON.stringify(data, null, 2);
+                document.getElementById('api-response').classList.remove('hidden');
+
+            } catch (error) {
+                document.getElementById('response-content').textContent = 'Hata: ' + error.message;
+                document.getElementById('api-response').classList.remove('hidden');
+            }
+        }
+
+        function clearAPIResponse() {
+            document.getElementById('api-response').classList.add('hidden');
+        }
+
+        // Örnek Kod Önizleme
+        const examples = {
+            'financial-integration': {
+                title: 'Finansal Veri Entegrasyonu - Yahoo Finance API',
+                content: `// Yahoo Finance API ile hisse senedi verisi çekme
+const axios = require('axios');
+
+async function getStockData(symbol) {
+    try {
+        const response = await axios.get(
+            \`https://query1.finance.yahoo.com/v8/finance/chart/\${symbol}\`
+        );
+        
+        const result = response.data.chart.result[0];
+        const meta = result.meta;
+        const indicators = result.indicators.quote[0];
+        
+        return {
+            symbol: meta.symbol,
+            currency: meta.currency,
+            currentPrice: meta.regularMarketPrice,
+            previousClose: meta.previousClose,
+            change: meta.regularMarketPrice - meta.previousClose,
+            changePercent: ((meta.regularMarketPrice - meta.previousClose) / meta.previousClose * 100).toFixed(2),
+            volume: meta.regularMarketVolume,
+            marketCap: meta.marketCap
+        };
+    } catch (error) {
+        console.error('Veri çekme hatası:', error);
+        return null;
+    }
+}
+
+// Çoklu hisse senetleri için batch processing
+async function getMultipleStocks(symbols) {
+    const promises = symbols.map(symbol => getStockData(symbol));
+    const results = await Promise.all(promises);
+    
+    return results.filter(result => result !== null);
+}
+
+// Kullanım örneği
+const stockSymbols = ['AAPL', 'GOOGL', 'MSFT', 'TSLA', 'AMZN'];
+getMultipleStocks(stockSymbols).then(stocks => {
+    console.log('Hisse Senedi Analizi:');
+    stocks.forEach(stock => {
+        console.log(\`\\n\${stock.symbol}:\`);
+        console.log(\`  Fiyat: $\${stock.currentPrice}\`);
+        console.log(\`  Değişim: $\${stock.change} (\${stock.changePercent}%)\`);
+        console.log(\`  Hacim: \${stock.volume?.toLocaleString()}\`);
+    });
+    
+    // En iyi performans gösteren hisse
+    const bestPerformer = stocks.reduce((best, current) => 
+        current.changePercent > best.changePercent ? current : best
+    );
+    console.log(\`\\n🎯 En İyi Performans: \${bestPerformer.symbol} (\${bestPerformer.changePercent}%)\`);
+});
+
+// Gerçek zamanlı veri izleme (5 saniyede bir)
+async function startRealTimeMonitoring(symbols, interval = 5000) {
+    setInterval(async () => {
+        const stocks = await getMultipleStocks(symbols);
+        console.log('\\n--- Gerçek Zamanlı Güncelleme ---');
+        stocks.forEach(stock => {
+            console.log(\`\${stock.symbol}: $\${stock.currentPrice} (\${stock.changePercent}%)\`);
+        });
+    }, interval);
+}
+
+// Gerçek zamanlı izlemeyi başlat (isteğe bağlı)
+// startRealTimeMonitoring(stockSymbols);`
+            },
+            'health-data-analysis': {
+                title: 'Sağlık Verileri Analizi - WHO COVID-19 Verileri',
+                content: `# WHO COVID-19 verilerini analiz etme
+import pandas as pd
+import requests
+import matplotlib.pyplot as plt
+from datetime import datetime, timedelta
+
+def get_who_covid_data():
+    \"\"\"
+    WHO'nun günlük COVID-19 veri setini indir ve temel analizler yap
+    \"\"\"
+    try:
+        # WHO COVID-19 veri setini indir
+        url = "https://covid19.who.int/WHO-COVID-19-global-data.csv"
+        response = requests.get(url)
+        
+        with open('who_covid_data.csv', 'wb') as f:
+            f.write(response.content)
+        
+        # Veriyi yükle
+        df = pd.read_csv('who_covid_data.csv', parse_dates=['Date_reported'])
+        
+        print(\"Veri seti başarıyla yüklendi!\")
+        print(f\"Toplam kayıt sayısı: {len(df):,}\")
+        print(f\"Veri aralığı: {df['Date_reported'].min()} - {df['Date_reported'].max()}\")
+        
+        return df
+        
+    except Exception as e:
+        print(f\"Veri indirme hatası: {e}\")
+        return None
+
+def analyze_covid_trends(df, country='Turkey', days=90):
+    \"\"\"
+    Belirli bir ülke için COVID-19 trendlerini analiz et
+    \"\"\"
+    # Son X günün verilerini filtrele
+    cutoff_date = pd.Timestamp.now() - pd.Timedelta(days=days)
+    country_data = df[
+        (df['Country'] == country) & 
+        (df['Date_reported'] > cutoff_date)
+    ].copy()
+    
+    if country_data.empty:
+        print(f\"{country} için veri bulunamadı\")
+        return
+    
+    # Günlük vaka ve ölüm istatistikleri
+    country_data = country_data.sort_values('Date_reported')
+    
+    # 7 günlük hareketli ortalamalar
+    country_data['New_cases_7day_avg'] = country_data['New_cases'].rolling(window=7).mean()
+    country_data['New_deaths_7day_avg'] = country_data['New_deaths'].rolling(window=7).mean()
+    
+    # Toplam istatistikler
+    total_cases = country_data['New_cases'].sum()
+    total_deaths = country_data['New_deaths'].sum()
+    peak_cases = country_data['New_cases'].max()
+    peak_cases_date = country_data.loc[country_data['New_cases'].idxmax(), 'Date_reported']
+    
+    print(f\"\\n--- {country} COVID-19 Analizi (Son {days} Gün) ---\")
+    print(f\"Toplam vaka sayısı: {total_cases:,}\")
+    print(f\"Toplam ölüm sayısı: {total_deaths:,}\")
+    print(f\"En yüksek günlük vaka: {peak_cases:,} ({peak_cases_date.strftime('%d.%m.%Y')})\")
+    print(f\"Vaka-ölüm oranı: {(total_deaths/total_cases*100):.2f}%\")
+    
+    return country_data
+
+def compare_countries(df, countries=['Turkey', 'Germany', 'Italy', 'France'], days=30):
+    \"\"\"
+    Birden fazla ülkeyi karşılaştırmalı analiz et
+    \"\"\"
+    cutoff_date = pd.Timestamp.now() - pd.Timedelta(days=days)
+    
+    comparison_data = []
+    for country in countries:
+        country_df = df[
+            (df['Country'] == country) & 
+            (df['Date_reported'] > cutoff_date)
+        ]
+        
+        if not country_df.empty:
+            total_cases = country_df['New_cases'].sum()
+            total_deaths = country_df['New_deaths'].sum()
+            avg_daily_cases = country_df['New_cases'].mean()
+            
+            comparison_data.append({
+                'Country': country,
+                'Total_Cases': total_cases,
+                'Total_Deaths': total_deaths,
+                'Avg_Daily_Cases': avg_daily_cases,
+                'Case_Fatality_Rate': (total_deaths / total_cases * 100) if total_cases > 0 else 0
+            })
+    
+    comparison_df = pd.DataFrame(comparison_data)
+    comparison_df = comparison_df.sort_values('Total_Cases', ascending=False)
+    
+    print(f\"\\n--- Ülke Karşılaştırması (Son {days} Gün) ---\")
+    print(comparison_df.to_string(index=False))
+    
+    return comparison_df
+
+# Ana analiz işlemi
+def main():
+    # Veriyi yükle
+    df = get_who_covid_data()
+    
+    if df is not None:
+        # Türkiye analizi
+        turkey_data = analyze_covid_trends(df, 'Turkey', 90)
+        
+        # Ülke karşılaştırması
+        comparison = compare_countries(df, [
+            'Turkey', 'Germany', 'Italy', 'France', 'United Kingdom', 'Spain'
+        ], 30)
+        
+        # Görselleştirme (opsiyonel)
+        if turkey_data is not None:
+            plt.figure(figsize=(12, 8))
+            
+            plt.subplot(2, 1, 1)
+            plt.plot(turkey_data['Date_reported'], turkey_data['New_cases_7day_avg'], 
+                    label='7 Günlük Ortalama Vakalar', color='blue', linewidth=2)
+            plt.title('Türkiye - Günlük COVID-19 Vakaları (7 Günlük Ortalama)')
+            plt.ylabel('Vaka Sayısı')
+            plt.legend()
+            plt.grid(True, alpha=0.3)
+            
+            plt.subplot(2, 1, 2)
+            plt.plot(turkey_data['Date_reported'], turkey_data['New_deaths_7day_avg'], 
+                    label='7 Günlük Ortalama Ölümler', color='red', linewidth=2)
+            plt.title('Türkiye - Günlük COVID-19 Ölümleri (7 Günlük Ortalama)')
+            plt.ylabel('Ölüm Sayısı')
+            plt.xlabel('Tarih')
+            plt.legend()
+            plt.grid(True, alpha=0.3)
+            
+            plt.tight_layout()
+            plt.savefig('covid_analysis_turkey.png', dpi=300, bbox_inches='tight')
+            plt.show()
+
+if __name__ == \"__main__\":
+    main()`
+            }
+        };
+
+        function previewExample(exampleId) {
+            const example = examples[exampleId];
+            if (example) {
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+                modal.innerHTML = `
+                    <div class="bg-white rounded-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+                        <div class="flex justify-between items-center mb-4 flex-shrink-0">
+                            <h3 class="text-xl font-bold">${example.title}</h3>
+                            <button onclick="this.parentElement.parentElement.parentElement.remove()" class="text-gray-500 hover:text-gray-700">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="bg-gray-800 text-green-400 p-4 rounded font-mono text-sm overflow-auto flex-grow">
+                            <pre class="whitespace-pre-wrap">${example.content}</pre>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+        }
+
+        // Mobile menu
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
