@@ -11,11 +11,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Neutrals -->
+    <!-- Application Structure Plan: Bu uygulama, kullanıcının veri analizi sürecinin 5 aşamasını keşfetmesini sağlayan dikey kaydırmalı tek sayfalık bir tasarıma sahiptir. Üstte sabit bir gezinme çubuğu, kullanıcıların istedikleri bölüme hızla atlamasına olanak tanır, bu da hem doğrusal okumayı hem de konuya özel keşfi teşvik eder. Her bölüm, statik metin yerine bilgiyi pekiştirmek için tasarlanmış interaktif modüller (veri temizleme simülatörü, dinamik grafik seçici vb.) içerir. Bu yapı, pasif bir e-kitap deneyimini, kullanıcının katılımını gerektiren aktif bir öğrenme aracına dönüştürmeyi amaçlamaktadır, çünkü karmaşık kavramlar en iyi "yaparak" öğrenilir. -->
+    <!-- Visualization & Content Choices: Her bölümdeki bilgi, en etkili öğrenme deneyimini sunmak için özenle seçilmiş sunum yöntemleriyle aktarılmıştır. 1. Bölümde HTML/CSS ile oluşturulmuş basit akış şemaları, 2. Bölümde bir Veri Temizleme Simülatörü ve aykırı değerleri göstermek için bir Chart.js Kutu Grafiği, 3. Bölümde farklı analiz türlerini dinamik grafiklerle açıklayan sekmeler, 4. Bölümde ise kullanıcının amacına göre doğru grafiği seçmesine yardımcı olan interaktif bir Chart.js aracı bulunmaktadır. 5. Bölüm, sunum yapısını görselleştirmek için HTML/CSS ile oluşturulmuş bir zaman çizelgesi kullanır. Bu seçimler, soyut kavramları somut ve etkileşimli örneklere dönüştürerek anlamayı kolaylaştırma hedefine hizmet eder. SVG veya Mermaid JS kullanılmamıştır. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #334155;
+            background-color: #fdfdfc;
+            color: #1a1a1a;
         }
 
         .chart-container {
@@ -41,51 +45,45 @@
 
         .nav-link:hover,
         .nav-link.active {
-            color: #7c3aed;
-            border-bottom-color: #7c3aed;
+            color: #2563eb;
+            border-bottom-color: #2563eb;
         }
 
         .card {
             background-color: #ffffff;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #e5e7eb;
             border-radius: 0.75rem;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
     </style>
 </head>
 
 <body class="antialiased">
 
-    <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md border-b border-gray-200">
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm border-b border-gray-200">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0">
-                    <a href="index.html" class="text-xl font-bold text-indigo-700">Veri Analizi Rehberi</a>
+                    <a href="#" class="text-xl font-bold text-gray-800">Veri Analizi Rehberi</a>
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="index.html" class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Ana Sayfa</a>
-                        <a href="veri-toplama/index.html"
-                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Toplama</a>
-                        <a href="veri-temizleme/index.html"
-                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Temizleme</a>
-                        <a href="veri-analizi/index.html"
-                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Analiz</a>
-                        <a href="veri-gorsellestirme/index.html"
+                        <a href="#bolum1" class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Toplama</a>
+                        <a href="#bolum2" class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Temizleme</a>
+                        <a href="#bolum3" class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Analiz</a>
+                        <a href="#bolum4"
                             class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Görselleştirme</a>
-                        <a href="sonuc-sunumu/index.html"
-                            class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Sunum</a>
+                        <a href="#bolum5" class="nav-link px-3 py-2 text-sm font-medium text-gray-700">Sunum</a>
                     </div>
                 </div>
                 <div class="-mr-2 flex md:hidden">
                     <button id="mobile-menu-button" type="button"
-                        class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         <span class="sr-only">Menüyü aç</span>
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" aria-hidden="true">
@@ -98,18 +96,15 @@
         </nav>
         <div class="md:hidden hidden" id="mobile-menu">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="index.html" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Ana
-                    Sayfa</a>
-                <a href="veri-toplama/index.html"
-                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri Toplama</a>
-                <a href="veri-temizleme/index.html"
-                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri Temizleme</a>
-                <a href="veri-analizi/index.html"
-                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri Analizi</a>
-                <a href="veri-gorsellestirme/index.html"
-                    class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri
+                <a href="#bolum1" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri
+                    Toplama</a>
+                <a href="#bolum2" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri
+                    Temizleme</a>
+                <a href="#bolum3" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri
+                    Analizi</a>
+                <a href="#bolum4" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Veri
                     Görselleştirme</a>
-                <a href="sonuc-sunumu/index.html"
+                <a href="#bolum5"
                     class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">Sonuçların
                     Sunumu</a>
             </div>
@@ -124,96 +119,10 @@
                 dönüştürme yolculuğuna hoş geldiniz. Bu rehber, veri analizi sürecinin her adımını interaktif örneklerle
                 keşfetmenize yardımcı olacaktır.</p>
         </section>
-        <!-- Mevcut içeriğin altına bu bölümü ekleyelim -->
-        <section class="mb-20">
-            <h2 class="text-3xl font-bold text-center mb-2">Veri Analizi Sürecini Keşfedin</h2>
-            <p class="text-center text-gray-500 mb-10">5 adımlık sürecin her aşamasını detaylı öğrenin</p>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                <!-- Kart 1: Veri Toplama -->
-                <div class="card p-6 text-center hover:shadow-xl transition-all duration-300">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-2xl">📊</span>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">Veri Toplama</h3>
-                    <p class="text-gray-600 mb-4">API'ler, web scraping, anketler ve daha fazlası ile veri toplama
-                        teknikleri</p>
-                    <a href="veri-toplama/index.html"
-                        class="inline-block bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
-                        Keşfet →
-                    </a>
-                </div>
-
-                <!-- Kart 2: Veri Temizleme -->
-                <div class="card p-6 text-center hover:shadow-xl transition-all duration-300">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-2xl">🧹</span>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">Veri Temizleme</h3>
-                    <p class="text-gray-600 mb-4">Eksik veri doldurma, aykırı değer tespiti ve veri standardizasyonu</p>
-                    <a href="veri-temizleme/index.html"
-                        class="inline-block bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition-colors">
-                        Keşfet →
-                    </a>
-                </div>
-
-                <!-- Kart 3: Veri Analizi -->
-                <div class="card p-6 text-center hover:shadow-xl transition-all duration-300">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-2xl">🔍</span>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">Veri Analizi</h3>
-                    <p class="text-gray-600 mb-4">İstatistiksel analiz, makine öğrenmesi ve keşifçi veri analizi</p>
-                    <a href="veri-analizi/index.html"
-                        class="inline-block bg-purple-500 text-white px-6 py-2 rounded-lg hover:bg-purple-600 transition-colors">
-                        Keşfet →
-                    </a>
-                </div>
-
-                <!-- Kart 4: Görselleştirme -->
-                <div class="card p-6 text-center hover:shadow-xl transition-all duration-300">
-                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-2xl">📈</span>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">Görselleştirme</h3>
-                    <p class="text-gray-600 mb-4">Chart.js, D3.js ve etkili veri hikayesi anlatım teknikleri</p>
-                    <a href="veri-gorsellestirme/index.html"
-                        class="inline-block bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors">
-                        Keşfet →
-                    </a>
-                </div>
-
-                <!-- Kart 5: Sonuç Sunumu -->
-                <div class="card p-6 text-center hover:shadow-xl transition-all duration-300">
-                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-2xl">🎤</span>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">Sonuç Sunumu</h3>
-                    <p class="text-gray-600 mb-4">Etkili sunum teknikleri ve paydaş yönetimi</p>
-                    <a href="sonuc-sunumu/index.html"
-                        class="inline-block bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition-colors">
-                        Keşfet →
-                    </a>
-                </div>
-
-                <!-- Kart 6: Araçlar & Kaynaklar -->
-                <div class="card p-6 text-center hover:shadow-xl transition-all duration-300">
-                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-2xl">🛠️</span>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">Araçlar & Kaynaklar</h3>
-                    <p class="text-gray-600 mb-4">Tüm süreçte kullanılan araçlar, kütüphaneler ve kaynaklar</p>
-                    <a href="araclar-ve-kaynaklar/index.html"
-                        class="inline-block bg-indigo-500 text-white px-6 py-2 rounded-lg hover:bg-indigo-600 transition-colors">
-                        Keşfet →
-                    </a>
-                </div>
-            </div>
-        </section>
 
         <!-- Bölüm 1: Veri Toplama -->
         <section id="bolum1" class="mb-20 scroll-mt-20">
-            <h2 class="text-3xl font-bold text-center mb-2"><span class="text-indigo-600">Aşama 1:</span> Veri Toplama
+            <h2 class="text-3xl font-bold text-center mb-2"><span class="text-blue-600">Aşama 1:</span> Veri Toplama
             </h2>
             <p class="text-center text-gray-500 mb-10">Her şey doğru soruları sormak ve doğru ham maddeyi elde etmekle
                 başlar.</p>
@@ -243,7 +152,7 @@
 
         <!-- Bölüm 2: Veri Temizleme -->
         <section id="bolum2" class="mb-20 scroll-mt-20">
-            <h2 class="text-3xl font-bold text-center mb-2"><span class="text-indigo-600">Aşama 2:</span> Veri Temizleme
+            <h2 class="text-3xl font-bold text-center mb-2"><span class="text-blue-600">Aşama 2:</span> Veri Temizleme
             </h2>
             <p class="text-center text-gray-500 mb-10">Ham veriyi güvenilir ve tutarlı bir hazineye dönüştürme sanatı.
             </p>
@@ -254,24 +163,24 @@
                         kullanarak veriyi adım adım nasıl temizlediğimizi görün ve analize hazırlayın.</p>
                     <div class="space-y-3 mb-6">
                         <button data-action="fill-missing"
-                            class="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">1.
+                            class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">1.
                             Eksik Değerleri Doldur</button>
                         <button data-action="handle-outlier"
-                            class="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">2.
+                            class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">2.
                             Aykırı Değerleri İşle</button>
                         <button data-action="standardize"
-                            class="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">3.
+                            class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">3.
                             Formatları Standartlaştır</button>
                         <button data-action="remove-duplicate"
-                            class="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">4.
+                            class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">4.
                             Tekrarlayan Kaydı Sil</button>
                         <button data-action="reset"
-                            class="w-full bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors mt-4">Sıfırla</button>
+                            class="w-full bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors mt-4">Sıfırla</button>
                     </div>
                 </div>
                 <div class="card p-4 overflow-x-auto">
                     <table id="cleaning-table" class="w-full text-sm text-left">
-                        <thead class="bg-indigo-50">
+                        <thead class="bg-gray-50">
                             <tr>
                                 <th class="p-3 font-semibold">ID</th>
                                 <th class="p-3 font-semibold">Ülke</th>
@@ -282,8 +191,7 @@
                         <tbody>
                         </tbody>
                     </table>
-                    <div id="outlier-explanation"
-                        class="mt-4 p-3 bg-indigo-50 text-indigo-800 rounded-lg text-sm hidden">
+                    <div id="outlier-explanation" class="mt-4 p-3 bg-blue-50 text-blue-800 rounded-lg text-sm hidden">
                         <h4 class="font-bold">Aykırı Değer Tespiti</h4>
                         <p>1000 TL'lik satış, diğerlerine göre aşırı yüksek bir değerdi (aykırı değer). Bu tür değerler
                             analiz sonuçlarını yanıltabilir. Burada, bu değeri veri setinin medyanı (ortalama değeri)
@@ -295,14 +203,14 @@
 
         <!-- Bölüm 3: Veri Analizi -->
         <section id="bolum3" class="mb-20 scroll-mt-20">
-            <h2 class="text-3xl font-bold text-center mb-2"><span class="text-indigo-600">Aşama 3:</span> Veri Analizi
+            <h2 class="text-3xl font-bold text-center mb-2"><span class="text-blue-600">Aşama 3:</span> Veri Analizi
             </h2>
             <p class="text-center text-gray-500 mb-10">Verinin içindeki gizli desenleri, ilişkileri ve hikayeleri ortaya
                 çıkarma zamanı.</p>
             <div class="flex flex-wrap justify-center border-b border-gray-200 mb-6">
                 <button data-tab="eda"
-                    class="analysis-tab px-4 py-2 font-semibold border-b-2 border-indigo-500 text-indigo-600">Keşifçi
-                    Analiz (EDA)</button>
+                    class="analysis-tab px-4 py-2 font-semibold border-b-2 border-blue-500 text-blue-600">Keşifçi Analiz
+                    (EDA)</button>
                 <button data-tab="descriptive"
                     class="analysis-tab px-4 py-2 font-semibold border-b-2 border-transparent text-gray-500">Betimleyici
                     Analiz</button>
@@ -330,7 +238,7 @@
 
         <!-- Bölüm 4: Veri Görselleştirme -->
         <section id="bolum4" class="mb-20 scroll-mt-20">
-            <h2 class="text-3xl font-bold text-center mb-2"><span class="text-indigo-600">Aşama 4:</span> Veri
+            <h2 class="text-3xl font-bold text-center mb-2"><span class="text-blue-600">Aşama 4:</span> Veri
                 Görselleştirme</h2>
             <p class="text-center text-gray-500 mb-10">Bulguları anlaşılır ve etkileyici bir hikayeye dönüştürmek.</p>
             <div>
@@ -345,7 +253,7 @@
                         class="viz-btn bg-white border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors">Dağılım
                         Gösterme</button>
                     <button data-goal="comparison"
-                        class="viz-btn bg-indigo-600 border border-indigo-600 text-white font-semibold py-2 px-4 rounded-full">Karşılaştırma
+                        class="viz-btn bg-blue-600 border border-blue-600 text-white font-semibold py-2 px-4 rounded-full">Karşılaştırma
                         Yapma</button>
                     <button data-goal="composition"
                         class="viz-btn bg-white border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors">Zamana
@@ -370,7 +278,7 @@
 
         <!-- Bölüm 5: Sonuçların Sunumu -->
         <section id="bolum5" class="scroll-mt-20">
-            <h2 class="text-3xl font-bold text-center mb-2"><span class="text-indigo-600">Aşama 5:</span> Sonuçların
+            <h2 class="text-3xl font-bold text-center mb-2"><span class="text-blue-600">Aşama 5:</span> Sonuçların
                 Sunumu</h2>
             <p class="text-center text-gray-500 mb-10">Analizin değerini ortaya koymak ve paydaşları eyleme geçmeye ikna
                 etmek.</p>
@@ -383,19 +291,19 @@
                 </div>
                 <div class="card p-6">
                     <h3 class="font-semibold text-lg mb-2">5.2. Sunumun Yapılandırılması (Hikayeleştirme)</h3>
-                    <div class="relative mt-4 pl-6 border-l-2 border-indigo-500">
+                    <div class="relative mt-4 pl-6 border-l-2 border-blue-500">
                         <div class="mb-4">
-                            <div class="absolute w-4 h-4 bg-indigo-500 rounded-full -left-2 mt-1"></div>
+                            <div class="absolute w-4 h-4 bg-blue-500 rounded-full -left-2 mt-1"></div>
                             <h4 class="font-bold">Giriş</h4>
                             <p class="text-sm text-gray-600">Analizin amacı ve çözülmeye çalışılan iş sorunu.</p>
                         </div>
                         <div class="mb-4">
-                            <div class="absolute w-4 h-4 bg-indigo-500 rounded-full -left-2 mt-1"></div>
+                            <div class="absolute w-4 h-4 bg-blue-500 rounded-full -left-2 mt-1"></div>
                             <h4 class="font-bold">Gelişme</h4>
                             <p class="text-sm text-gray-600">Ana bulgular, görsel destekler ve metodoloji özeti.</p>
                         </div>
                         <div>
-                            <div class="absolute w-4 h-4 bg-indigo-500 rounded-full -left-2 mt-1"></div>
+                            <div class="absolute w-4 h-4 bg-blue-500 rounded-full -left-2 mt-1"></div>
                             <h4 class="font-bold">Sonuç</h4>
                             <p class="text-sm text-gray-600">Eyleme dönük öneriler ve sonraki adımlar.</p>
                         </div>
@@ -407,106 +315,19 @@
                         segmentindeki kayıp oranını %15 azaltmak için, kişiselleştirilmiş bir e-posta kampanyası
                         başlatılmasını öneriyoruz." gibi net ve uygulanabilir tavsiyeler sunun.</p>
                 </div>
-                <div class="card p-6 text-center bg-indigo-50 border-indigo-200">
+                <div class="card p-6 text-center bg-blue-50 border-blue-200">
                     <h3 class="font-semibold text-lg mb-2">5.4. Geri Bildirim ve İterasyon</h3>
                     <p class="text-sm text-gray-700">Analiz süreci bir döngüdür. Sunumdan sonra aldığınız geri
-                        bildirimler ve ortaya çıkan yeni sorular, sizi tekrar 1. Aşamaya, yeni verileri toplamaya
+                        bildirimler ve ortaya çıkan yeni sorular, sizi tekrar 1. Aşamaya, yani yeni verileri toplamaya
                         yönlendirebilir. Sürekli iyileştirme esastır.</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-gray-900 text-white mt-20">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid md:grid-cols-4 gap-8">
-                <!-- Bölüm 1: Hakkında -->
-                <div>
-                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Veri Analizi Rehberi</h3>
-                    <p class="text-gray-400 text-sm mb-4">
-                        Betül YEL tarafından hazırlanan kapsamlı veri analizi öğrenme platformu.
-                    </p>
-                    <div class="flex space-x-3">
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <span class="sr-only">GitHub</span>
-                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">...</svg>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <span class="sr-only">LinkedIn</span>
-                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">...</svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Bölüm 2: Popüler Konular -->
-                <div>
-                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Popüler Konular</h3>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="veri-temizleme/index.html"
-                                class="text-gray-400 hover:text-white transition-colors">Python ile Veri Temizleme</a>
-                        </li>
-                        <li><a href="veri-analizi/index.html"
-                                class="text-gray-400 hover:text-white transition-colors">Makine
-                                Öğrenmesi Temelleri</a></li>
-                        <li><a href="veri-gorsellestirme/index.html"
-                                class="text-gray-400 hover:text-white transition-colors">Chart.js Grafikleri</a></li>
-                        <li><a href="veri-toplama/index.html"
-                                class="text-gray-400 hover:text-white transition-colors">Web
-                                Scraping Teknikleri</a></li>
-                        <li><a href="sonuc-sunumu/index.html"
-                                class="text-gray-400 hover:text-white transition-colors">Etkili
-                                Sunum Hazırlama</a></li>
-                    </ul>
-                </div>
-
-                <!-- Bölüm 3: Hızlı Bağlantılar -->
-                <div>
-                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Hızlı Bağlantılar</h3>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="veri-toplama/index.html"
-                                class="text-gray-400 hover:text-white transition-colors">Veri
-                                Toplama</a></li>
-                        <li><a href="veri-temizleme/index.html"
-                                class="text-gray-400 hover:text-white transition-colors">Veri
-                                Temizleme</a></li>
-                        <li><a href="veri-analizi/index.html"
-                                class="text-gray-400 hover:text-white transition-colors">Veri
-                                Analizi</a></li>
-                        <li><a href="veri-gorsellestirme/index.html"
-                                class="text-gray-400 hover:text-white transition-colors">Görselleştirme</a></li>
-                        <li><a href="sonuc-sunumu/index.html"
-                                class="text-gray-400 hover:text-white transition-colors">Sonuç
-                                Sunumu</a></li>
-                    </ul>
-                </div>
-
-                <!-- Bölüm 4: Araçlar -->
-                <div>
-                    <h3 class="font-bold text-lg mb-4 text-indigo-300">Kullanılan Araçlar</h3>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="araclar-ve-kaynaklar/index.html"
-                                class="text-gray-400 hover:text-white transition-colors">Python & Pandas</a>
-                        </li>
-                        <li><a href="araclar-ve-kaynaklar/index.html"
-                                class="text-gray-400 hover:text-white transition-colors">SQL Veritabanları</a>
-                        </li>
-                        <li><a href="araclar-ve-kaynaklar/index.html"
-                                class="text-gray-400 hover:text-white transition-colors">Chart.js</a></li>
-                        <li><a href="araclar-ve-kaynaklar/index.html"
-                                class="text-gray-400 hover:text-white transition-colors">Tableau</a></li>
-                        <li><a href="araclar-ve-kaynaklar/index.html"
-                                class="text-gray-400 hover:text-white transition-colors">Jupyter Notebook</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
-                <p class="text-gray-400 text-sm">
-                    &copy; 2025 <span class="font-semibold text-indigo-300">Betül YEL</span> - Etkileşimli Veri Analizi
-                    Rehberi. Tüm hakları saklıdır.
-                </p>
-            </div>
+    <footer class="bg-gray-800 text-white mt-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-sm">
+            <p>&copy; 2025 Betül YEL Etkileşimli Veri Analizi Rehberi. Tüm hakları saklıdır.</p>
         </div>
     </footer>
 
@@ -630,22 +451,22 @@
                 eda: {
                     title: 'Keşifçi Veri Analizi (EDA)',
                     description: 'Verinin temel yapısını anlamak için ilk adımdır. Ortalama, standart sapma gibi istatistiklere bakılır ve değişkenler arası ilk ilişkiler sezgisel olarak tespit edilir. Bu aşama, daha derin analizler için hipotezler kurmamızı sağlar.',
-                    chart: { type: 'scatter', data: { datasets: [{ label: 'Müşteri Yaşı ve Harcama', data: [{ x: 25, y: 150 }, { x: 35, y: 250 }, { x: 45, y: 200 }, { x: 22, y: 120 }, { x: 50, y: 300 }, { x: 38, y: 220 }], backgroundColor: '#7c3aed' }] } }
+                    chart: { type: 'scatter', data: { datasets: [{ label: 'Müşteri Yaşı ve Harcama', data: [{ x: 25, y: 150 }, { x: 35, y: 250 }, { x: 45, y: 200 }, { x: 22, y: 120 }, { x: 50, y: 300 }, { x: 38, y: 220 }] }] } }
                 },
                 descriptive: {
                     title: 'Betimleyici Analiz ("Ne oldu?")',
                     description: '"Ne oldu?" sorusuna cevap verir. Geçmiş verileri özetleyerek temel metrikleri (toplam satış, müşteri sayısı vb.) hesaplar. Mevcut durumu anlamamızı sağlar.',
-                    chart: { type: 'bar', data: { labels: ['Ocak', 'Şubat', 'Mart'], datasets: [{ label: 'Aylık Satış Hacmi', data: [120, 190, 150], backgroundColor: 'rgba(124, 58, 237, 0.5)' }] } }
+                    chart: { type: 'bar', data: { labels: ['Ocak', 'Şubat', 'Mart'], datasets: [{ label: 'Aylık Satış Hacmi', data: [120, 190, 150], backgroundColor: 'rgba(59, 130, 246, 0.5)' }] } }
                 },
                 predictive: {
                     title: 'Kestirimci Analiz ("Ne olabilir?")',
                     description: '"Ne olabilir?" sorusuna odaklanır. Geçmiş verilerden öğrenen modeller (regresyon, sınıflandırma) kullanarak gelecekteki olayları veya eğilimleri tahmin eder.',
-                    chart: { type: 'line', data: { labels: ['Ocak', 'Şubat', 'Mart', 'Nisan (Tahmin)'], datasets: [{ label: 'Satış Trendi ve Tahmin', data: [120, 190, 150, 170], borderColor: 'rgba(124, 58, 237, 1)', tension: 0.1, borderDash: [0, 0, 0, 5] }] } }
+                    chart: { type: 'line', data: { labels: ['Ocak', 'Şubat', 'Mart', 'Nisan (Tahmin)'], datasets: [{ label: 'Satış Trendi ve Tahmin', data: [120, 190, 150, 170], borderColor: 'rgba(59, 130, 246, 1)', tension: 0.1, borderDash: [0, 0, 0, 5] }] } }
                 },
                 prescriptive: {
                     title: 'Kuralcı Analiz ("Ne yapmalıyız?")',
                     description: '"Ne yapmalıyız?" sorusuna yanıt arar. Tahminlerin ötesine geçerek, belirli hedeflere ulaşmak için en iyi eylem planını önerir. Optimizasyon ve simülasyon teknikleri kullanılır.',
-                    chart: { type: 'doughnut', data: { labels: ['Kampanya A', 'Kampanya B', 'Kampanya C'], datasets: [{ label: 'Önerilen Bütçe Dağılımı', data: [50, 30, 20], backgroundColor: ['#7c3aed', '#a78bfa', '#ddd6fe'] }] } }
+                    chart: { type: 'doughnut', data: { labels: ['Kampanya A', 'Kampanya B', 'Kampanya C'], datasets: [{ label: 'Önerilen Bütçe Dağılımı', data: [50, 30, 20], backgroundColor: ['#2563eb', '#60a5fa', '#bfdbfe'] }] } }
                 }
             };
 
@@ -665,10 +486,10 @@
             analysisTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     analysisTabs.forEach(t => {
-                        t.classList.remove('border-indigo-500', 'text-indigo-600');
+                        t.classList.remove('border-blue-500', 'text-blue-600');
                         t.classList.add('border-transparent', 'text-gray-500');
                     });
-                    tab.classList.add('border-indigo-500', 'text-indigo-600');
+                    tab.classList.add('border-blue-500', 'text-blue-600');
                     tab.classList.remove('border-transparent', 'text-gray-500');
                     updateAnalysisContent(tab.dataset.tab);
                 });
@@ -696,7 +517,7 @@
                 comparison: {
                     title: 'Çubuk Grafik (Bar Chart)',
                     description: 'Farklı kategorilerdeki sayısal değerleri karşılaştırmak için idealdir. Örneğin, ürünlerin satış adetlerini veya bölgelerin performansını net bir şekilde gösterir.',
-                    chart: { type: 'bar', data: { labels: ['Ürün A', 'Ürün B', 'Ürün C'], datasets: [{ label: 'Ürün Satışları', data: [120, 190, 150], backgroundColor: '#7c3aed' }] } }
+                    chart: { type: 'bar', data: { labels: ['Ürün A', 'Ürün B', 'Ürün C'], datasets: [{ label: 'Ürün Satışları', data: [120, 190, 150], backgroundColor: '#3b82f6' }] } }
                 },
                 composition: {
                     title: 'Çizgi Grafik (Line Chart)',
@@ -720,10 +541,10 @@
             vizBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     vizBtns.forEach(b => {
-                        b.classList.remove('bg-indigo-600', 'text-white');
+                        b.classList.remove('bg-blue-600', 'text-white');
                         b.classList.add('bg-white', 'text-gray-700', 'border-gray-300');
                     });
-                    btn.classList.add('bg-indigo-600', 'text-white');
+                    btn.classList.add('bg-blue-600', 'text-white');
                     btn.classList.remove('bg-white', 'text-gray-700', 'border-gray-300');
                     updateVizContent(btn.dataset.goal);
                 });
